@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Dashboard Huellitas</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f9f5f0;color:#3b2414;padding:20px;}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:25px;}
+h1{color:#5c3317;}
+nav a{background:#5c3317;color:white;padding:10px 14px;border-radius:6px;text-decoration:none;margin:4px;display:inline-block;}
+nav a:hover{background:#7a4620;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
+.card{background:white;border-left:6px solid #c9a97a;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.08);}
+.card h2{font-size:1rem;color:#5c3317;}
+.card p{font-size:2rem;font-weight:bold;margin-top:10px;}
+section{background:white;margin-top:25px;padding:20px;border-radius:10px;}
+table{width:100%;border-collapse:collapse;margin-top:15px;}
+th,td{border:1px solid #ddd;padding:10px;text-align:left;}
+th{background:#5c3317;color:white;}
+.estado{font-weight:bold;color:#2e7d32;}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🐾 Dashboard Administrador</h1>
+    <nav>
+        <a href="admin-dashboard.html">Inicio</a>
+        <a href="admin-mascotas.html">Mascotas</a>
+        <a href="admin-solicitudes.html">Solicitudes</a>
+        <a href="admin-adoptantes.html">Adoptantes</a>
+        <a href="admin-empleados.html">Empleados</a>
+        <a href="index.html">Salir</a>
+    </nav>
+</header>
+
+<div class="cards">
+    <div class="card"><h2>Total de mascotas</h2><p>6</p></div>
+    <div class="card"><h2>Disponibles</h2><p>4</p></div>
+    <div class="card"><h2>En proceso</h2><p>1</p></div>
+    <div class="card"><h2>Adoptadas</h2><p>1</p></div>
+    <div class="card"><h2>Solicitudes pendientes</h2><p>3</p></div>
+    <div class="card"><h2>Entrevistas próximas</h2><p>2</p></div>
+</div>
+
+<section>
+    <h2>Últimas solicitudes</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Adoptante</th>
+            <th>Mascota</th>
+            <th>Estado</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Juan Pérez</td>
+            <td>Canela</td>
+            <td class="estado">Pendiente</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Ana López</td>
+            <td>Rocky</td>
+            <td class="estado">Pendiente</td>
+        </tr>
+    </table>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huellitas - Login Empleado</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f9f5f0;
+    color: #2e1f0e;
+}
+
+.center-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+}
+
+.card {
+    background: #fff;
+    border: 2px solid #c9a97a;
+    padding: 40px 36px;
+    width: 400px;
+    max-width: 95vw;
+}
+
+h1 {
+    text-align: center;
+    color: #5c3317;
+    margin-bottom: 5px;
+}
+
+.tagline {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #8b6340;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+label {
+    display: block;
+    font-size: 0.82rem;
+    margin-bottom: 5px;
+    font-family: Arial, sans-serif;
+}
+
+input {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #c9a97a;
+    margin-bottom: 15px;
+}
+
+input:focus {
+    border-color: #5c3317;
+    outline: none;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background: #5c3317;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #7a4620;
+}
+
+.link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.8rem;
+}
+
+.link a {
+    color: #5c3317;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    text-align: center;
+    min-height: 18px;
+}
+
+.ok {
+    color: #2e7d32;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    text-align: center;
+    min-height: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="center-wrap">
+    <div class="card">
+
+        <h1>🐾 Huellitas</h1>
+        <p class="tagline">Acceso para empleados</p>
+
+        <div id="error-msg" class="error"></div>
+
+        <label>Usuario / Número de empleado</label>
+        <input type="text" id="user" placeholder="Ej. EMP-0001">
+
+        <label>Contraseña</label>
+        <input type="password" id="pass" placeholder="••••••••">
+
+        <button class="btn" onclick="login()">Iniciar Sesión</button>
+
+        <div class="link">
+            <a href="index.html">← Regresar al inicio</a>
+        </div>
+
+    </div>
+</div>
+
+<script src="static-supabase.js"></script>
+
+<script>
+const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+async function login() {
+    const user = document.getElementById("user").value.trim();
+    const pass = document.getElementById("pass").value.trim();
+    const mensaje = document.getElementById("error-msg");
+
+    mensaje.textContent = "";
+    mensaje.className = "error";
+
+    if (!user || !pass) {
+        mensaje.textContent = "Por favor llena todos los campos.";
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("empleados")
+        .select("id_empleado, numero_empleado, nombre_completo, correo, telefono, direccion, password, rol")
+        .eq("numero_empleado", user)
+        .eq("password", pass)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Error Supabase:", error);
+        mensaje.textContent = "Ocurrió un error al conectar con Supabase.";
+        return;
+    }
+
+    if (!data) {
+        mensaje.textContent = "Usuario o contraseña incorrectos.";
+        return;
+    }
+
+    let rol = String(data.rol || "").trim().toLowerCase();
+
+    /*
+        EMP-0042 se conserva como admin de prueba.
+        EMP-0001 y cualquier otro empleado con rol = admin
+        entran al panel administrador real.
+    */
+    if (data.numero_empleado === "EMP-0003") {
+        rol = "admin";
+    }
+
+    if (rol !== "admin" && rol !== "administrador" && rol !== "empleado") {
+        mensaje.textContent = "Tu usuario no tiene permisos registrados.";
+        return;
+    }
+
+    localStorage.setItem("empleado_logueado", "true");
+    localStorage.setItem("rol_empleado", rol);
+    localStorage.setItem("empleado_id", data.id_empleado);
+    localStorage.setItem("empleado_numero", data.numero_empleado);
+    localStorage.setItem("empleado_nombre", data.nombre_completo || "");
+    localStorage.setItem("empleado_correo", data.correo || "");
+    localStorage.setItem("empleado_telefono", data.telefono || "");
+    localStorage.setItem("empleado_direccion", data.direccion || "");
+
+    localStorage.setItem("empleadoLogueado", "true");
+    localStorage.setItem("empleadoRol", rol);
+    localStorage.setItem("empleadoId", data.id_empleado);
+    localStorage.setItem("empleadoNumero", data.numero_empleado);
+    localStorage.setItem("empleadoNombre", data.nombre_completo || "");
+    localStorage.setItem("empleadoCorreo", data.correo || "");
+    localStorage.setItem("empleadoTelefono", data.telefono || "");
+    localStorage.setItem("empleadoDireccion", data.direccion || "");
+
+    mensaje.className = "ok";
+    mensaje.textContent = "Inicio de sesión correcto. Redirigiendo...";
+
+setTimeout(function() {
+
+    if (
+        data.numero_empleado === "EMP-0003" ||
+        data.numero_empleado === "EMP-0042"
+    ) {
+        window.location.href = "dashboard-admin.html";
+        return;
+    }
+
+    if (rol === "admin" || rol === "administrador") {
+        window.location.href = "dashboard-admin.html";
+        return;
+    }
+
+    window.location.href = "panel-empleado.html";
+
+}, 700);
+}
+
+document.getElementById("pass").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        login();
+    }
+});
+
+document.getElementById("user").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        login();
+    }
+});
+</script>
+
+</body>
+</html>

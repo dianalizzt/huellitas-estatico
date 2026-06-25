@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refugio Animal - Inicio de Sesión</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f8fb;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #73cde8, #4aaed1);
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .contenedor {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #2489a6;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: #73cde8;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        button:hover {
+            background-color: #4aaed1;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-secondary {
+            background-color: #555;
+        }
+
+        .btn-secondary:hover {
+            background-color: #333;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        .mascotas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .mascota {
+            width: 250px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .mascota img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .mascota-info {
+            padding: 15px;
+        }
+
+        .mascota-info h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #2489a6;
+        }
+
+        .mensaje {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .exito {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .fila {
+            display: flex;
+            gap: 15px;
+        }
+
+        .fila > div {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .fila {
+                flex-direction: column;
+            }
+
+            .mascotas {
+                justify-content: center;
+            }
+
+            .mascota {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Refugio Animal</h1>
+        <p>Sistema de inicio de sesión para administrador y usuario</p>
+    </header>
+
+    <div class="contenedor">
+
+        <!-- LOGIN -->
+        <section id="seccionLogin" class="card">
+            <h2>Iniciar sesión</h2>
+            <div id="mensajeLogin"></div>
+
+            <label for="rol">Tipo de usuario:</label>
+            <select id="rol">
+                <option value="">Selecciona una opción</option>
+                <option value="admin">Administrador</option>
+                <option value="usuario">Usuario</option>
+            </select>
+
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" placeholder="Ingresa tu correo">
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" placeholder="Ingresa tu contraseña">
+
+            <button onclick="iniciarSesion()">Entrar</button>
+        </section>
+
+        <!-- PANEL ADMIN -->
+        <section id="panelAdmin" class="card oculto">
+            <h2>Panel de Administrador</h2>
+            <div id="mensajeAdmin"></div>
+
+            <button class="btn-secondary" onclick="cerrarSesion()">Cerrar sesión</button>
+
+            <hr><br>
+
+            <h3>Dar de alta mascota</h3>
+
+            <div class="fila">
+                <div>
+                    <label for="nombreMascota">Nombre:</label>
+                    <input type="text" id="nombreMascota" placeholder="Nombre de la mascota">
+                </div>
+
+                <div>
+                    <label for="edadMascota">Edad:</label>
+                    <input type="text" id="edadMascota" placeholder="Ej. 2 años">
+                </div>
+            </div>
+
+            <div class="fila">
+                <div>
+                    <label for="tipoMascota">Tipo:</label>
+                    <select id="tipoMascota">
+                        <option value="">Selecciona</option>
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="descripcionMascota">Descripción:</label>
+                    <input type="text" id="descripcionMascota" placeholder="Ej. Juguetón y cariñoso">
+                </div>
+            </div>
+
+            <label for="imagenMascota">URL de imagen:</label>
+            <input type="text" id="imagenMascota" placeholder="Pega una URL de imagen">
+
+            <button onclick="agregarMascota()">Agregar mascota</button>
+
+            <hr><br>
+
+            <h3>Mascotas registradas</h3>
+            <div id="listaAdmin" class="mascotas"></div>
+        </section>
+
+        <!-- PANEL USUARIO -->
+        <section id="panelUsuario" class="card oculto">
+            <h2>Panel de Usuario</h2>
+            <div id="mensajeUsuario"></div>
+
+            <button class="btn-secondary" onclick="cerrarSesion()">Cerrar sesión</button>
+
+            <hr><br>
+
+            <h3>Mascotas disponibles para adopción</h3>
+            <div id="listaUsuario" class="mascotas"></div>
+        </section>
+
+        <!-- MODAL SIMPLE DE ADOPCIÓN -->
+        <section id="formularioAdopcion" class="card oculto">
+            <h2>Solicitud de adopción</h2>
+
+            <label for="nombreSolicitante">Nombre completo:</label>
+            <input type="text" id="nombreSolicitante" placeholder="Tu nombre completo">
+
+            <label for="telefonoSolicitante">Teléfono:</label>
+            <input type="text" id="telefonoSolicitante" placeholder="Tu número de teléfono">
+
+            <label for="motivoSolicitante">¿Por qué deseas adoptar?</label>
+            <textarea id="motivoSolicitante" rows="4" placeholder="Escribe tu motivo"></textarea>
+
+            <input type="hidden" id="mascotaSeleccionada">
+
+            <button onclick="enviarSolicitud()">Enviar solicitud</button>
+            <button class="btn-secondary" onclick="cancelarSolicitud()">Cancelar</button>
+        </section>
+
+    </div>
+
+    <script>
+        // Usuarios de ejemplo
+        const usuarios = [
+            {
+                rol: "admin",
+                correo: "admin@refugio.com",
+                password: "1234"
+            },
+            {
+                rol: "usuario",
+                correo: "usuario@refugio.com",
+                password: "1234"
+            }
+        ];
+
+        // Mascotas iniciales
+        let mascotas = [
+            {
+                id: 1,
+                nombre: "Pepito",
+                edad: "2 años",
+                tipo: "Perro",
+                descripcion: "Muy juguetón y cariñoso",
+                imagen: "https://placedog.net/500/300?id=1"
+            },
+            {
+                id: 2,
+                nombre: "Chanclita",
+                edad: "1 año",
+                tipo: "Gato",
+                descripcion: "Tranquila y dormilona",
+                imagen: "https://placekitten.com/500/300"
+            },
+            {
+                id: 3,
+                nombre: "Mili",
+                edad: "3 años",
+                tipo: "Gato",
+                descripcion: "Tierna y sociable",
+                imagen: "https://placekitten.com/501/300"
+            }
+        ];
+
+        let contadorId = 4;
+        let usuarioActual = null;
+
+        function mostrarMensaje(idContenedor, texto, tipo) {
+            const contenedor = document.getElementById(idContenedor);
+            contenedor.innerHTML = `<div class="mensaje ${tipo}">${texto}</div>`;
+        }
+
+        function limpiarMensaje(idContenedor) {
+            document.getElementById(idContenedor).innerHTML = "";
+        }
+
+        function iniciarSesion() {
+            const rol = document.getElementById("rol").value;
+            const correo = document.getElementById("correo").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            limpiarMensaje("mensajeLogin");
+
+            const encontrado = usuarios.find(user =>
+                user.rol === rol &&
+                user.correo === correo &&
+                user.password === password
+            );
+
+            if (!encontrado) {
+                mostrarMensaje("mensajeLogin", "Datos incorrectos. Intenta nuevamente.", "error");
+                return;
+            }
+
+            usuarioActual = encontrado;
+            document.getElementById("seccionLogin").classList.add("oculto");
+
+            if (rol === "admin") {
+                document.getElementById("panelAdmin").classList.remove("oculto");
+                renderizarMascotasAdmin();
+                mostrarMensaje("mensajeAdmin", "Bienvenido administrador.", "exito");
+            } else {
+                document.getElementById("panelUsuario").classList.remove("oculto");
+                renderizarMascotasUsuario();
+                mostrarMensaje("mensajeUsuario", "Bienvenido usuario.", "exito");
+            }
+        }
+
+        function cerrarSesion() {
+            usuarioActual = null;
+
+            document.getElementById("seccionLogin").classList.remove("oculto");
+            document.getElementById("panelAdmin").classList.add("oculto");
+            document.getElementById("panelUsuario").classList.add("oculto");
+            document.getElementById("formularioAdopcion").classList.add("oculto");
+
+            document.getElementById("rol").value = "";
+            document.getElementById("correo").value = "";
+            document.getElementById("password").value = "";
+
+            limpiarMensaje("mensajeLogin");
+            limpiarMensaje("mensajeAdmin");
+            limpiarMensaje("mensajeUsuario");
+        }
+
+        function agregarMascota() {
+            const nombre = document.getElementById("nombreMascota").value.trim();
+            const edad = document.getElementById("edadMascota").value.trim();
+            const tipo = document.getElementById("tipoMascota").value;
+            const descripcion = document.getElementById("descripcionMascota").value.trim();
+            const imagen = document.getElementById("imagenMascota").value.trim();
+
+            if (!nombre || !edad || !tipo || !descripcion || !imagen) {
+                mostrarMensaje("mensajeAdmin", "Completa todos los campos para agregar la mascota.", "error");
+                return;
+            }
+
+            const nuevaMascota = {
+                id: contadorId++,
+                nombre,
+                edad,
+                tipo,
+                descripcion,
+                imagen
+            };
+
+            mascotas.push(nuevaMascota);
+            renderizarMascotasAdmin();
+            mostrarMensaje("mensajeAdmin", "Mascota agregada correctamente.", "exito");
+
+            document.getElementById("nombreMascota").value = "";
+            document.getElementById("edadMascota").value = "";
+            document.getElementById("tipoMascota").value = "";
+            document.getElementById("descripcionMascota").value = "";
+            document.getElementById("imagenMascota").value = "";
+        }
+
+        function eliminarMascota(id) {
+            mascotas = mascotas.filter(mascota => mascota.id !== id);
+            renderizarMascotasAdmin();
+            mostrarMensaje("mensajeAdmin", "Mascota eliminada correctamente.", "exito");
+        }
+
+        function renderizarMascotasAdmin() {
+            const listaAdmin = document.getElementById("listaAdmin");
+
+            if (mascotas.length === 0) {
+                listaAdmin.innerHTML = "<p>No hay mascotas registradas.</p>";
+                return;
+            }
+
+            listaAdmin.innerHTML = mascotas.map(mascota => `
+                <div class="mascota">
+                    <img src="${mascota.imagen}" alt="${mascota.nombre}">
+                    <div class="mascota-info">
+                        <h3>${mascota.nombre}</h3>
+                        <p><strong>Edad:</strong> ${mascota.edad}</p>
+                        <p><strong>Tipo:</strong> ${mascota.tipo}</p>
+                        <p><strong>Descripción:</strong> ${mascota.descripcion}</p>
+                        <button class="btn-danger" onclick="eliminarMascota(${mascota.id})">Dar de baja</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function renderizarMascotasUsuario() {
+            const listaUsuario = document.getElementById("listaUsuario");
+
+            if (mascotas.length === 0) {
+                listaUsuario.innerHTML = "<p>No hay mascotas disponibles en este momento.</p>";
+                return;
+            }
+
+            listaUsuario.innerHTML = mascotas.map(mascota => `
+                <div class="mascota">
+                    <img src="${mascota.imagen}" alt="${mascota.nombre}">
+                    <div class="mascota-info">
+                        <h3>${mascota.nombre}</h3>
+                        <p><strong>Edad:</strong> ${mascota.edad}</p>
+                        <p><strong>Tipo:</strong> ${mascota.tipo}</p>
+                        <p><strong>Descripción:</strong> ${mascota.descripcion}</p>
+                        <button onclick="abrirFormularioAdopcion('${mascota.nombre}')">Solicitar adopción</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function abrirFormularioAdopcion(nombreMascota) {
+            document.getElementById("formularioAdopcion").classList.remove("oculto");
+            document.getElementById("mascotaSeleccionada").value = nombreMascota;
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth"
+            });
+        }
+
+        function cancelarSolicitud() {
+            document.getElementById("formularioAdopcion").classList.add("oculto");
+            document.getElementById("nombreSolicitante").value = "";
+            document.getElementById("telefonoSolicitante").value = "";
+            document.getElementById("motivoSolicitante").value = "";
+            document.getElementById("mascotaSeleccionada").value = "";
+        }
+
+        function enviarSolicitud() {
+            const nombreSolicitante = document.getElementById("nombreSolicitante").value.trim();
+            const telefonoSolicitante = document.getElementById("telefonoSolicitante").value.trim();
+            const motivoSolicitante = document.getElementById("motivoSolicitante").value.trim();
+            const mascotaSeleccionada = document.getElementById("mascotaSeleccionada").value;
+
+            if (!nombreSolicitante || !telefonoSolicitante || !motivoSolicitante) {
+                mostrarMensaje("mensajeUsuario", "Completa todos los datos de la solicitud.", "error");
+                return;
+            }
+
+            mostrarMensaje(
+                "mensajeUsuario",
+                `Solicitud enviada correctamente para adoptar a ${mascotaSeleccionada}.`,
+                "exito"
+            );
+
+            cancelarSolicitud();
+        }
+    </script>
+
+</body>
+</html>

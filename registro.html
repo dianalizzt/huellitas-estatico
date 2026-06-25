@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Protocolo de adopción</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f9f5f0;
+            color: #2e1f0e;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .adoptante-header {
+            background: #5c3317;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: #f9f5f0;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid #8b6340;
+            color: #d4b896;
+            padding: 5px 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .protocol-page {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 36px 28px;
+        }
+
+        .protocol-box {
+            background: #fff;
+            border: 2px solid #c9a97a;
+            padding: 32px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #5c3317;
+            border-bottom: 2px solid #c9a97a;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+
+        .sec-desc {
+            font-family: Arial, sans-serif;
+            font-size: 0.88rem;
+            color: #8b6340;
+            margin-bottom: 22px;
+            font-style: italic;
+        }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            color: #5c3317;
+            margin-bottom: 6px;
+            font-family: Arial, sans-serif;
+            letter-spacing: 0.04em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #c9a97a;
+            font-family: Arial, sans-serif;
+            font-size: 0.93rem;
+            color: #2e1f0e;
+            background: #fffdf9;
+            margin-bottom: 16px;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: #5c3317;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .checkbox-box {
+            border: 1px solid #c9a97a;
+            background: #fffdf9;
+            padding: 14px 16px;
+            margin-bottom: 18px;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            color: #4a3020;
+        }
+
+        .checkbox-box label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 0;
+            letter-spacing: normal;
+            text-transform: none;
+            font-size: 0.9rem;
+            color: #4a3020;
+        }
+
+        .checkbox-box input[type="checkbox"] {
+            margin-top: 3px;
+            transform: scale(1.1);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.92rem;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #5c3317;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #7a4620;
+        }
+
+        .btn-secondary {
+            background: #e8d8c4;
+            color: #5c3317;
+        }
+
+        .btn-secondary:hover {
+            background: #dcc5aa;
+        }
+
+        .msg {
+            font-family: Arial, sans-serif;
+            font-size: 0.84rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .msg.error {
+            color: #a12626;
+        }
+
+        .msg.ok {
+            color: #2e7d32;
+        }
+
+        .note {
+            margin-top: 14px;
+            font-family: Arial, sans-serif;
+            font-size: 0.82rem;
+            color: #8b6340;
+        }
+
+        @media (max-width: 768px) {
+            .adoptante-header {
+                padding: 14px 18px;
+            }
+
+            .protocol-page {
+                padding: 24px 16px;
+            }
+
+            .protocol-box {
+                padding: 24px;
+            }
+
+            .two-cols {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="adoptante-header">
+        <span class="brand">🐾 Huellitas</span>
+        <div class="header-right">
+            <a href="bienvenida-adoptante.html" class="btn-logout">← Regresar</a>
+        </div>
+    </div>
+
+    <div class="protocol-page">
+        <div class="protocol-box">
+            <h2>Protocolo de adopción</h2>
+            <p class="sec-desc">
+                Completa este formulario para continuar con tu proceso de adopción.
+            </p>
+
+            <div id="mensaje" class="msg"></div>
+
+            <form id="form-protocolo">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" placeholder="Tu nombre completo">
+
+                <div class="two-cols">
+                    <div>
+                        <label for="correo">Correo de contacto</label>
+                        <input type="email" id="correo" placeholder="correo@ejemplo.com">
+                    </div>
+
+                    <div>
+                        <label for="telefono">Número de teléfono</label>
+                        <input type="tel" id="telefono" placeholder="Ej. 5512345678">
+                    </div>
+                </div>
+
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Calle, número, colonia, ciudad">
+
+                <div class="two-cols">
+                    <div>
+                        <label for="animales">¿Cuántos animales tienes actualmente?</label>
+                        <input type="number" id="animales" min="0" placeholder="Ej. 2">
+                    </div>
+
+                    <div>
+                        <label for="ine">INE</label>
+                        <input type="file" id="ine" accept="image/*,.pdf">
+                    </div>
+                </div>
+
+                <label for="comprobante">Comprobante de domicilio</label>
+                <input type="file" id="comprobante" accept="image/*,.pdf">
+
+                <label for="motivo">¿Por qué quieres adoptar?</label>
+                <textarea id="motivo" placeholder="Escribe tu motivo para adoptar"></textarea>
+
+                <div class="checkbox-box">
+                    <label>
+                        <input type="checkbox" id="seguimiento">
+                        <span>
+                            Acepto continuar con el seguimiento post-adopción y enviar fotos de la mascota
+                            cuando el refugio Huellitas lo solicite, para verificar su bienestar.
+                        </span>
+                    </label>
+                </div>
+
+                <div class="actions">
+                    <button type="button" class="btn btn-primary" onclick="enviarFormulario()">
+                        Continuar
+                    </button>
+                    <a href="bienvenida-adoptante.html" class="btn btn-secondary">Cancelar</a>
+                </div>
+
+                <p class="note">
+                    Nota: este formulario es parte del proceso inicial y podrá ser revisado por el equipo del refugio.
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script src="static-supabase.js"></script>
+    <script>
+        const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+        const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function mostrarMensaje(texto, tipo) {
+            const msg = document.getElementById('mensaje');
+            msg.textContent = texto;
+            msg.className = 'msg ' + tipo;
+        }
+
+        function obtenerIdMascotaDesdeURL() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            return id ? parseInt(id) : null;
+        }
+
+        async function precargarUsuario() {
+            const { data, error } = await supabaseClient.auth.getUser();
+
+            if (error || !data.user) {
+                window.location.href = 'registro-adoptante.html';
+                return;
+            }
+
+            const user = data.user;
+
+            const nombre = user.user_metadata?.nombre_completo || "";
+            const direccion = user.user_metadata?.direccion || "";
+            const correo = user.email || "";
+
+            if (nombre) document.getElementById('nombre').value = nombre;
+            if (direccion) document.getElementById('direccion').value = direccion;
+            if (correo) document.getElementById('correo').value = correo;
+        }
+
+        async function subirArchivo(file, carpeta, userId) {
+            if (!file) return null;
+
+            const nombreSeguro = `${carpeta}/${userId}_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
+
+            const { data, error } = await supabaseClient
+                .storage
+                .from('documentos')
+                .upload(nombreSeguro, file);
+
+            if (error) {
+                throw error;
+            }
+
+            return data.path;
+        }
+
+        async function enviarFormulario() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const correo = document.getElementById('correo').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const direccion = document.getElementById('direccion').value.trim();
+            const animales = document.getElementById('animales').value.trim();
+            const ineFile = document.getElementById('ine').files[0];
+            const comprobanteFile = document.getElementById('comprobante').files[0];
+            const motivo = document.getElementById('motivo').value.trim();
+            const seguimiento = document.getElementById('seguimiento').checked;
+            const idMascota = obtenerIdMascotaDesdeURL();
+
+            if (!nombre || !correo || !telefono || !direccion || animales === '' || !ineFile || !comprobanteFile || !motivo) {
+                mostrarMensaje('Por favor completa todos los campos y adjunta los documentos solicitados.', 'error');
+                return;
+            }
+
+            if (!seguimiento) {
+                mostrarMensaje('Debes aceptar el seguimiento con envío de fotos para continuar.', 'error');
+                return;
+            }
+
+            mostrarMensaje('Guardando solicitud...', 'ok');
+
+            const { data: authData, error: authError } = await supabaseClient.auth.getUser();
+
+            if (authError || !authData.user) {
+                mostrarMensaje('Tu sesión expiró. Inicia sesión de nuevo.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'registro-adoptante.html';
+                }, 1200);
+                return;
+            }
+
+            const user = authData.user;
+
+            try {
+                const inePath = await subirArchivo(ineFile, 'ine', user.id);
+                const comprobantePath = await subirArchivo(comprobanteFile, 'comprobantes', user.id);
+
+                const { data: adoptanteData, error: adoptanteError } = await supabaseClient
+                    .from('adoptantes')
+                    .upsert({
+                        nombre_completo: nombre,
+                        correo: correo,
+                        telefono: telefono,
+                        direccion: direccion
+                    }, {
+                        onConflict: 'correo'
+                    })
+                    .select('id_adoptante')
+                    .single();
+
+                if (adoptanteError) {
+                    console.error(adoptanteError);
+                    mostrarMensaje('No se pudo guardar la información del adoptante.', 'error');
+                    return;
+                }
+
+                localStorage.setItem('inePath', inePath || '');
+                localStorage.setItem('comprobantePath', comprobantePath || '');
+
+                const { data: protocoloData, error: protocoloError } = await supabaseClient
+                    .from('protocolos')
+                    .insert({
+                        id_adoptante: adoptanteData.id_adoptante,
+                        id_mascota: idMascota,
+                        animales_actuales: parseInt(animales),
+                        motivo: motivo,
+                        seguimiento: true
+                    })
+                    .select('id_protocolo')
+                    .single();
+
+                if (protocoloError) {
+                    console.error(protocoloError);
+                    mostrarMensaje('No se pudo guardar la solicitud.', 'error');
+                    return;
+                }
+
+                localStorage.setItem('protocoloId', protocoloData.id_protocolo);
+                localStorage.setItem('protocoloNombre', nombre);
+                localStorage.setItem('protocoloCorreo', correo);
+                localStorage.setItem('protocoloTelefono', telefono);
+                localStorage.setItem('protocoloDireccion', direccion);
+                localStorage.setItem('protocoloAnimales', animales);
+                localStorage.setItem('protocoloMotivo', motivo);
+
+                mostrarMensaje('Solicitud guardada correctamente.', 'ok');
+
+                const destino = idMascota
+                    ? `confirmacion-adopcion.html?id=${idMascota}`
+                    : 'confirmacion-adopcion.html';
+
+                setTimeout(() => {
+                    window.location.href = destino;
+                }, 1000);
+
+            } catch (error) {
+                console.error(error);
+                mostrarMensaje('Ocurrió un error al subir documentos o guardar la solicitud.', 'error');
+            }
+        }
+
+        precargarUsuario();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Adoptantes Huellitas</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f5f0;
+    color: #3b2414;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    color: #5c3317;
+    font-size: 2rem;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+nav a {
+    background: #5c3317;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background: #7a4620;
+}
+
+.formulario {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #c9a97a;
+    margin-bottom: 20px;
+}
+
+.formulario h2 {
+    color: #5c3317;
+    margin-bottom: 15px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #5c3317;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 9px;
+    margin-top: 6px;
+    border: 1px solid #c9a97a;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.actions,
+.controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.controls {
+    background: white;
+    padding: 15px;
+    border-left: 5px solid #c9a97a;
+    margin-bottom: 20px;
+}
+
+.controls input {
+    width: auto;
+    min-width: 260px;
+    margin-top: 0;
+}
+
+button,
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: #5c3317;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #7a4620;
+}
+
+.btn-secondary {
+    background: #e8d8c4;
+    color: #5c3317;
+}
+
+.btn-view {
+    background: #c9a97a;
+    color: #3b2414;
+}
+
+.btn-edit {
+    background: #1976d2;
+    color: white;
+}
+
+.btn-delete {
+    background: #b71c1c;
+    color: white;
+}
+
+.btn-history {
+    background: #2e7d32;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 0.9rem;
+    vertical-align: top;
+}
+
+th {
+    background: #5c3317;
+    color: white;
+}
+
+.mensaje {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.ok {
+    color: #2e7d32;
+}
+
+.error {
+    color: #b71c1c;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 750px;
+    margin: 60px auto;
+    padding: 25px;
+    border-radius: 10px;
+    border: 3px solid #c9a97a;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.close {
+    float: right;
+    font-size: 26px;
+    cursor: pointer;
+    color: #5c3317;
+}
+
+.info-box {
+    background: #f9f5f0;
+    padding: 12px;
+    margin: 10px 0;
+    border-left: 4px solid #5c3317;
+}
+
+.historial-item {
+    background: #f9f5f0;
+    border-left: 4px solid #c9a97a;
+    padding: 12px;
+    margin: 10px 0;
+}
+
+@media(max-width:900px) {
+    body {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.78rem;
+    }
+
+    th,
+    td {
+        padding: 7px;
+    }
+
+    .controls input {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>👤 Adoptantes registrados</h1>
+
+<nav>
+    <a href="dashboard-admin.html">Inicio</a>
+    <a href="mascotas-admin.html">Mascotas</a>
+    <a href="solicitudes-admin.html">Solicitudes</a>
+    <a href="adoptantes-admin.html">Adoptantes</a>
+    <a href="empleados-admin.html">Empleados</a>
+    <a href="entrevistas-admin.html">Entrevistas</a>
+    <a href="adopciones-admin.html">Adopciones</a>
+    <a href="login-empleado.html" onclick="cerrarSesion()">Cerrar sesión</a>
+</nav>
+</header>
+
+<div id="mensaje" class="mensaje"></div>
+
+<section class="formulario">
+    <h2 id="tituloFormulario">Editar adoptante</h2>
+
+    <input type="hidden" id="id_adoptante">
+
+    <div class="grid">
+        <div>
+            <label>Nombre completo</label>
+            <input type="text" id="nombre_completo" placeholder="Nombre del adoptante">
+        </div>
+
+        <div>
+            <label>Correo</label>
+            <input type="email" id="correo" placeholder="correo@ejemplo.com">
+        </div>
+
+        <div>
+            <label>Teléfono</label>
+            <input type="text" id="telefono" placeholder="Teléfono">
+        </div>
+    </div>
+
+    <div style="margin-top:14px;">
+        <label>Dirección</label>
+        <textarea id="direccion" placeholder="Dirección del adoptante"></textarea>
+    </div>
+
+    <div class="actions">
+        <button class="btn-primary" onclick="guardarCambiosAdoptante()">Guardar cambios</button>
+        <button class="btn-secondary" onclick="limpiarFormulario()">Limpiar</button>
+    </div>
+</section>
+
+<section class="controls">
+    <input type="text" id="buscar" placeholder="Buscar por nombre, correo o teléfono" onkeyup="filtrarAdoptantes()">
+    <button class="btn-primary" onclick="cargarAdoptantes()">Actualizar</button>
+</section>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre completo</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody id="tablaAdoptantes">
+        <tr>
+            <td colspan="6">Cargando adoptantes...</td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2 id="modalTitulo"></h2>
+        <div id="modalContenido"></div>
+    </div>
+</div>
+
+<script src="static-supabase.js"></script>
+
+<script>
+const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+let adoptantesGlobal = [];
+
+function protegerAdmin() {
+    const logueado = localStorage.getItem("empleado_logueado");
+    const rol = localStorage.getItem("rol_empleado");
+    const numero = localStorage.getItem("empleado_numero");
+
+    if (
+        logueado !== "true" ||
+        (
+            numero !== "EMP-0042" &&
+            rol !== "admin" &&
+            rol !== "administrador"
+        )
+    ) {
+        alert("Acceso restringido. Inicia sesión como administrador.");
+        window.location.href = "login-empleado.html";
+        return false;
+    }
+
+    return true;
+}
+
+function cerrarSesion() {
+    localStorage.clear();
+}
+
+function mostrarMensaje(texto, tipo) {
+    const msg = document.getElementById("mensaje");
+    msg.textContent = texto;
+    msg.className = "mensaje " + tipo;
+
+    setTimeout(function() {
+        msg.textContent = "";
+        msg.className = "mensaje";
+    }, 3500);
+}
+
+function limpiarTexto(valor) {
+    if (valor === null || valor === undefined || valor === "") {
+        return "—";
+    }
+
+    return String(valor)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function abrirModal(titulo, contenido) {
+    document.getElementById("modalTitulo").innerHTML = titulo;
+    document.getElementById("modalContenido").innerHTML = contenido;
+    document.getElementById("modal").style.display = "block";
+}
+
+function cerrarModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+async function cargarAdoptantes() {
+    const tbody = document.getElementById("tablaAdoptantes");
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="6">Cargando adoptantes...</td>
+        </tr>
+    `;
+
+    const { data, error } = await supabaseClient
+        .from("adoptantes")
+        .select("id_adoptante, nombre_completo, correo, telefono, direccion")
+        .order("id_adoptante", { ascending: true });
+
+    if (error) {
+        console.error("Error cargando adoptantes:", error);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6">Error al cargar adoptantes.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    adoptantesGlobal = data || [];
+    renderAdoptantes(adoptantesGlobal);
+}
+
+function renderAdoptantes(lista) {
+    const tbody = document.getElementById("tablaAdoptantes");
+    tbody.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6">No hay adoptantes registrados.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    lista.forEach(function(a) {
+        tbody.innerHTML += `
+            <tr>
+                <td>${limpiarTexto(a.id_adoptante)}</td>
+                <td>${limpiarTexto(a.nombre_completo)}</td>
+                <td>${limpiarTexto(a.correo)}</td>
+                <td>${limpiarTexto(a.telefono)}</td>
+                <td>${limpiarTexto(a.direccion)}</td>
+                <td>
+                    <button class="btn-view" onclick="verDetalle(${a.id_adoptante})">Detalles</button>
+                    <button class="btn-edit" onclick="editarAdoptante(${a.id_adoptante})">Editar</button>
+                    <button class="btn-history" onclick="verSolicitudes(${a.id_adoptante})">Solicitudes</button>
+                    <button class="btn-history" onclick="verEntrevistas(${a.id_adoptante})">Entrevistas</button>
+                    <button class="btn-history" onclick="verAdopciones(${a.id_adoptante})">Adopciones</button>
+                    <button class="btn-delete" onclick="eliminarAdoptante(${a.id_adoptante})">Eliminar</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function filtrarAdoptantes() {
+    const texto = document.getElementById("buscar").value.toLowerCase();
+
+    const filtrados = adoptantesGlobal.filter(function(a) {
+        return (
+            String(a.nombre_completo || "").toLowerCase().includes(texto) ||
+            String(a.correo || "").toLowerCase().includes(texto) ||
+            String(a.telefono || "").toLowerCase().includes(texto)
+        );
+    });
+
+    renderAdoptantes(filtrados);
+}
+
+function obtenerAdoptante(id) {
+    return adoptantesGlobal.find(function(a) {
+        return Number(a.id_adoptante) === Number(id);
+    });
+}
+
+function verDetalle(id) {
+    const a = obtenerAdoptante(id);
+
+    if (!a) {
+        mostrarMensaje("No se encontró el adoptante.", "error");
+        return;
+    }
+
+    abrirModal("Detalles del adoptante", `
+        <div class="info-box"><strong>ID:</strong> ${limpiarTexto(a.id_adoptante)}</div>
+        <div class="info-box"><strong>Nombre completo:</strong> ${limpiarTexto(a.nombre_completo)}</div>
+        <div class="info-box"><strong>Correo:</strong> ${limpiarTexto(a.correo)}</div>
+        <div class="info-box"><strong>Teléfono:</strong> ${limpiarTexto(a.telefono)}</div>
+        <div class="info-box"><strong>Dirección:</strong> ${limpiarTexto(a.direccion)}</div>
+    `);
+}
+
+function editarAdoptante(id) {
+    const a = obtenerAdoptante(id);
+
+    if (!a) {
+        mostrarMensaje("No se encontró el adoptante.", "error");
+        return;
+    }
+
+    document.getElementById("id_adoptante").value = a.id_adoptante;
+    document.getElementById("nombre_completo").value = a.nombre_completo || "";
+    document.getElementById("correo").value = a.correo || "";
+    document.getElementById("telefono").value = a.telefono || "";
+    document.getElementById("direccion").value = a.direccion || "";
+
+    document.getElementById("tituloFormulario").textContent = "Editar adoptante";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function guardarCambiosAdoptante() {
+    const id = document.getElementById("id_adoptante").value;
+
+    if (!id) {
+        mostrarMensaje("Selecciona un adoptante para editar.", "error");
+        return;
+    }
+
+    const adoptante = {
+        nombre_completo: document.getElementById("nombre_completo").value.trim(),
+        correo: document.getElementById("correo").value.trim(),
+        telefono: document.getElementById("telefono").value.trim(),
+        direccion: document.getElementById("direccion").value.trim()
+    };
+
+    if (!adoptante.nombre_completo || !adoptante.correo || !adoptante.telefono || !adoptante.direccion) {
+        mostrarMensaje("Completa todos los campos.", "error");
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("adoptantes")
+        .update(adoptante)
+        .eq("id_adoptante", id);
+
+    if (error) {
+        console.error("Error actualizando adoptante:", error);
+        mostrarMensaje("No se pudo actualizar el adoptante.", "error");
+        return;
+    }
+
+    mostrarMensaje("Adoptante actualizado correctamente.", "ok");
+    limpiarFormulario();
+    cargarAdoptantes();
+}
+
+async function eliminarAdoptante(id) {
+    if (!confirm("¿Seguro que quieres eliminar este adoptante? Si tiene solicitudes, entrevistas o adopciones relacionadas, Supabase puede impedir la eliminación.")) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("adoptantes")
+        .delete()
+        .eq("id_adoptante", id);
+
+    if (error) {
+        console.error("Error eliminando adoptante:", error);
+        mostrarMensaje("No se pudo eliminar. El adoptante puede tener registros relacionados.", "error");
+        return;
+    }
+
+    mostrarMensaje("Adoptante eliminado correctamente.", "ok");
+    cargarAdoptantes();
+}
+
+async function verSolicitudes(id) {
+    const { data, error } = await supabaseClient
+        .from("protocolos")
+        .select(`
+            id_protocolo,
+            animales_actuales,
+            motivo,
+            seguimiento,
+            fecha_registro,
+            mascotas(nombre, tipo, edad, estado)
+        `)
+        .eq("id_adoptante", id)
+        .order("id_protocolo", { ascending: false });
+
+    if (error) {
+        console.error("Error cargando solicitudes:", error);
+        mostrarMensaje("No se pudieron cargar las solicitudes.", "error");
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        abrirModal("Solicitudes del adoptante", "<p>No tiene solicitudes registradas.</p>");
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(function(s) {
+        html += `
+            <div class="historial-item">
+                <strong>Solicitud #${limpiarTexto(s.id_protocolo)}</strong><br>
+                <strong>Mascota:</strong> ${limpiarTexto(s.mascotas?.nombre)}<br>
+                <strong>Tipo:</strong> ${limpiarTexto(s.mascotas?.tipo)}<br>
+                <strong>Edad:</strong> ${limpiarTexto(s.mascotas?.edad)}<br>
+                <strong>Estado mascota:</strong> ${limpiarTexto(s.mascotas?.estado)}<br>
+                <strong>Animales actuales:</strong> ${limpiarTexto(s.animales_actuales)}<br>
+                <strong>Seguimiento:</strong> ${s.seguimiento ? "Sí" : "No"}<br>
+                <strong>Motivo:</strong> ${limpiarTexto(s.motivo)}<br>
+                <strong>Fecha:</strong> ${limpiarTexto(s.fecha_registro)}
+            </div>
+        `;
+    });
+
+    abrirModal("Solicitudes del adoptante", html);
+}
+
+async function verEntrevistas(id) {
+    const { data, error } = await supabaseClient
+        .from("entrevistas")
+        .select(`
+            id_entrevista,
+            fecha,
+            hora,
+            estado,
+            mascotas(nombre, tipo, estado)
+        `)
+        .eq("id_adoptante", id)
+        .order("id_entrevista", { ascending: false });
+
+    if (error) {
+        console.error("Error cargando entrevistas:", error);
+        mostrarMensaje("No se pudieron cargar las entrevistas.", "error");
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        abrirModal("Entrevistas del adoptante", "<p>No tiene entrevistas registradas.</p>");
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(function(e) {
+        html += `
+            <div class="historial-item">
+                <strong>Entrevista #${limpiarTexto(e.id_entrevista)}</strong><br>
+                <strong>Mascota:</strong> ${limpiarTexto(e.mascotas?.nombre)}<br>
+                <strong>Tipo:</strong> ${limpiarTexto(e.mascotas?.tipo)}<br>
+                <strong>Fecha:</strong> ${limpiarTexto(e.fecha)}<br>
+                <strong>Hora:</strong> ${limpiarTexto(e.hora)}<br>
+                <strong>Estado entrevista:</strong> ${limpiarTexto(e.estado)}
+            </div>
+        `;
+    });
+
+    abrirModal("Entrevistas del adoptante", html);
+}
+
+async function verAdopciones(id) {
+    const { data, error } = await supabaseClient
+        .from("adopciones")
+        .select(`
+            id_adopcion,
+            fecha_adopcion,
+            estado,
+            mascotas(nombre, tipo, edad, estado)
+        `)
+        .eq("id_adoptante", id)
+        .order("id_adopcion", { ascending: false });
+
+    if (error) {
+        console.error("Error cargando adopciones:", error);
+        mostrarMensaje("No se pudieron cargar las adopciones.", "error");
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        abrirModal("Adopciones del adoptante", "<p>No tiene adopciones registradas.</p>");
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(function(a) {
+        html += `
+            <div class="historial-item">
+                <strong>Adopción #${limpiarTexto(a.id_adopcion)}</strong><br>
+                <strong>Mascota:</strong> ${limpiarTexto(a.mascotas?.nombre)}<br>
+                <strong>Tipo:</strong> ${limpiarTexto(a.mascotas?.tipo)}<br>
+                <strong>Edad:</strong> ${limpiarTexto(a.mascotas?.edad)}<br>
+                <strong>Estado adopción:</strong> ${limpiarTexto(a.estado)}<br>
+                <strong>Fecha adopción:</strong> ${limpiarTexto(a.fecha_adopcion)}
+            </div>
+        `;
+    });
+
+    abrirModal("Adopciones del adoptante", html);
+}
+
+function limpiarFormulario() {
+    document.getElementById("id_adoptante").value = "";
+    document.getElementById("nombre_completo").value = "";
+    document.getElementById("correo").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("direccion").value = "";
+    document.getElementById("tituloFormulario").textContent = "Editar adoptante";
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById("modal");
+
+    if (event.target === modal) {
+        cerrarModal();
+    }
+};
+
+if (protegerAdmin()) {
+    cargarAdoptantes();
+}
+</script>
+
+</body>
+</html>

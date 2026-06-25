@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Entrevistas Huellitas</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f9f5f0;color:#3b2414;padding:20px}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;margin-bottom:25px}
+h1{color:#5c3317;font-size:2rem}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{background:#5c3317;color:white;padding:10px 14px;border-radius:6px;text-decoration:none}
+nav a:hover{background:#7a4620}
+.aviso{background:white;border-left:5px solid #c9a97a;padding:14px;margin-bottom:20px;border-radius:8px}
+.controls{background:white;padding:15px;border-left:5px solid #c9a97a;margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap}
+input,select{padding:9px;border:1px solid #c9a97a;border-radius:5px}
+button,.btn{padding:8px 12px;border:none;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-block;font-size:.9rem;margin:2px}
+.btn-primary{background:#5c3317;color:white}
+.btn-ver{background:#c9a97a;color:#3b2414}
+.btn-aprobar{background:#2e7d32;color:white}
+.btn-rechazar{background:#b71c1c;color:white}
+.btn-editar{background:#1976d2;color:white}
+.btn-eliminar{background:#333;color:white}
+table{width:100%;border-collapse:collapse;background:white}
+th,td{border:1px solid #ddd;padding:10px;text-align:left;font-size:.9rem;vertical-align:top}
+th{background:#5c3317;color:white}
+.pendiente{color:#b26a00;font-weight:bold}
+.aprobada{color:#2e7d32;font-weight:bold}
+.rechazada{color:#b71c1c;font-weight:bold}
+.mensaje{margin-bottom:15px;font-size:.9rem;font-weight:bold}
+.ok{color:#2e7d32}
+.error{color:#b71c1c}
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5)}
+.modal-content{background:white;width:90%;max-width:700px;margin:60px auto;padding:25px;border-radius:10px;border:3px solid #c9a97a}
+.close{float:right;font-size:26px;cursor:pointer;color:#5c3317}
+.info-box{background:#f9f5f0;padding:12px;margin:10px 0;border-left:4px solid #5c3317}
+.form-edit{display:grid;gap:12px;margin-top:15px}
+.form-edit label{font-weight:bold;color:#5c3317}
+.form-edit input,.form-edit select{width:100%}
+@media(max-width:900px){
+body{padding:12px}
+h1{font-size:1.5rem}
+table{font-size:.78rem}
+th,td{padding:7px}
+.controls input,.controls select{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📅 Gestión de entrevistas</h1>
+
+    <nav>
+        <a href="dashboard-admin.html">Inicio</a>
+        <a href="mascotas-admin.html">Mascotas</a>
+        <a href="solicitudes-admin.html">Solicitudes</a>
+        <a href="adoptantes-admin.html">Adoptantes</a>
+        <a href="empleados-admin.html">Empleados</a>
+        <a href="entrevistas-admin.html">Entrevistas</a>
+        <a href="adopciones-admin.html">Adopciones</a>
+        <a href="login-empleado.html" onclick="cerrarSesion()">Cerrar sesión</a>
+    </nav>
+</header>
+
+<div class="aviso">
+    Desde esta sección puedes consultar entrevistas reales de Supabase.
+    Al <strong>aprobar</strong> una entrevista, se crea o actualiza un registro en <strong>adopciones</strong>,
+    la entrevista queda como <strong>aprobada</strong> y la mascota como <strong>adoptado</strong>.
+    Al <strong>rechazar</strong>, se registra como <strong>rechazada</strong> y la mascota vuelve a <strong>disponible</strong>.
+</div>
+
+<div id="mensaje" class="mensaje"></div>
+
+<section class="controls">
+    <input type="text" id="buscar" placeholder="Buscar adoptante, correo o mascota" onkeyup="filtrarEntrevistas()">
+
+    <select id="filtroEstado" onchange="filtrarEntrevistas()">
+        <option value="todos">Todos los estados</option>
+        <option value="pendiente">Pendientes</option>
+        <option value="aprobada">Aprobadas</option>
+        <option value="rechazada">Rechazadas</option>
+    </select>
+
+    <button class="btn-primary" onclick="cargarEntrevistas()">Actualizar</button>
+</section>
+
+<table>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Adoptante</th>
+    <th>Correo</th>
+    <th>Mascota</th>
+    <th>Fecha</th>
+    <th>Hora</th>
+    <th>Día</th>
+    <th>Estado</th>
+    <th>Fecha registro</th>
+    <th>Acciones</th>
+</tr>
+</thead>
+
+<tbody id="tablaEntrevistas">
+<tr>
+    <td colspan="10">Cargando entrevistas...</td>
+</tr>
+</tbody>
+</table>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2 id="modalTitulo"></h2>
+        <div id="modalContenido"></div>
+    </div>
+</div>
+
+<script src="static-supabase.js"></script>
+
+<script>
+const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+let entrevistasGlobal = [];
+
+function protegerAdmin() {
+    const logueado = localStorage.getItem("empleado_logueado");
+    const rol = localStorage.getItem("rol_empleado");
+    const numero = localStorage.getItem("empleado_numero");
+
+    if (
+        logueado !== "true" ||
+        (
+            numero !== "EMP-0042" &&
+            rol !== "admin" &&
+            rol !== "administrador"
+        )
+    ) {
+        alert("Acceso restringido. Inicia sesión como administrador.");
+        window.location.href = "login-empleado.html";
+        return false;
+    }
+
+    return true;
+}
+
+function cerrarSesion() {
+    localStorage.clear();
+}
+
+function mostrarMensaje(texto, tipo) {
+    const msg = document.getElementById("mensaje");
+    msg.textContent = texto;
+    msg.className = "mensaje " + tipo;
+
+    setTimeout(function() {
+        msg.textContent = "";
+        msg.className = "mensaje";
+    }, 4000);
+}
+
+function limpiarTexto(valor) {
+    if (valor === null || valor === undefined || valor === "") {
+        return "—";
+    }
+
+    return String(valor)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function claseEstado(estado) {
+    if (!estado) return "";
+    return String(estado).toLowerCase();
+}
+
+function abrirModal(titulo, contenido) {
+    document.getElementById("modalTitulo").innerHTML = titulo;
+    document.getElementById("modalContenido").innerHTML = contenido;
+    document.getElementById("modal").style.display = "block";
+}
+
+function cerrarModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+async function cargarEntrevistas() {
+    const tbody = document.getElementById("tablaEntrevistas");
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="10">Cargando entrevistas...</td>
+        </tr>
+    `;
+
+    const { data, error } = await supabaseClient
+        .from("entrevistas")
+        .select(`
+            id_entrevista,
+            id_adoptante,
+            id_mascota,
+            fecha,
+            hora,
+            estado,
+            dia,
+            fecha_registro,
+            adoptantes (
+                id_adoptante,
+                nombre_completo,
+                correo,
+                telefono,
+                direccion
+            ),
+            mascotas (
+                id_mascota,
+                nombre,
+                tipo,
+                edad,
+                sexo,
+                raza,
+                estado
+            )
+        `)
+        .order("id_entrevista", { ascending: false });
+
+    if (error) {
+        console.error("Error cargando entrevistas:", error);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10">Error al cargar entrevistas.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    entrevistasGlobal = data || [];
+    renderEntrevistas(entrevistasGlobal);
+}
+
+function renderEntrevistas(lista) {
+    const tbody = document.getElementById("tablaEntrevistas");
+    tbody.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10">No hay entrevistas registradas.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    lista.forEach(function(e) {
+        const adoptante = e.adoptantes || {};
+        const mascota = e.mascotas || {};
+        const estado = e.estado || "pendiente";
+
+        let acciones = "";
+
+        if (estado === "aprobada" || estado === "rechazada") {
+            acciones = `
+                <button class="btn-ver" onclick="verDetalle(${e.id_entrevista})">Ver</button>
+                <button class="btn-editar" onclick="abrirEditar(${e.id_entrevista})">Editar</button>
+                <button class="btn-eliminar" onclick="eliminarEntrevista(${e.id_entrevista})">Eliminar</button>
+            `;
+        } else {
+            acciones = `
+                <button class="btn-ver" onclick="verDetalle(${e.id_entrevista})">Ver</button>
+                <button class="btn-editar" onclick="abrirEditar(${e.id_entrevista})">Editar</button>
+                <button class="btn-aprobar" onclick="aprobarEntrevista(${e.id_entrevista})">Aprobar</button>
+                <button class="btn-rechazar" onclick="rechazarEntrevista(${e.id_entrevista})">Rechazar</button>
+                <button class="btn-eliminar" onclick="eliminarEntrevista(${e.id_entrevista})">Eliminar</button>
+            `;
+        }
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${limpiarTexto(e.id_entrevista)}</td>
+                <td>${limpiarTexto(adoptante.nombre_completo)}</td>
+                <td>${limpiarTexto(adoptante.correo)}</td>
+                <td>${limpiarTexto(mascota.nombre)}</td>
+                <td>${limpiarTexto(e.fecha)}</td>
+                <td>${limpiarTexto(e.hora)}</td>
+                <td>${limpiarTexto(e.dia)}</td>
+                <td class="${claseEstado(estado)}">${limpiarTexto(estado)}</td>
+                <td>${limpiarTexto(e.fecha_registro)}</td>
+                <td>${acciones}</td>
+            </tr>
+        `;
+    });
+}
+
+function filtrarEntrevistas() {
+    const texto = document.getElementById("buscar").value.toLowerCase();
+    const estado = document.getElementById("filtroEstado").value;
+
+    const filtradas = entrevistasGlobal.filter(function(e) {
+        const adoptante = e.adoptantes || {};
+        const mascota = e.mascotas || {};
+
+        const coincideTexto =
+            String(adoptante.nombre_completo || "").toLowerCase().includes(texto) ||
+            String(adoptante.correo || "").toLowerCase().includes(texto) ||
+            String(mascota.nombre || "").toLowerCase().includes(texto);
+
+        const coincideEstado =
+            estado === "todos" || String(e.estado || "").toLowerCase() === estado;
+
+        return coincideTexto && coincideEstado;
+    });
+
+    renderEntrevistas(filtradas);
+}
+
+function obtenerEntrevista(id) {
+    return entrevistasGlobal.find(function(e) {
+        return Number(e.id_entrevista) === Number(id);
+    });
+}
+
+function verDetalle(id) {
+    const e = obtenerEntrevista(id);
+
+    if (!e) {
+        mostrarMensaje("No se encontró la entrevista.", "error");
+        return;
+    }
+
+    const adoptante = e.adoptantes || {};
+    const mascota = e.mascotas || {};
+
+    abrirModal("Detalle de entrevista", `
+        <div class="info-box"><strong>ID entrevista:</strong> ${limpiarTexto(e.id_entrevista)}</div>
+        <div class="info-box"><strong>Adoptante:</strong> ${limpiarTexto(adoptante.nombre_completo)}</div>
+        <div class="info-box"><strong>Correo:</strong> ${limpiarTexto(adoptante.correo)}</div>
+        <div class="info-box"><strong>Teléfono:</strong> ${limpiarTexto(adoptante.telefono)}</div>
+        <div class="info-box"><strong>Dirección:</strong> ${limpiarTexto(adoptante.direccion)}</div>
+        <div class="info-box"><strong>Mascota:</strong> ${limpiarTexto(mascota.nombre)}</div>
+        <div class="info-box"><strong>Tipo:</strong> ${limpiarTexto(mascota.tipo)}</div>
+        <div class="info-box"><strong>Edad:</strong> ${limpiarTexto(mascota.edad)}</div>
+        <div class="info-box"><strong>Sexo:</strong> ${limpiarTexto(mascota.sexo)}</div>
+        <div class="info-box"><strong>Raza:</strong> ${limpiarTexto(mascota.raza)}</div>
+        <div class="info-box"><strong>Estado mascota:</strong> ${limpiarTexto(mascota.estado)}</div>
+        <div class="info-box"><strong>Fecha:</strong> ${limpiarTexto(e.fecha)}</div>
+        <div class="info-box"><strong>Hora:</strong> ${limpiarTexto(e.hora)}</div>
+        <div class="info-box"><strong>Día:</strong> ${limpiarTexto(e.dia)}</div>
+        <div class="info-box"><strong>Estado entrevista:</strong> ${limpiarTexto(e.estado)}</div>
+        <div class="info-box"><strong>Fecha registro:</strong> ${limpiarTexto(e.fecha_registro)}</div>
+    `);
+}
+
+function abrirEditar(id) {
+    const e = obtenerEntrevista(id);
+
+    if (!e) {
+        mostrarMensaje("No se encontró la entrevista.", "error");
+        return;
+    }
+
+    abrirModal("Editar entrevista", `
+        <div class="form-edit">
+            <input type="hidden" id="edit_id_entrevista" value="${limpiarTexto(e.id_entrevista)}">
+
+            <div>
+                <label>Fecha</label>
+                <input type="date" id="edit_fecha" value="${limpiarTexto(e.fecha)}">
+            </div>
+
+            <div>
+                <label>Hora</label>
+                <input type="time" id="edit_hora" value="${String(e.hora || "").slice(0,5)}">
+            </div>
+
+            <div>
+                <label>Día</label>
+                <input type="text" id="edit_dia" value="${e.dia || ""}" placeholder="Ej. Lunes">
+            </div>
+
+            <div>
+                <label>Estado</label>
+                <select id="edit_estado">
+                    <option value="pendiente" ${e.estado === "pendiente" ? "selected" : ""}>pendiente</option>
+                    <option value="aprobada" ${e.estado === "aprobada" ? "selected" : ""}>aprobada</option>
+                    <option value="rechazada" ${e.estado === "rechazada" ? "selected" : ""}>rechazada</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" onclick="guardarEdicionEntrevista()">Guardar cambios</button>
+        </div>
+    `);
+}
+
+async function guardarEdicionEntrevista() {
+    const id = document.getElementById("edit_id_entrevista").value;
+
+    const cambios = {
+        fecha: document.getElementById("edit_fecha").value,
+        hora: document.getElementById("edit_hora").value,
+        dia: document.getElementById("edit_dia").value.trim() || null,
+        estado: document.getElementById("edit_estado").value
+    };
+
+    if (!cambios.fecha || !cambios.hora || !cambios.estado) {
+        mostrarMensaje("Completa fecha, hora y estado.", "error");
+        return;
+    }
+
+    const entrevistaActual = obtenerEntrevista(id);
+
+    const { error } = await supabaseClient
+        .from("entrevistas")
+        .update(cambios)
+        .eq("id_entrevista", id);
+
+    if (error) {
+        console.error("Error editando entrevista:", error);
+        mostrarMensaje("No se pudo actualizar la entrevista.", "error");
+        return;
+    }
+
+    if (entrevistaActual) {
+        if (cambios.estado === "aprobada") {
+            await registrarOActualizarAdopcion(entrevistaActual.id_adoptante, entrevistaActual.id_mascota, "aprobada");
+            await actualizarEstadoMascota(entrevistaActual.id_mascota, "adoptado");
+        }
+
+        if (cambios.estado === "rechazada") {
+            await registrarOActualizarAdopcion(entrevistaActual.id_adoptante, entrevistaActual.id_mascota, "rechazada");
+            await actualizarEstadoMascota(entrevistaActual.id_mascota, "disponible");
+        }
+
+        if (cambios.estado === "pendiente") {
+            await actualizarEstadoMascota(entrevistaActual.id_mascota, "en_proceso");
+        }
+    }
+
+    cerrarModal();
+    mostrarMensaje("Entrevista actualizada correctamente.", "ok");
+    cargarEntrevistas();
+}
+
+async function aprobarEntrevista(id) {
+    const e = obtenerEntrevista(id);
+
+    if (!e) {
+        mostrarMensaje("No se encontró la entrevista.", "error");
+        return;
+    }
+
+    if (!confirm("¿Seguro que quieres aprobar esta entrevista y registrar la adopción?")) {
+        return;
+    }
+
+    const { error: errorEntrevista } = await supabaseClient
+        .from("entrevistas")
+        .update({ estado: "aprobada" })
+        .eq("id_entrevista", id);
+
+    if (errorEntrevista) {
+        console.error("Error actualizando entrevista:", errorEntrevista);
+        mostrarMensaje("No se pudo aprobar la entrevista.", "error");
+        return;
+    }
+
+    const adopcionOk = await registrarOActualizarAdopcion(e.id_adoptante, e.id_mascota, "aprobada");
+
+    if (!adopcionOk) {
+        mostrarMensaje("La entrevista fue aprobada, pero no se pudo registrar la adopción.", "error");
+        return;
+    }
+
+    const mascotaOk = await actualizarEstadoMascota(e.id_mascota, "adoptado");
+
+    if (!mascotaOk) {
+        mostrarMensaje("La adopción fue registrada, pero no se pudo actualizar la mascota.", "error");
+        return;
+    }
+
+    mostrarMensaje("Entrevista aprobada. Adopción registrada y mascota marcada como adoptado.", "ok");
+    cargarEntrevistas();
+}
+
+async function rechazarEntrevista(id) {
+    const e = obtenerEntrevista(id);
+
+    if (!e) {
+        mostrarMensaje("No se encontró la entrevista.", "error");
+        return;
+    }
+
+    if (!confirm("¿Seguro que quieres rechazar esta entrevista?")) {
+        return;
+    }
+
+    const { error: errorEntrevista } = await supabaseClient
+        .from("entrevistas")
+        .update({ estado: "rechazada" })
+        .eq("id_entrevista", id);
+
+    if (errorEntrevista) {
+        console.error("Error actualizando entrevista:", errorEntrevista);
+        mostrarMensaje("No se pudo rechazar la entrevista.", "error");
+        return;
+    }
+
+    const adopcionOk = await registrarOActualizarAdopcion(e.id_adoptante, e.id_mascota, "rechazada");
+
+    if (!adopcionOk) {
+        mostrarMensaje("La entrevista fue rechazada, pero no se pudo registrar la adopción rechazada.", "error");
+        return;
+    }
+
+    const mascotaOk = await actualizarEstadoMascota(e.id_mascota, "disponible");
+
+    if (!mascotaOk) {
+        mostrarMensaje("La entrevista fue rechazada, pero no se pudo actualizar la mascota.", "error");
+        return;
+    }
+
+    mostrarMensaje("Entrevista rechazada. Registro creado en adopciones y mascota marcada como disponible.", "ok");
+    cargarEntrevistas();
+}
+
+async function actualizarEstadoMascota(idMascota, estado) {
+    const { error } = await supabaseClient
+        .from("mascotas")
+        .update({ estado: estado })
+        .eq("id_mascota", idMascota);
+
+    if (error) {
+        console.error("Error actualizando mascota:", error);
+        return false;
+    }
+
+    return true;
+}
+
+async function registrarOActualizarAdopcion(idAdoptante, idMascota, estado) {
+    if (!idAdoptante || !idMascota || !estado) {
+        console.error("Datos incompletos para adopción:", { idAdoptante, idMascota, estado });
+        return false;
+    }
+
+    const fechaActual = new Date().toISOString().split("T")[0];
+
+    const { data, error: errorBuscar } = await supabaseClient
+        .from("adopciones")
+        .select("id_adopcion")
+        .eq("id_adoptante", idAdoptante)
+        .eq("id_mascota", idMascota)
+        .order("id_adopcion", { ascending: false })
+        .limit(1);
+
+    if (errorBuscar) {
+        console.error("Error buscando adopción:", errorBuscar);
+        return false;
+    }
+
+    if (data && data.length > 0) {
+        const { error } = await supabaseClient
+            .from("adopciones")
+            .update({
+                estado: estado,
+                fecha_adopcion: fechaActual
+            })
+            .eq("id_adopcion", data[0].id_adopcion);
+
+        if (error) {
+            console.error("Error actualizando adopción:", error);
+            return false;
+        }
+
+        return true;
+    }
+
+    const { error } = await supabaseClient
+        .from("adopciones")
+        .insert([{
+            id_adoptante: idAdoptante,
+            id_mascota: idMascota,
+            fecha_adopcion: fechaActual,
+            estado: estado
+        }]);
+
+    if (error) {
+        console.error("Error insertando adopción:", error);
+        return false;
+    }
+
+    return true;
+}
+
+async function eliminarEntrevista(id) {
+    if (!confirm("¿Seguro que quieres eliminar esta entrevista?")) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("entrevistas")
+        .delete()
+        .eq("id_entrevista", id);
+
+    if (error) {
+        console.error("Error eliminando entrevista:", error);
+        mostrarMensaje("No se pudo eliminar la entrevista.", "error");
+        return;
+    }
+
+    mostrarMensaje("Entrevista eliminada correctamente.", "ok");
+    cargarEntrevistas();
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById("modal");
+
+    if (event.target === modal) {
+        cerrarModal();
+    }
+};
+
+if (protegerAdmin()) {
+    cargarEntrevistas();
+}
+</script>
+
+</body>
+</html>

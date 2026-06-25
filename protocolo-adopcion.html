@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huellitas - Panel de Empleado</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family: Georgia, 'Times New Roman', serif;
+    background:#f9f5f0;
+    color:#2e1f0e;
+    font-size:15px;
+    line-height:1.6;
+}
+
+header{
+    background:#5c3317;
+    padding:0 28px;
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.brand{
+    color:#f9f5f0;
+    font-size:1.3rem;
+    letter-spacing:1px;
+    padding:16px 0;
+    margin-right:32px;
+    white-space:nowrap;
+}
+
+nav{
+    display:flex;
+    flex:1;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:#d4b896;
+    text-decoration:none;
+    padding:17px 20px;
+    font-family:Arial, sans-serif;
+    font-size:0.88rem;
+    letter-spacing:0.04em;
+    border-bottom:3px solid transparent;
+    cursor:pointer;
+    display:block;
+}
+
+nav a.active{
+    color:#fff;
+    border-bottom-color:#c9a97a;
+}
+
+.header-user{
+    margin-left:auto;
+    color:#d4b896;
+    font-family:Arial, sans-serif;
+    font-size:0.85rem;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    white-space:nowrap;
+}
+
+.btn-logout{
+    background:none;
+    border:1px solid #8b6340;
+    color:#d4b896;
+    padding:5px 12px;
+    font-family:Arial, sans-serif;
+    font-size:0.8rem;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+}
+
+main{
+    width:100%;
+    margin:0 auto;
+    padding:36px 28px;
+}
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+h2{
+    font-size:1.9rem;
+    color:#5c3317;
+    border-bottom:2px solid #c9a97a;
+    padding-bottom:8px;
+    margin-bottom:6px;
+}
+
+.sec-desc{
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    color:#8b6340;
+    margin-bottom:34px;
+}
+
+.tab-bar{
+    display:flex;
+    border-bottom:2px solid #c9a97a;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+}
+
+.tab-btn{
+    padding:12px 24px;
+    border:none;
+    background:none;
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    color:#8b6340;
+    cursor:pointer;
+    border-bottom:4px solid transparent;
+    margin-bottom:-2px;
+    font-weight:bold;
+}
+
+.tab-btn.active{
+    color:#5c3317;
+    border-bottom-color:#008b8b;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    background:white;
+}
+
+table th{
+    background:#fff2df;
+    color:#5c3317;
+    text-align:left;
+    padding:14px 18px;
+    font-size:0.9rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    border:1px solid #c9a97a;
+}
+
+table td{
+    padding:14px 18px;
+    border:1px solid #ddd;
+    vertical-align:middle;
+    background:#fff;
+}
+
+table tr:nth-child(even) td{
+    background:#fdf9f4;
+}
+
+.badge{
+    font-size:0.85rem;
+    padding:5px 14px;
+    border:1px solid;
+    border-radius:20px;
+    font-family:Arial, sans-serif;
+    display:inline-block;
+    font-weight:bold;
+}
+
+.badge-care{
+    border-color:#008b8b;
+    color:#006666;
+    background:#e7ffff;
+}
+
+.badge-adopted{
+    border-color:#5aaa6e;
+    color:#1e6630;
+    background:#edf7f0;
+}
+
+.badge-waiting{
+    border-color:#d4892a;
+    color:#7a4a00;
+    background:#fdf3e3;
+}
+
+.turno-box{
+    border:1px solid #c9a97a;
+    background:#fff;
+    padding:45px 35px;
+    margin-bottom:34px;
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    border-radius:8px;
+    box-shadow:0 18px 40px rgba(92,51,23,0.12);
+}
+
+.turno-box p{
+    margin-bottom:22px;
+}
+
+.profile-name{
+    font-size:1.1rem;
+    color:#5c3317;
+    margin-bottom:18px;
+}
+
+.profile-table{
+    width:100%;
+    border-collapse:collapse;
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    background:white;
+}
+
+.profile-table td{
+    padding:16px 18px;
+    border:1px solid #e0d0be;
+    vertical-align:top;
+}
+
+.profile-table td:first-child{
+    width:220px;
+    color:#8b6340;
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+    header{
+        padding:0 16px;
+    }
+
+    .header-user{
+        width:100%;
+        justify-content:space-between;
+        padding-bottom:12px;
+    }
+
+    main{
+        padding:24px 16px;
+    }
+
+    .tab-btn{
+        padding:8px 10px;
+    }
+
+    table{
+        font-size:0.8rem;
+    }
+
+    table th,
+    table td{
+        padding:8px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <span class="brand">🐾 Huellitas</span>
+
+    <nav>
+        <a class="active" onclick="showSection('mascotas', this)">Mascotas</a>
+        <a onclick="showSection('horarios', this)">Horarios</a>
+        <a onclick="showSection('perfil', this)">Mi cuenta</a>
+    </nav>
+
+    <div class="header-user">
+        <span id="empleado-nombre-header">Empleado</span>
+        <a href="login-empleado.html" class="btn-logout">Cerrar sesión</a>
+    </div>
+</header>
+
+<main>
+
+<div id="sec-mascotas" class="section active">
+    <h2>Mascotas del refugio</h2>
+    <p class="sec-desc">Consulta las mascotas asignadas, adoptadas y disponibles para adopción.</p>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab('cuidado', this)">A mi cuidado</button>
+        <button class="tab-btn" onclick="showTab('adoptadas', this)">Adoptadas</button>
+        <button class="tab-btn" onclick="showTab('espera', this)">Buscando hogar</button>
+    </div>
+
+    <div id="tab-cuidado">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Edad</th>
+                    <th>Sexo</th>
+                    <th>Habitación</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Manchas</td><td>Gato</td><td>2 años</td><td>Macho</td><td>B-3</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Coco</td><td>Perro</td><td>4 años</td><td>Hembra</td><td>C-1</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Luna</td><td>Gata</td><td>1 año</td><td>Hembra</td><td>A-2</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Peludo</td><td>Perro</td><td>3 años</td><td>Macho</td><td>D-4</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Tigre</td><td>Gato</td><td>5 años</td><td>Macho</td><td>B-1</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Nube</td><td>Perro</td><td>6 meses</td><td>Hembra</td><td>A-5</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab-adoptadas" style="display:none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Edad</th>
+                    <th>Sexo</th>
+                    <th>Fecha de adopción</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Max</td><td>Perro</td><td>2 años</td><td>Macho</td><td>10 Ene 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
+                <tr><td>Misi</td><td>Gata</td><td>3 años</td><td>Hembra</td><td>22 Feb 2025</td><td><span class="badge badge-adopted">Adoptada</span></td></tr>
+                <tr><td>Bruno</td><td>Perro</td><td>5 años</td><td>Macho</td><td>03 Mar 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
+                <tr><td>Caramelo</td><td>Gato</td><td>1 año</td><td>Macho</td><td>15 Abr 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab-espera" style="display:none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Edad</th>
+                    <th>Sexo</th>
+                    <th>En refugio desde</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Canela</td><td>Perro</td><td>7 meses</td><td>Hembra</td><td>Ene 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+                <tr><td>Sombra</td><td>Gato</td><td>4 años</td><td>Macho</td><td>Feb 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+                <tr><td>Rocky</td><td>Perro</td><td>2 años</td><td>Macho</td><td>Mar 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+                <tr><td>Bolita</td><td>Gata</td><td>8 meses</td><td>Hembra</td><td>Mar 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+                <tr><td>Chispas</td><td>Perro</td><td>1 año</td><td>Hembra</td><td>Abr 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="sec-horarios" class="section">
+    <h2>Mis horarios</h2>
+    <p class="sec-desc">Tu turno asignado y las actividades de cuidado del día.</p>
+
+    <div class="turno-box">
+        <p><strong>Turno:</strong> Matutino</p>
+        <p><strong>Horario:</strong> 07:00 - 14:00 hrs</p>
+        <p><strong>Días:</strong> Lunes a viernes</p>
+        <p><strong>Área:</strong> Habitaciones A y B</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mascota</th>
+                <th>Tipo</th>
+                <th>Actividad</th>
+                <th>Hora</th>
+                <th>Días</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Manchas</td><td>Gato</td><td>Alimentación y limpieza</td><td>07:30</td><td>Lun, Mié, Vie</td></tr>
+            <tr><td>Coco</td><td>Perro</td><td>Paseo matutino</td><td>08:00</td><td>Lun, Mar, Jue</td></tr>
+            <tr><td>Luna</td><td>Gata</td><td>Alimentación y medicamento</td><td>08:30</td><td>Mar, Jue</td></tr>
+            <tr><td>Peludo</td><td>Perro</td><td>Baño semanal</td><td>09:00</td><td>Mié</td></tr>
+            <tr><td>Tigre</td><td>Gato</td><td>Revisión veterinaria</td><td>10:00</td><td>Lun</td></tr>
+            <tr><td>Nube</td><td>Perro</td><td>Socialización y juego</td><td>10:30</td><td>Mar, Vie</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="sec-perfil" class="section">
+    <h2>Mi cuenta</h2>
+    <p class="sec-desc">Información personal del empleado.</p>
+
+    <table class="profile-table">
+        <tr><td>Nombre completo</td><td id="perfil-nombre-completo">—</td></tr>
+        <tr><td>Fecha de nacimiento</td><td>14 de marzo de 1998</td></tr>
+        <tr><td>CURP</td><td>RALE980314MDFMRN06</td></tr>
+        <tr><td>Dirección</td><td id="perfil-direccion">Calle Girasoles #14, Col. Jardines, Guadalajara, Jalisco</td></tr>
+        <tr><td>Número de empleado</td><td id="perfil-numero">—</td></tr>
+    </table>
+</div>
+
+</main>
+
+<script>
+const logueadoNuevo = localStorage.getItem("empleado_logueado");
+const logueadoViejo = localStorage.getItem("empleadoLogueado");
+
+const rolNuevo = localStorage.getItem("rol_empleado");
+const rolViejo = localStorage.getItem("empleadoRol");
+
+const rol = rolNuevo || rolViejo;
+
+if(logueadoNuevo !== "true" && logueadoViejo !== "true"){
+    alert("Debes iniciar sesión como empleado.");
+    window.location.href = "login-empleado.html";
+}
+
+if(rol !== "empleado" && rol !== "admin" && rol !== "administrador"){
+    alert("No tienes permisos para entrar.");
+    window.location.href = "login-empleado.html";
+}
+
+const nombre =
+    localStorage.getItem("empleado_nombre") ||
+    localStorage.getItem("empleadoNombre") ||
+    "Empleado";
+
+const numero =
+    localStorage.getItem("empleado_numero") ||
+    localStorage.getItem("empleadoNumero") ||
+    "Sin número";
+
+const direccion =
+    localStorage.getItem("empleado_direccion") ||
+    localStorage.getItem("empleadoDireccion") ||
+    "Calle Girasoles #14, Col. Jardines, Guadalajara, Jalisco";
+
+document.getElementById("empleado-nombre-header").textContent = rol || "Empleado";
+document.getElementById("perfil-nombre-completo").textContent = nombre;
+document.getElementById("perfil-numero").textContent = numero;
+document.getElementById("perfil-direccion").textContent = direccion;
+
+document.querySelector(".btn-logout").addEventListener("click", function(e){
+    e.preventDefault();
+
+    localStorage.removeItem("empleado_logueado");
+    localStorage.removeItem("rol_empleado");
+    localStorage.removeItem("empleado_id");
+    localStorage.removeItem("empleado_numero");
+    localStorage.removeItem("empleado_nombre");
+    localStorage.removeItem("empleado_correo");
+    localStorage.removeItem("empleado_direccion");
+
+    localStorage.removeItem("empleadoLogueado");
+    localStorage.removeItem("empleadoRol");
+    localStorage.removeItem("empleadoId");
+    localStorage.removeItem("empleadoNumero");
+    localStorage.removeItem("empleadoNombre");
+    localStorage.removeItem("empleadoCorreo");
+    localStorage.removeItem("empleadoDireccion");
+
+    window.location.href = "login-empleado.html";
+});
+
+function showSection(id, el){
+    document.querySelectorAll(".section").forEach(function(section){
+        section.classList.remove("active");
+    });
+
+    document.querySelectorAll("nav a").forEach(function(link){
+        link.classList.remove("active");
+    });
+
+    document.getElementById("sec-" + id).classList.add("active");
+    el.classList.add("active");
+}
+
+function showTab(id, el){
+    ["cuidado", "adoptadas", "espera"].forEach(function(tab){
+        document.getElementById("tab-" + tab).style.display = "none";
+    });
+
+    document.querySelectorAll(".tab-btn").forEach(function(btn){
+        btn.classList.remove("active");
+    });
+
+    document.getElementById("tab-" + id).style.display = "block";
+    el.classList.add("active");
+}
+</script>
+
+</body>
+</html>

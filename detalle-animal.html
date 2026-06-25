@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Dashboard Huellitas</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f5f0;
+    color: #3b2414;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    color: #5c3317;
+    font-size: 2rem;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+nav a {
+    background: #5c3317;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+nav a:hover {
+    background: #7a4620;
+}
+
+.admin-info {
+    background: white;
+    border-left: 5px solid #c9a97a;
+    padding: 14px;
+    margin-bottom: 22px;
+    border-radius: 8px;
+}
+
+.admin-info strong {
+    color: #5c3317;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    border-left: 6px solid #c9a97a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    font-size: 1rem;
+    color: #5c3317;
+    margin-bottom: 8px;
+}
+
+.card p {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+section {
+    background: white;
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.btn {
+    background: #5c3317;
+    color: white;
+    padding: 9px 13px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #7a4620;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 0.92rem;
+}
+
+th {
+    background: #5c3317;
+    color: white;
+}
+
+.estado {
+    font-weight: bold;
+}
+
+.disponible {
+    color: #2e7d32;
+}
+
+.en_proceso {
+    color: #b26a00;
+}
+
+.adoptado {
+    color: #b71c1c;
+}
+
+.msg {
+    color: #8b6340;
+    font-style: italic;
+}
+
+@media(max-width:800px) {
+    body {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    th, td {
+        padding: 7px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🐾 Dashboard Administrador</h1>
+
+<nav>
+    <a href="dashboard-admin.html">Inicio</a>
+    <a href="mascotas-admin.html">Mascotas</a>
+    <a href="solicitudes-admin.html">Solicitudes</a>
+    <a href="adoptantes-admin.html">Adoptantes</a>
+    <a href="empleados-admin.html">Empleados</a>
+    <a href="entrevistas-admin.html">Entrevistas</a>
+    <a href="adopciones-admin.html">Adopciones</a>
+    <a href="login-empleado.html" onclick="cerrarSesion()">Cerrar sesión</a>
+</nav>
+</header>
+
+<div class="admin-info">
+    Bienvenido, <strong id="nombreAdmin">Administrador</strong>.  
+    Desde este panel puedes consultar el estado general del refugio Huellitas.
+</div>
+
+<div class="cards">
+    <div class="card">
+        <h2>Total de mascotas</h2>
+        <p id="totalMascotas">0</p>
+    </div>
+
+    <div class="card">
+        <h2>Disponibles</h2>
+        <p id="disponibles">0</p>
+    </div>
+
+    <div class="card">
+        <h2>En proceso</h2>
+        <p id="proceso">0</p>
+    </div>
+
+    <div class="card">
+        <h2>Adoptadas</h2>
+        <p id="adoptadas">0</p>
+    </div>
+
+    <div class="card">
+        <h2>Solicitudes</h2>
+        <p id="solicitudes">0</p>
+    </div>
+
+    <div class="card">
+        <h2>Entrevistas</h2>
+        <p id="entrevistas">0</p>
+    </div>
+
+    <div class="card">
+        <h2>Adoptantes</h2>
+        <p id="adoptantes">0</p>
+    </div>
+
+    <div class="card">
+        <h2>Empleados</h2>
+        <p id="empleados">0</p>
+    </div>
+</div>
+
+<section>
+    <div class="section-header">
+        <h2>Últimas solicitudes de adopción</h2>
+        <a href="solicitudes-admin.html" class="btn">Ver todas</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Adoptante</th>
+                <th>Mascota</th>
+                <th>Motivo</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+
+        <tbody id="tablaSolicitudes">
+            <tr>
+                <td colspan="5" class="msg">Cargando solicitudes...</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <div class="section-header">
+        <h2>Mascotas recientes</h2>
+        <a href="mascotas-admin.html" class="btn">Gestionar mascotas</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Edad</th>
+                <th>Sexo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+
+        <tbody id="tablaMascotas">
+            <tr>
+                <td colspan="6" class="msg">Cargando mascotas...</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<script src="static-supabase.js"></script>
+
+<script>
+const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+function protegerAdmin() {
+    const logueado = localStorage.getItem("empleado_logueado");
+    const rol = localStorage.getItem("rol_empleado");
+    const numero = localStorage.getItem("empleado_numero");
+
+    if (
+        logueado !== "true" ||
+        (
+            numero !== "EMP-0042" &&
+            rol !== "admin" &&
+            rol !== "administrador"
+        )
+    ) {
+        alert("Acceso restringido. Inicia sesión como administrador.");
+        window.location.href = "login-empleado.html";
+        return false;
+    }
+
+    return true;
+}
+
+function cargarNombreAdmin() {
+    const nombre = localStorage.getItem("empleado_nombre") || "Administrador";
+    document.getElementById("nombreAdmin").textContent = nombre;
+}
+
+function cerrarSesion() {
+    localStorage.clear();
+}
+
+async function contar(tabla, filtro = null) {
+    let consulta = supabaseClient
+        .from(tabla)
+        .select("*", { count: "exact", head: true });
+
+    if (filtro) {
+        consulta = consulta.eq(filtro.campo, filtro.valor);
+    }
+
+    const { count, error } = await consulta;
+
+    if (error) {
+        console.error("Error contando " + tabla + ":", error);
+        return 0;
+    }
+
+    return count || 0;
+}
+
+function limpiarTexto(valor) {
+    if (valor === null || valor === undefined || valor === "") {
+        return "—";
+    }
+
+    return String(valor)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function claseEstado(estado) {
+    if (!estado) return "";
+
+    return String(estado)
+        .toLowerCase()
+        .replaceAll(" ", "_");
+}
+
+async function cargarContadores() {
+    document.getElementById("totalMascotas").textContent =
+        await contar("mascotas");
+
+    document.getElementById("disponibles").textContent =
+        await contar("mascotas", { campo: "estado", valor: "disponible" });
+
+    document.getElementById("proceso").textContent =
+        await contar("mascotas", { campo: "estado", valor: "en_proceso" });
+
+    document.getElementById("adoptadas").textContent =
+        await contar("mascotas", { campo: "estado", valor: "adoptado" });
+
+    document.getElementById("solicitudes").textContent =
+        await contar("protocolos");
+
+    document.getElementById("entrevistas").textContent =
+        await contar("entrevistas");
+
+    document.getElementById("adoptantes").textContent =
+        await contar("adoptantes");
+
+    document.getElementById("empleados").textContent =
+        await contar("empleados");
+}
+
+async function cargarUltimasSolicitudes() {
+    const tbody = document.getElementById("tablaSolicitudes");
+
+    const { data, error } = await supabaseClient
+        .from("protocolos")
+        .select(`
+            id_protocolo,
+            motivo,
+            fecha_registro,
+            adoptantes(nombre_completo),
+            mascotas(nombre)
+        `)
+        .order("id_protocolo", { ascending: false })
+        .limit(5);
+
+    tbody.innerHTML = "";
+
+    if (error) {
+        console.error("Error cargando solicitudes:", error);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5">Error al cargar solicitudes.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5">No hay solicitudes registradas.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    data.forEach(function(p) {
+        tbody.innerHTML += `
+            <tr>
+                <td>${limpiarTexto(p.id_protocolo)}</td>
+                <td>${limpiarTexto(p.adoptantes?.nombre_completo)}</td>
+                <td>${limpiarTexto(p.mascotas?.nombre)}</td>
+                <td>${limpiarTexto(p.motivo)}</td>
+                <td>${limpiarTexto(p.fecha_registro)}</td>
+            </tr>
+        `;
+    });
+}
+
+async function cargarMascotasRecientes() {
+    const tbody = document.getElementById("tablaMascotas");
+
+    const { data, error } = await supabaseClient
+        .from("mascotas")
+        .select("id_mascota, nombre, tipo, edad, sexo, estado")
+        .order("id_mascota", { ascending: false })
+        .limit(5);
+
+    tbody.innerHTML = "";
+
+    if (error) {
+        console.error("Error cargando mascotas:", error);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6">Error al cargar mascotas.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6">No hay mascotas registradas.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    data.forEach(function(m) {
+        const estado = limpiarTexto(m.estado);
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${limpiarTexto(m.id_mascota)}</td>
+                <td>${limpiarTexto(m.nombre)}</td>
+                <td>${limpiarTexto(m.tipo)}</td>
+                <td>${limpiarTexto(m.edad)}</td>
+                <td>${limpiarTexto(m.sexo)}</td>
+                <td class="estado ${claseEstado(m.estado)}">${estado}</td>
+            </tr>
+        `;
+    });
+}
+
+async function iniciarDashboard() {
+    if (!protegerAdmin()) {
+        return;
+    }
+
+    cargarNombreAdmin();
+    await cargarContadores();
+    await cargarUltimasSolicitudes();
+    await cargarMascotasRecientes();
+}
+
+iniciarDashboard();
+</script>
+
+</body>
+</html>

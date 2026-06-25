@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Área de Adoptantes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f9f5f0;
+            color: #2e1f0e;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .center-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 16px;
+        }
+
+        .card {
+            background: #fff;
+            border: 2px solid #c9a97a;
+            padding: 40px 36px;
+            width: 440px;
+            max-width: 95vw;
+        }
+
+        .card h1 {
+            font-size: 1.9rem;
+            text-align: center;
+            color: #5c3317;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #8b6340;
+            margin-bottom: 28px;
+            font-style: italic;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 2px solid #c9a97a;
+            margin-bottom: 22px;
+        }
+
+        .auth-tab {
+            padding: 8px 20px;
+            border: none;
+            background: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.88rem;
+            color: #8b6340;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .auth-tab.active {
+            color: #5c3317;
+            border-bottom-color: #5c3317;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            color: #5c3317;
+            margin-bottom: 5px;
+            font-family: Arial, sans-serif;
+            letter-spacing: 0.04em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="file"] {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #c9a97a;
+            font-family: Arial, sans-serif;
+            font-size: 0.93rem;
+            color: #2e1f0e;
+            background: #fffdf9;
+            margin-bottom: 16px;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #5c3317;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.92rem;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: #5c3317;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #7a4620;
+        }
+
+        .link-btn {
+            background: none;
+            border: none;
+            color: #5c3317;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+        }
+
+        .small-footer {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 0.78rem;
+            color: #b09070;
+            font-family: Arial, sans-serif;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e0d0be;
+            margin: 18px 0;
+        }
+
+        .msg {
+            font-family: Arial, sans-serif;
+            font-size: 0.84rem;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .msg.error {
+            color: #a12626;
+        }
+
+        .msg.ok {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+
+<div class="center-wrap">
+    <div class="card">
+        <h1>🐾 Huellitas</h1>
+        <p class="tagline">Área de adoptantes</p>
+
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="showAuthTab('login', this)">Iniciar sesión</button>
+            <button class="auth-tab" onclick="showAuthTab('registro', this)">Registrarme</button>
+        </div>
+
+        <div id="mensaje" class="msg"></div>
+
+        <div id="auth-login">
+            <label>Correo electrónico</label>
+            <input type="email" id="ad-email" placeholder="correo@ejemplo.com">
+
+            <label>Contraseña</label>
+            <input type="password" id="ad-pass" placeholder="••••••••">
+
+            <button class="btn btn-primary btn-full" onclick="loginAdoptante()">Iniciar sesión</button>
+        </div>
+
+        <div id="auth-registro" style="display:none;">
+            <label>Nombre completo</label>
+            <input type="text" id="reg-nombre" placeholder="Tu nombre completo">
+
+            <label>Correo electrónico</label>
+            <input type="email" id="reg-email" placeholder="correo@ejemplo.com">
+
+            <label>Teléfono</label>
+            <input type="text" id="reg-telefono" placeholder="55 1234 5678">
+
+            <label>Dirección</label>
+            <input type="text" id="reg-dir" placeholder="Calle, número, colonia, ciudad">
+
+            <label>Foto del INE (ambos lados)</label>
+            <input type="file" id="reg-ine" accept="image/*,.pdf">
+
+            <label>Contraseña</label>
+            <input type="password" id="reg-pass" placeholder="Crea una contraseña">
+
+            <button class="btn btn-primary btn-full" onclick="registrarAdoptante()">Crear cuenta</button>
+        </div>
+
+        <hr>
+
+        <div style="text-align:center;">
+            <a href="index.html" class="link-btn">← Regresar al inicio</a>
+        </div>
+
+        <p class="small-footer">Huellitas © 2025</p>
+    </div>
+</div>
+
+<script src="static-supabase.js"></script>
+
+<script>
+const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function showAuthTab(tab, el) {
+    document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
+    el.classList.add('active');
+
+    document.getElementById('auth-login').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('auth-registro').style.display = tab === 'registro' ? 'block' : 'none';
+
+    limpiarMensaje();
+}
+
+function mostrarMensaje(texto, tipo) {
+    const msg = document.getElementById('mensaje');
+    msg.textContent = texto;
+    msg.className = 'msg ' + tipo;
+}
+
+function limpiarMensaje() {
+    const msg = document.getElementById('mensaje');
+    msg.textContent = '';
+    msg.className = 'msg';
+}
+
+async function loginAdoptante() {
+    const email = document.getElementById('ad-email').value.trim();
+    const pass = document.getElementById('ad-pass').value.trim();
+
+    if (!email || !pass) {
+        mostrarMensaje('Por favor ingresa tu correo y contraseña.', 'error');
+        return;
+    }
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: pass
+    });
+
+    if (error) {
+        mostrarMensaje('Correo o contraseña incorrectos.', 'error');
+        return;
+    }
+
+    const user = data.user;
+
+    let nombre = "usuario";
+
+    if (user.user_metadata && user.user_metadata.nombre_completo) {
+        nombre = user.user_metadata.nombre_completo.split(" ")[0];
+    }
+
+    localStorage.setItem('adoptanteNombre', nombre);
+
+    window.location.href = 'bienvenida-adoptante.html';
+}
+
+async function registrarAdoptante() {
+    const nombre = document.getElementById('reg-nombre').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const telefono = document.getElementById('reg-telefono').value.trim();
+    const direccion = document.getElementById('reg-dir').value.trim();
+    const ine = document.getElementById('reg-ine').files[0];
+    const pass = document.getElementById('reg-pass').value.trim();
+
+    if (!nombre || !email || !telefono || !direccion || !pass) {
+        mostrarMensaje('Por favor completa todos los campos.', 'error');
+        return;
+    }
+
+    if (!ine) {
+        mostrarMensaje('Por favor adjunta la foto de tu INE.', 'error');
+        return;
+    }
+
+    const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: pass,
+        options: {
+            data: {
+                nombre_completo: nombre,
+                telefono: telefono,
+                direccion: direccion
+            }
+        }
+    });
+
+    if (error) {
+        mostrarMensaje('Error al registrarse: ' + error.message, 'error');
+        return;
+    }
+
+    const { error: insertError } = await supabaseClient
+        .from("adoptantes")
+        .insert([
+            {
+                nombre_completo: nombre,
+                correo: email,
+                telefono: telefono,
+                direccion: direccion
+            }
+        ]);
+
+    if (insertError) {
+        console.error(insertError);
+        mostrarMensaje("Se creó en Auth, pero no se guardó en adoptantes.", "error");
+        return;
+    }
+
+    const fileName = `${Date.now()}_${ine.name}`;
+
+    const { error: uploadError } = await supabaseClient.storage
+        .from('documentos')
+        .upload(fileName, ine);
+
+    if (uploadError) {
+        console.log("Error subiendo INE:", uploadError);
+    }
+
+    mostrarMensaje('Registro exitoso. Ya puedes iniciar sesión.', 'ok');
+
+    setTimeout(() => {
+        showAuthTab('login', document.querySelectorAll('.auth-tab')[0]);
+    }, 1500);
+}
+
+document.getElementById('ad-pass').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') loginAdoptante();
+});
+
+document.getElementById('reg-pass').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') registrarAdoptante();
+});
+</script>
+
+</body>
+</html>

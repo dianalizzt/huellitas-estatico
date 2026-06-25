@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Bienvenida</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f9f5f0;
+            color: #2e1f0e;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .adoptante-header {
+            background: #5c3317;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: #f9f5f0;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid #8b6340;
+            color: #d4b896;
+            padding: 5px 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .adoptante-main {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 36px 28px;
+        }
+
+        .welcome-box {
+            background: #fff;
+            border: 2px solid #c9a97a;
+            padding: 32px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .welcome-box h3 {
+            font-size: 1.25rem;
+            color: #5c3317;
+            margin-bottom: 12px;
+        }
+
+        .welcome-box p {
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            color: #4a3020;
+            line-height: 1.65;
+        }
+
+        .protocol-link {
+            background: none;
+            border: none;
+            color: #5c3317;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            padding: 0;
+        }
+
+        .actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.92rem;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #5c3317;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #7a4620;
+        }
+
+        .btn-secondary {
+            background: #e8d8c4;
+            color: #5c3317;
+        }
+
+        .btn-secondary:hover {
+            background: #dcc5aa;
+        }
+
+        @media (max-width: 768px) {
+            .adoptante-header {
+                padding: 14px 18px;
+            }
+
+            .adoptante-main {
+                padding: 24px 16px;
+            }
+
+            .welcome-box {
+                padding: 24px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="adoptante-header">
+        <span class="brand">🐾 Huellitas</span>
+
+        <div class="header-right">
+            <a href="#" class="btn-logout" id="logout-btn">Cerrar sesión</a>
+        </div>
+    </div>
+
+    <div class="adoptante-main">
+        <div class="welcome-box">
+            <h3>¡Hola, <span id="welcome-nombre">adoptante</span>! 🐾</h3>
+
+            <p>
+                Estás iniciando sesión para poder adoptar un gatito o perrito.
+                <br><br>
+                Recuerda que cuando vayas a adoptar se te pedirá que sigas un
+                <strong>protocolo de adopción</strong>.
+                <br><br>
+                Dale clic aquí para ver cuál es el protocolo de adopción:
+                <button class="protocol-link" onclick="window.location.href='protocolo-adopcion.html'">📋 Protocolo de adopción</button>
+            </p>
+
+            <div class="actions">
+                <a href="galeria.html" class="btn btn-primary">Ver animales disponibles</a>
+                <a href="index.html" class="btn btn-secondary">Ir al inicio</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="static-supabase.js"></script>
+    <script>
+        const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+        const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function cargarUsuario() {
+            const { data, error } = await supabaseClient.auth.getUser();
+
+            if (error || !data.user) {
+                window.location.href = "registro-adoptante.html";
+                return;
+            }
+
+            const user = data.user;
+            let nombreMostrar = "adoptante";
+
+            if (user.user_metadata && user.user_metadata.nombre_completo) {
+                nombreMostrar = user.user_metadata.nombre_completo.split(" ")[0];
+            } else if (user.email) {
+                nombreMostrar = user.email.split("@")[0];
+            }
+
+            document.getElementById("welcome-nombre").textContent = nombreMostrar;
+        }
+
+        async function cerrarSesion(event) {
+            event.preventDefault();
+
+            const { error } = await supabaseClient.auth.signOut();
+
+            if (error) {
+                alert("No se pudo cerrar sesión.");
+                return;
+            }
+
+            window.location.href = "registro-adoptante.html";
+        }
+
+        document.getElementById("logout-btn").addEventListener("click", cerrarSesion);
+
+        cargarUsuario();
+    </script>
+
+</body>
+</html>

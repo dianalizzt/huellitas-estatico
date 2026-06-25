@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Gestión de Mascotas</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f9f5f0;color:#3b2414;padding:20px;}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+h1{color:#5c3317;}
+nav a,.btn{background:#5c3317;color:white;padding:9px 13px;border-radius:6px;text-decoration:none;margin:4px;display:inline-block;border:none;cursor:pointer;}
+nav a:hover,.btn:hover{background:#7a4620;}
+.formulario{background:white;padding:20px;border-radius:10px;margin-bottom:20px;}
+input,select,textarea{width:100%;padding:9px;margin:7px 0 14px;border:1px solid #c9a97a;}
+table{width:100%;border-collapse:collapse;background:white;}
+th,td{border:1px solid #ddd;padding:10px;text-align:left;}
+th{background:#5c3317;color:white;}
+.editar{background:#2e7d32;color:white;}
+.eliminar{background:#b71c1c;color:white;}
+button{padding:7px 10px;border:none;border-radius:5px;cursor:pointer;margin:2px;}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🐾 Gestión de Mascotas</h1>
+    <nav>
+        <a href="admin-dashboard.html">Inicio</a>
+        <a href="admin-mascotas.html">Mascotas</a>
+        <a href="admin-solicitudes.html">Solicitudes</a>
+        <a href="admin-adoptantes.html">Adoptantes</a>
+        <a href="admin-empleados.html">Empleados</a>
+    </nav>
+</header>
+
+<div class="formulario">
+    <h2>Alta de mascota</h2>
+
+    <label>Nombre</label>
+    <input type="text" id="nombre">
+
+    <label>Tipo</label>
+    <select id="tipo">
+        <option>Perro</option>
+        <option>Gato</option>
+    </select>
+
+    <label>Edad</label>
+    <input type="text" id="edad">
+
+    <label>Sexo</label>
+    <select id="sexo">
+        <option>Macho</option>
+        <option>Hembra</option>
+    </select>
+
+    <label>Raza</label>
+    <input type="text" id="raza">
+
+    <label>Descripción</label>
+    <textarea id="descripcion"></textarea>
+
+    <button class="btn" onclick="agregarMascota()">Agregar mascota</button>
+</div>
+
+<table>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Tipo</th>
+    <th>Edad</th>
+    <th>Sexo</th>
+    <th>Raza</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+</tr>
+</thead>
+<tbody id="tablaMascotas"></tbody>
+</table>
+
+<script>
+let mascotas = [
+    {id:1,nombre:"Canela",tipo:"Gato",edad:"7 meses",sexo:"Hembra",raza:"Mestiza",estado:"disponible"},
+    {id:2,nombre:"Rocky",tipo:"Perro",edad:"2 años",sexo:"Macho",raza:"Labrador mix",estado:"disponible"},
+    {id:3,nombre:"Sombra",tipo:"Gato",edad:"4 años",sexo:"Macho",raza:"Mestizo",estado:"en_proceso"}
+];
+
+function cargarMascotas(){
+    const tabla = document.getElementById("tablaMascotas");
+    tabla.innerHTML = "";
+
+    mascotas.forEach(m => {
+        tabla.innerHTML += `
+            <tr>
+                <td>${m.id}</td>
+                <td>${m.nombre}</td>
+                <td>${m.tipo}</td>
+                <td>${m.edad}</td>
+                <td>${m.sexo}</td>
+                <td>${m.raza}</td>
+                <td>${m.estado}</td>
+                <td>
+                    <button class="editar" onclick="editarMascota(${m.id})">Editar</button>
+                    <button class="eliminar" onclick="eliminarMascota(${m.id})">Eliminar</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function agregarMascota(){
+    const nueva = {
+        id: mascotas.length + 1,
+        nombre: document.getElementById("nombre").value,
+        tipo: document.getElementById("tipo").value,
+        edad: document.getElementById("edad").value,
+        sexo: document.getElementById("sexo").value,
+        raza: document.getElementById("raza").value,
+        estado: "disponible"
+    };
+
+    if(!nueva.nombre || !nueva.edad || !nueva.raza){
+        alert("Completa los datos principales.");
+        return;
+    }
+
+    mascotas.push(nueva);
+    cargarMascotas();
+    alert("Mascota agregada correctamente.");
+}
+
+function editarMascota(id){
+    alert("Aquí se editaría la mascota con ID: " + id);
+}
+
+function eliminarMascota(id){
+    if(confirm("¿Eliminar mascota?")){
+        mascotas = mascotas.filter(m => m.id !== id);
+        cargarMascotas();
+    }
+}
+
+cargarMascotas();
+</script>
+
+</body>
+</html>

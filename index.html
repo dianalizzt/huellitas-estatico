@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Galería de adopción</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f9f5f0;
+            color: #2e1f0e;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .adoptante-header {
+            background: #5c3317;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: #f9f5f0;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .header-user-label {
+            color: #d4b896;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid #8b6340;
+            color: #d4b896;
+            padding: 5px 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .adoptante-main {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 36px 28px;
+        }
+
+        h2 {
+            font-size: 1.45rem;
+            color: #5c3317;
+            border-bottom: 2px solid #c9a97a;
+            padding-bottom: 8px;
+            margin-bottom: 6px;
+        }
+
+        .sec-desc {
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            color: #8b6340;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .animal-card {
+            background: #fff;
+            border: 2px solid #c9a97a;
+            text-align: center;
+            padding: 24px 16px 18px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .animal-emoji {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .animal-name {
+            font-size: 1.05rem;
+            color: #5c3317;
+            font-weight: bold;
+        }
+
+        .animal-meta {
+            font-size: 0.8rem;
+            color: #8b6340;
+            font-family: Arial, sans-serif;
+            margin-top: 4px;
+        }
+
+        .animal-status {
+            margin-top: 10px;
+            margin-bottom: 14px;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 2px 9px;
+            border: 1px solid;
+            font-family: Arial, sans-serif;
+            display: inline-block;
+        }
+
+        .badge-waiting {
+            border-color: #d4892a;
+            color: #7a4a00;
+            background: #fdf3e3;
+        }
+
+        .badge-adopted {
+            border-color: #5aaa6e;
+            color: #1e6630;
+            background: #edf7f0;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.88rem;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #5c3317;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #7a4620;
+        }
+
+        .btn-secondary {
+            background: #e8d8c4;
+            color: #5c3317;
+        }
+
+        .btn-secondary:hover {
+            background: #dcc5aa;
+        }
+
+        .top-actions {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .msg {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 30px;
+            color: #8b6340;
+        }
+
+        .loading {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: #8b6340;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .adoptante-header {
+                padding: 14px 18px;
+            }
+
+            .adoptante-main {
+                padding: 24px 16px;
+            }
+
+            .animals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="adoptante-header">
+        <span class="brand">🐾 Huellitas</span>
+
+        <div class="header-right">
+            <span class="header-user-label" id="galeria-user-label">Hola</span>
+            <a href="index.html" class="btn-logout" id="logout-btn">Salir</a>
+        </div>
+    </div>
+
+    <div class="adoptante-main">
+        <div class="top-actions">
+            <a href="bienvenida-adoptante.html" class="btn btn-secondary">← Regresar</a>
+        </div>
+
+        <h2>Animales en adopción</h2>
+        <p class="sec-desc">Haz clic en cualquier animalito para conocer más sobre él.</p>
+
+        <div id="loading" class="loading">Cargando mascotas...</div>
+        <div class="animals-grid" id="animals-grid"></div>
+        <div id="mensaje" class="msg"></div>
+    </div>
+
+    <script src="static-supabase.js"></script>
+    <script>
+        const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+        const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function obtenerEmoji(tipo) {
+            if (!tipo) return "🐾";
+
+            const t = tipo.toLowerCase();
+
+            if (t.includes("gato") || t.includes("gata")) return "🐱";
+            if (t.includes("perro") || t.includes("perra")) return "🐶";
+
+            return "🐾";
+        }
+
+        function obtenerBadge(estado) {
+            if (!estado) {
+                return '<span class="badge badge-waiting">Disponible para adopción</span>';
+            }
+
+            const e = estado.toLowerCase();
+
+            if (e === "adoptado" || e === "adoptada") {
+                return '<span class="badge badge-adopted">Adoptado</span>';
+            }
+
+            return '<span class="badge badge-waiting">Disponible para adopción</span>';
+        }
+
+        async function cargarUsuario() {
+            const { data } = await supabaseClient.auth.getUser();
+
+            if (data && data.user) {
+                let nombre = "visitante";
+
+                if (data.user.user_metadata && data.user.user_metadata.nombre_completo) {
+                    nombre = data.user.user_metadata.nombre_completo.split(" ")[0];
+                } else if (data.user.email) {
+                    nombre = data.user.email.split("@")[0];
+                }
+
+                document.getElementById("galeria-user-label").textContent = "Hola, " + nombre;
+            } else {
+                document.getElementById("galeria-user-label").textContent = "Hola, visitante";
+            }
+        }
+
+        async function cargarMascotas() {
+            const loading = document.getElementById("loading");
+            const grid = document.getElementById("animals-grid");
+            const mensaje = document.getElementById("mensaje");
+
+            const { data, error } = await supabaseClient
+                .from("mascotas")
+                .select("id_mascota, nombre, tipo, edad, sexo, estado")
+                .order("id_mascota", { ascending: true });
+
+            loading.style.display = "none";
+
+            if (error) {
+                console.error(error);
+                mensaje.textContent = "Ocurrió un error al cargar las mascotas.";
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                mensaje.textContent = "No hay mascotas disponibles en este momento.";
+                return;
+            }
+
+            grid.innerHTML = "";
+
+            data.forEach(mascota => {
+                const card = document.createElement("div");
+                card.className = "animal-card";
+
+                const emoji = obtenerEmoji(mascota.tipo);
+                const badge = obtenerBadge(mascota.estado);
+
+                card.innerHTML = `
+                    <span class="animal-emoji">${emoji}</span>
+                    <div class="animal-name">${mascota.nombre || "Sin nombre"}</div>
+                    <div class="animal-meta">
+                        ${mascota.tipo || "Animal"} · ${mascota.edad || "Edad no disponible"} · ${mascota.sexo || "Sexo no disponible"}
+                    </div>
+                    <div class="animal-status">
+                        ${badge}
+                    </div>
+                    <a href="detalle-animal.html?id=${mascota.id_mascota}" class="btn btn-primary">Ver detalle</a>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        async function cerrarSesion(event) {
+            event.preventDefault();
+            await supabaseClient.auth.signOut();
+            window.location.href = "index.html";
+        }
+
+        document.getElementById("logout-btn").addEventListener("click", cerrarSesion);
+
+        cargarUsuario();
+        cargarMascotas();
+    </script>
+
+</body>
+</html>

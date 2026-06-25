@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Solicitudes Huellitas</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f5f0;
+    color: #3b2414;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    color: #5c3317;
+    font-size: 2rem;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+nav a {
+    background: #5c3317;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background: #7a4620;
+}
+
+.controls {
+    background: white;
+    padding: 15px;
+    border-left: 5px solid #c9a97a;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+input, select {
+    padding: 9px;
+    border: 1px solid #c9a97a;
+    border-radius: 5px;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 2px;
+}
+
+.btn-ver {
+    background: #c9a97a;
+    color: #3b2414;
+}
+
+.btn-aprobar {
+    background: #2e7d32;
+    color: white;
+}
+
+.btn-rechazar {
+    background: #b71c1c;
+    color: white;
+}
+
+.btn-entrevista {
+    background: #1976d2;
+    color: white;
+}
+
+.btn-refresh {
+    background: #5c3317;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 0.9rem;
+    vertical-align: top;
+}
+
+th {
+    background: #5c3317;
+    color: white;
+}
+
+.mensaje {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.ok {
+    color: #2e7d32;
+}
+
+.error {
+    color: #b71c1c;
+}
+
+.pendiente {
+    color: #b26a00;
+    font-weight: bold;
+}
+
+.aprobada {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.rechazada {
+    color: #b71c1c;
+    font-weight: bold;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 25px;
+    border-radius: 10px;
+    border: 3px solid #c9a97a;
+}
+
+.close {
+    float: right;
+    font-size: 26px;
+    cursor: pointer;
+    color: #5c3317;
+}
+
+.info-box {
+    background: #f9f5f0;
+    padding: 12px;
+    margin: 10px 0;
+    border-left: 4px solid #5c3317;
+}
+
+@media(max-width:900px) {
+    body {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.78rem;
+    }
+
+    th, td {
+        padding: 7px;
+    }
+
+    .controls input,
+    .controls select {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📋 Solicitudes de adopción</h1>
+
+ <nav>
+    <a href="dashboard-admin.html">Inicio</a>
+    <a href="mascotas-admin.html">Mascotas</a>
+    <a href="solicitudes-admin.html">Solicitudes</a>
+    <a href="adoptantes-admin.html">Adoptantes</a>
+    <a href="empleados-admin.html">Empleados</a>
+    <a href="entrevistas-admin.html">Entrevistas</a>
+    <a href="adopciones-admin.html">Adopciones</a>
+    <a href="login-empleado.html" onclick="cerrarSesion()">Cerrar sesión</a>
+</nav>
+</header>
+
+<div id="mensaje" class="mensaje"></div>
+
+<section class="controls">
+    <input type="text" id="buscar" placeholder="Buscar adoptante, correo o mascota" onkeyup="filtrarSolicitudes()">
+
+    <select id="filtroEstadoMascota" onchange="filtrarSolicitudes()">
+        <option value="todos">Todos los estados de mascota</option>
+        <option value="disponible">Disponible</option>
+        <option value="en_proceso">En proceso</option>
+        <option value="adoptado">Adoptado</option>
+    </select>
+
+    <button class="btn-refresh" onclick="cargarSolicitudes()">Actualizar</button>
+</section>
+
+<table>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Adoptante</th>
+    <th>Correo</th>
+    <th>Mascota</th>
+    <th>Motivo</th>
+    <th>Animales en casa</th>
+    <th>Seguimiento</th>
+    <th>Estado mascota</th>
+    <th>Fecha</th>
+    <th>Acciones</th>
+</tr>
+</thead>
+
+<tbody id="tablaSolicitudes">
+<tr>
+    <td colspan="10">Cargando solicitudes...</td>
+</tr>
+</tbody>
+</table>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2 id="modalTitulo"></h2>
+        <div id="modalContenido"></div>
+    </div>
+</div>
+
+<script src="static-supabase.js"></script>
+
+<script>
+const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+let solicitudesGlobal = [];
+
+function protegerAdmin() {
+    const logueado = localStorage.getItem("empleado_logueado");
+    const rol = localStorage.getItem("rol_empleado");
+    const numero = localStorage.getItem("empleado_numero");
+
+    if (
+        logueado !== "true" ||
+        (
+            numero !== "EMP-0042" &&
+            rol !== "admin" &&
+            rol !== "administrador"
+        )
+    ) {
+        alert("Acceso restringido. Inicia sesión como administrador.");
+        window.location.href = "login-empleado.html";
+        return false;
+    }
+
+    return true;
+}
+
+function cerrarSesion() {
+    localStorage.clear();
+}
+
+function mostrarMensaje(texto, tipo) {
+    const msg = document.getElementById("mensaje");
+    msg.textContent = texto;
+    msg.className = "mensaje " + tipo;
+
+    setTimeout(function() {
+        msg.textContent = "";
+        msg.className = "mensaje";
+    }, 3500);
+}
+
+function limpiarTexto(valor) {
+    if (valor === null || valor === undefined || valor === "") {
+        return "—";
+    }
+
+    return String(valor)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function abrirModal(titulo, contenido) {
+    document.getElementById("modalTitulo").innerHTML = titulo;
+    document.getElementById("modalContenido").innerHTML = contenido;
+    document.getElementById("modal").style.display = "block";
+}
+
+function cerrarModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+async function cargarSolicitudes() {
+    const tbody = document.getElementById("tablaSolicitudes");
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="10">Cargando solicitudes...</td>
+        </tr>
+    `;
+
+    const { data, error } = await supabaseClient
+        .from("protocolos")
+        .select(`
+            id_protocolo,
+            id_adoptante,
+            id_mascota,
+            animales_actuales,
+            motivo,
+            seguimiento,
+            fecha_registro,
+            adoptantes (
+                id_adoptante,
+                nombre_completo,
+                correo,
+                telefono,
+                direccion
+            ),
+            mascotas (
+                id_mascota,
+                nombre,
+                tipo,
+                edad,
+                sexo,
+                raza,
+                estado
+            )
+        `)
+        .order("id_protocolo", { ascending: false });
+
+    if (error) {
+        console.error("Error cargando solicitudes:", error);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10">Error al cargar solicitudes.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    solicitudesGlobal = data || [];
+    renderSolicitudes(solicitudesGlobal);
+}
+
+function renderSolicitudes(lista) {
+    const tbody = document.getElementById("tablaSolicitudes");
+    tbody.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10">No hay solicitudes registradas.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    lista.forEach(function(s) {
+        const adoptante = s.adoptantes || {};
+        const mascota = s.mascotas || {};
+        const estadoMascota = mascota.estado || "sin estado";
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${limpiarTexto(s.id_protocolo)}</td>
+                <td>${limpiarTexto(adoptante.nombre_completo)}</td>
+                <td>${limpiarTexto(adoptante.correo)}</td>
+                <td>${limpiarTexto(mascota.nombre)}</td>
+                <td>${limpiarTexto(s.motivo)}</td>
+                <td>${limpiarTexto(s.animales_actuales)}</td>
+                <td>${s.seguimiento ? "Sí" : "No"}</td>
+                <td class="${limpiarTexto(estadoMascota)}">${limpiarTexto(estadoMascota)}</td>
+                <td>${limpiarTexto(s.fecha_registro)}</td>
+                <td>
+                    <button class="btn-ver" onclick="verDetalle(${s.id_protocolo})">Ver</button>
+                    <button class="btn-entrevista" onclick="agendarEntrevista(${s.id_protocolo})">Entrevista</button>
+                    <button class="btn-aprobar" onclick="aprobarSolicitud(${s.id_protocolo})">Aprobar</button>
+                    <button class="btn-rechazar" onclick="rechazarSolicitud(${s.id_protocolo})">Rechazar</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function filtrarSolicitudes() {
+    const texto = document.getElementById("buscar").value.toLowerCase();
+    const estado = document.getElementById("filtroEstadoMascota").value;
+
+    const filtradas = solicitudesGlobal.filter(function(s) {
+        const adoptante = s.adoptantes || {};
+        const mascota = s.mascotas || {};
+
+        const coincideTexto =
+            String(adoptante.nombre_completo || "").toLowerCase().includes(texto) ||
+            String(adoptante.correo || "").toLowerCase().includes(texto) ||
+            String(mascota.nombre || "").toLowerCase().includes(texto);
+
+        const coincideEstado =
+            estado === "todos" || mascota.estado === estado;
+
+        return coincideTexto && coincideEstado;
+    });
+
+    renderSolicitudes(filtradas);
+}
+
+function obtenerSolicitud(id) {
+    return solicitudesGlobal.find(function(s) {
+        return Number(s.id_protocolo) === Number(id);
+    });
+}
+
+function verDetalle(id) {
+    const s = obtenerSolicitud(id);
+
+    if (!s) {
+        mostrarMensaje("No se encontró la solicitud.", "error");
+        return;
+    }
+
+    const adoptante = s.adoptantes || {};
+    const mascota = s.mascotas || {};
+
+    abrirModal("Detalle de solicitud", `
+        <div class="info-box"><strong>ID protocolo:</strong> ${limpiarTexto(s.id_protocolo)}</div>
+        <div class="info-box"><strong>Adoptante:</strong> ${limpiarTexto(adoptante.nombre_completo)}</div>
+        <div class="info-box"><strong>Correo:</strong> ${limpiarTexto(adoptante.correo)}</div>
+        <div class="info-box"><strong>Teléfono:</strong> ${limpiarTexto(adoptante.telefono)}</div>
+        <div class="info-box"><strong>Dirección:</strong> ${limpiarTexto(adoptante.direccion)}</div>
+        <div class="info-box"><strong>Mascota:</strong> ${limpiarTexto(mascota.nombre)}</div>
+        <div class="info-box"><strong>Tipo:</strong> ${limpiarTexto(mascota.tipo)}</div>
+        <div class="info-box"><strong>Edad:</strong> ${limpiarTexto(mascota.edad)}</div>
+        <div class="info-box"><strong>Sexo:</strong> ${limpiarTexto(mascota.sexo)}</div>
+        <div class="info-box"><strong>Raza:</strong> ${limpiarTexto(mascota.raza)}</div>
+        <div class="info-box"><strong>Estado mascota:</strong> ${limpiarTexto(mascota.estado)}</div>
+        <div class="info-box"><strong>Animales actuales:</strong> ${limpiarTexto(s.animales_actuales)}</div>
+        <div class="info-box"><strong>Acepta seguimiento:</strong> ${s.seguimiento ? "Sí" : "No"}</div>
+        <div class="info-box"><strong>Motivo:</strong> ${limpiarTexto(s.motivo)}</div>
+        <div class="info-box"><strong>Fecha:</strong> ${limpiarTexto(s.fecha_registro)}</div>
+    `);
+}
+
+async function aprobarSolicitud(id) {
+    const s = obtenerSolicitud(id);
+
+    if (!s) {
+        mostrarMensaje("No se encontró la solicitud.", "error");
+        return;
+    }
+
+    if (!confirm("¿Seguro que quieres aprobar esta solicitud?")) {
+        return;
+    }
+
+    const idAdoptante = s.id_adoptante;
+    const idMascota = s.id_mascota;
+
+    const { error: errorMascota } = await supabaseClient
+        .from("mascotas")
+        .update({ estado: "en_proceso" })
+        .eq("id_mascota", idMascota);
+
+    if (errorMascota) {
+        console.error("Error actualizando mascota:", errorMascota);
+        mostrarMensaje("No se pudo actualizar el estado de la mascota.", "error");
+        return;
+    }
+
+    const { error: errorAdopcion } = await supabaseClient
+        .from("adopciones")
+        .insert([{
+            id_adoptante: idAdoptante,
+            id_mascota: idMascota,
+            estado: "pendiente",
+            fecha_adopcion: new Date().toISOString().split("T")[0]
+        }]);
+
+    if (errorAdopcion) {
+        console.error("Error creando adopción:", errorAdopcion);
+        mostrarMensaje("La mascota pasó a en proceso, pero no se pudo crear la adopción.", "error");
+        return;
+    }
+
+    mostrarMensaje("Solicitud aprobada. La mascota pasó a en_proceso y se creó adopción pendiente.", "ok");
+    cargarSolicitudes();
+}
+
+async function rechazarSolicitud(id) {
+    const s = obtenerSolicitud(id);
+
+    if (!s) {
+        mostrarMensaje("No se encontró la solicitud.", "error");
+        return;
+    }
+
+    if (!confirm("¿Seguro que quieres rechazar esta solicitud?")) {
+        return;
+    }
+
+    const idAdoptante = s.id_adoptante;
+    const idMascota = s.id_mascota;
+
+    const { error: errorMascota } = await supabaseClient
+        .from("mascotas")
+        .update({ estado: "disponible" })
+        .eq("id_mascota", idMascota);
+
+    if (errorMascota) {
+        console.error("Error actualizando mascota:", errorMascota);
+        mostrarMensaje("No se pudo actualizar la mascota.", "error");
+        return;
+    }
+
+    const { error: errorAdopcion } = await supabaseClient
+        .from("adopciones")
+        .insert([{
+            id_adoptante: idAdoptante,
+            id_mascota: idMascota,
+            estado: "rechazada",
+            fecha_adopcion: new Date().toISOString().split("T")[0]
+        }]);
+
+    if (errorAdopcion) {
+        console.error("Error registrando rechazo:", errorAdopcion);
+        mostrarMensaje("La mascota volvió a disponible, pero no se pudo registrar el rechazo.", "error");
+        return;
+    }
+
+    mostrarMensaje("Solicitud rechazada correctamente.", "ok");
+    cargarSolicitudes();
+}
+
+async function agendarEntrevista(id) {
+    const s = obtenerSolicitud(id);
+
+    if (!s) {
+        mostrarMensaje("No se encontró la solicitud.", "error");
+        return;
+    }
+
+    const fecha = prompt("Fecha de entrevista. Formato: AAAA-MM-DD");
+    if (!fecha) return;
+
+    const hora = prompt("Hora de entrevista. Formato: HH:MM");
+    if (!hora) return;
+
+    const { error } = await supabaseClient
+        .from("entrevistas")
+        .insert([{
+            id_adoptante: s.id_adoptante,
+            id_mascota: s.id_mascota,
+            fecha: fecha,
+            hora: hora,
+            estado: "pendiente"
+        }]);
+
+    if (error) {
+        console.error("Error agendando entrevista:", error);
+        mostrarMensaje("No se pudo agendar la entrevista.", "error");
+        return;
+    }
+
+    const { error: errorMascota } = await supabaseClient
+        .from("mascotas")
+        .update({ estado: "en_proceso" })
+        .eq("id_mascota", s.id_mascota);
+
+    if (errorMascota) {
+        console.error("Error actualizando mascota:", errorMascota);
+    }
+
+    mostrarMensaje("Entrevista agendada correctamente.", "ok");
+    cargarSolicitudes();
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById("modal");
+    if (event.target === modal) {
+        cerrarModal();
+    }
+};
+
+if (protegerAdmin()) {
+    cargarSolicitudes();
+}
+</script>
+
+</body>
+</html>
