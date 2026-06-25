@@ -170,6 +170,31 @@
             font-family: Arial, sans-serif;
         }
 
+
+        .img-fallback {
+            width: 100%;
+            max-width: 460px;
+            height: 330px;
+            border-radius: 18px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+            background: #ead8c6;
+            color: #5c3317;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            font-size: 1.1rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .img-fallback .emoji {
+            font-size: 4.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 14px 18px;
@@ -258,7 +283,11 @@
         </div>
 
         <div class="landing-img">
-            <img src="perrogato.jpg" alt="Perro y gato">
+            <img src="perrogato.jpg" alt="Perro y gato" onerror="this.style.display='none';document.getElementById('img-fallback').style.display='flex';">
+            <div class="img-fallback" id="img-fallback">
+                <span class="emoji">🐶🐱</span>
+                <span>Refugio Huellitas</span>
+            </div>
         </div>
 
     </section>

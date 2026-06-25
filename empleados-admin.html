@@ -1,945 +1,666 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Huellitas – Donaciones</title>
+<title>Admin - Empleados Huellitas</title>
 
 <style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-body{
-  background:#f8f4ef;
-  font-family:Arial,sans-serif;
-  color:#3b2414;
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f5f0;
+    color: #3b2414;
+    padding: 20px;
 }
 
-/* ───────── HEADER ───────── */
-
-header{
-  background:#5c3317;
-  color:white;
-  padding:20px 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
 }
 
-.brand{
-  font-size:1.5rem;
-  font-weight:bold;
+h1 {
+    color: #5c3317;
+    font-size: 2rem;
 }
 
-.header-right{
-  font-size:0.95rem;
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-/* ───────── MAIN ───────── */
-
-main{
-  max-width:1150px;
-  margin:auto;
-  padding:35px 20px;
+nav a {
+    background: #5c3317;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
 }
 
-/* ───────── MENSAJE ───────── */
-
-.motivador{
-  background:white;
-  border-radius:22px;
-  padding:30px;
-  box-shadow:0 8px 22px rgba(0,0,0,0.08);
-  margin-bottom:28px;
-  line-height:1.8;
+nav a:hover {
+    background: #7a4620;
 }
 
-.motivador strong{
-  font-size:1.3rem;
-  color:#5c3317;
+.formulario {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #c9a97a;
+    margin-bottom: 20px;
 }
 
-/* ───────── CONTACTO ───────── */
-
-.contacto-bar{
-  background:#ead8c6;
-  padding:18px;
-  border-radius:18px;
-  display:flex;
-  gap:25px;
-  flex-wrap:wrap;
-  margin-bottom:35px;
-  font-size:0.95rem;
+.formulario h2 {
+    color: #5c3317;
+    margin-bottom: 15px;
 }
 
-/* ───────── TITULOS ───────── */
-
-h2{
-  margin-bottom:10px;
-  color:#5c3317;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
 }
 
-.sec-desc{
-  margin-bottom:30px;
-  color:#8b6340;
+label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #5c3317;
 }
 
-/* ───────── SECCIONES ───────── */
-
-.don-seccion{
-  margin-bottom:40px;
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 9px;
+    margin-top: 6px;
+    border: 1px solid #c9a97a;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
 }
 
-.don-seccion h3{
-  margin-bottom:18px;
-  color:#5c3317;
-  border-left:5px solid #c9a97a;
-  padding-left:12px;
+textarea {
+    resize: vertical;
+    min-height: 70px;
 }
 
-/* ───────── GRID ───────── */
-
-.don-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:18px;
+.actions,
+.controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-/* ───────── CARDS ───────── */
-
-.don-item{
-  background:white;
-  padding:22px;
-  border-radius:20px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
-  transition:0.3s;
+.controls {
+    background: white;
+    padding: 15px;
+    border-left: 5px solid #c9a97a;
+    margin-bottom: 20px;
 }
 
-.don-item:hover{
-  transform:translateY(-4px);
+.controls input,
+.controls select {
+    width: auto;
+    min-width: 230px;
+    margin-top: 0;
 }
 
-.don-nombre{
-  display:block;
-  font-weight:bold;
-  margin-bottom:12px;
-  color:#5c3317;
-  font-size:1rem;
+button,
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
 }
 
-.don-check{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-top:10px;
+.btn-primary {
+    background: #5c3317;
+    color: white;
 }
 
-input[type="checkbox"]{
-  transform:scale(1.2);
-  accent-color:#5c3317;
+.btn-primary:hover {
+    background: #7a4620;
 }
 
-/* ───────── TABLA ───────── */
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  overflow:hidden;
-  border-radius:20px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+.btn-secondary {
+    background: #e8d8c4;
+    color: #5c3317;
 }
 
-table th{
-  background:#5c3317;
-  color:white;
-  padding:15px;
-  text-align:left;
+.btn-edit {
+    background: #c9a97a;
+    color: #3b2414;
 }
 
-table td{
-  background:white;
-  padding:15px;
-  border-bottom:1px solid #eee;
+.btn-delete {
+    background: #b71c1c;
+    color: white;
 }
 
-table tr:hover td{
-  background:#fdf8f2;
+.btn-admin {
+    background: #1976d2;
+    color: white;
 }
 
-/* ───────── BADGES ───────── */
-
-.badge{
-  padding:5px 10px;
-  border-radius:12px;
-  font-size:0.8rem;
-  font-weight:bold;
+.btn-employee {
+    background: #2e7d32;
+    color: white;
 }
 
-.badge-pend{
-  background:#ffe9c7;
-  color:#8b5a00;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
 }
 
-.badge-ok{
-  background:#dff5e4;
-  color:#1f6d37;
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 0.9rem;
+    vertical-align: top;
 }
 
-/* ───────── RESUMEN ───────── */
-
-.resumen-box{
-  background:white;
-  border-radius:22px;
-  padding:30px;
-  margin-top:35px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+th {
+    background: #5c3317;
+    color: white;
 }
 
-.resumen-box h4{
-  margin-bottom:18px;
-  color:#5c3317;
-  font-size:1.2rem;
+.rol-admin {
+    color: #1976d2;
+    font-weight: bold;
 }
 
-#resumen-lista{
-  margin-bottom:20px;
-  line-height:1.8;
+.rol-empleado {
+    color: #2e7d32;
+    font-weight: bold;
 }
 
-/* ───────── BOTONES ───────── */
-
-.btn{
-  border:none;
-  padding:13px 24px;
-  border-radius:14px;
-  cursor:pointer;
-  font-weight:bold;
-  transition:0.3s;
+.mensaje {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
 }
 
-.btn-green{
-  background:#2e7d32;
-  color:white;
+.ok {
+    color: #2e7d32;
 }
 
-.btn-green:hover{
-  background:#256628;
-  transform:translateY(-2px);
+.error {
+    color: #b71c1c;
 }
 
-.btn-secondary{
-  background:#ead8c6;
-  color:#5c3317;
+.aviso {
+    background: white;
+    border-left: 5px solid #c9a97a;
+    padding: 14px;
+    margin-bottom: 20px;
+    border-radius: 8px;
 }
 
-/* ───────── AGENDA ───────── */
+@media(max-width:900px) {
+    body {
+        padding: 12px;
+    }
 
-.agenda-box{
-  display:none;
-  background:white;
-  margin-top:30px;
-  padding:30px;
-  border-radius:22px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.78rem;
+    }
+
+    th,
+    td {
+        padding: 7px;
+    }
+
+    .controls input,
+    .controls select {
+        width: 100%;
+    }
 }
-
-.agenda-box h3{
-  margin-bottom:10px;
-  color:#5c3317;
-}
-
-.agenda-desc{
-  color:#8b6340;
-  margin-bottom:24px;
-}
-
-.agenda-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:18px;
-  margin-bottom:20px;
-}
-
-.campo{
-  display:flex;
-  flex-direction:column;
-}
-
-.campo label{
-  margin-bottom:8px;
-  font-weight:bold;
-  color:#5c3317;
-}
-
-.campo input,
-.campo textarea{
-  border:2px solid #e5d3bf;
-  border-radius:14px;
-  padding:12px;
-  font-size:0.95rem;
-  outline:none;
-}
-
-.campo input:focus,
-.campo textarea:focus{
-  border-color:#c9a97a;
-}
-
-/* ───────── PÁGINAS ───────── */
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-/* ───────── GRACIAS ───────── */
-
-.gracias-box{
-  background:white;
-  max-width:650px;
-  margin:40px auto;
-  padding:40px;
-  border-radius:24px;
-  text-align:center;
-  box-shadow:0 8px 24px rgba(0,0,0,0.08);
-}
-
-.big-emoji{
-  font-size:4rem;
-  margin-bottom:15px;
-  display:block;
-}
-
-.detalle{
-  background:#fdf8f2;
-  padding:20px;
-  border-radius:16px;
-  margin-top:22px;
-  text-align:left;
-  line-height:1.8;
-}
-
-@media(max-width:700px){
-
-  header{
-    flex-direction:column;
-    gap:10px;
-    text-align:center;
-  }
-
-}
-
 </style>
-
 </head>
 
 <body>
 
-<!-- ════════════════════
-     DONACIONES
-════════════════════ -->
-
-<div id="pg-donaciones" class="page active">
-
 <header>
+    <h1>👨‍💼 Gestión de empleados</h1>
 
-  <div class="brand">
-    🐾 Huellitas – Donaciones
-  </div>
-
-  <div class="header-right">
-    Gracias por apoyar 
-  </div>
-
+<nav>
+    <a href="dashboard-admin.html">Inicio</a>
+    <a href="mascotas-admin.html">Mascotas</a>
+    <a href="solicitudes-admin.html">Solicitudes</a>
+    <a href="adoptantes-admin.html">Adoptantes</a>
+    <a href="empleados-admin.html">Empleados</a>
+    <a href="entrevistas-admin.html">Entrevistas</a>
+    <a href="adopciones-admin.html">Adopciones</a>
+    <a href="login-empleado.html" onclick="cerrarSesion()">Cerrar sesión</a>
+</nav>
 </header>
 
-<main>
-
-  <div class="motivador">
-
-    <strong>¡Gracias por ayudar a nuestros peluditos! 🐾</strong>
-
-    <br><br>
-
-    Cada donación ayuda a brindar alimento, vacunas,
-    medicamentos, productos de limpieza y mucho amor
-    a los animales rescatados de Huellitas.
-
-  </div>
-
-  <div class="contacto-bar">
-
-    <div>📞 55 78819252 </div>
-
-    <div>✉️ contacto@huellitas.org</div>
-
-    <div>📍 Ciudad de México</div>
-
-  </div>
-
-  <h2>¿Cómo deseas apoyarnos?</h2>
-
-  <p class="sec-desc">
-    Selecciona los artículos que deseas donar.
-  </p>
-
-  <!-- ALIMENTO -->
-
-  <div class="don-seccion">
-
-    <h3>🥣 Alimento</h3>
-
-    <div class="don-grid">
-
-      <div class="don-item">
-        <span class="don-nombre"> Croquetas para gato</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-cro-gato">
-          <label for="d-cro-gato">Bolsa 3 kg</label>
-        </div>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-cro-gato2">
-          <label for="d-cro-gato2">Bolsa 8 kg</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre"> Croquetas para perro</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-cro-perro">
-          <label for="d-cro-perro">Bolsa 3 kg</label>
-        </div>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-cro-perro2">
-          <label for="d-cro-perro2">Bolsa 10 kg</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre">🥫 Comida húmeda para gato</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-hum-gato">
-          <label for="d-hum-gato">Paquete de latas</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre"> Comida húmeda para perro</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-hum-perro">
-          <label for="d-hum-perro">Paquete de latas</label>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- LIMPIEZA -->
-
-  <div class="don-seccion">
-
-    <h3>Productos de limpieza</h3>
-
-    <div class="don-grid">
-
-      <div class="don-item">
-        <span class="don-nombre">🧴 Cloralex / Cloro</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-cloro">
-          <label for="d-cloro">Botella 1 litro</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre">🫧 Desinfectante multiusos</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-desinfect">
-          <label for="d-desinfect">Botella grande</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre">🧻 Papel / toallas</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-papel">
-          <label for="d-papel">Paquete grande</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre">🪣 Cubeta y jalador</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-cubeta">
-          <label for="d-cubeta">Kit de limpieza</label>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- SALUD -->
-
-  <div class="don-seccion">
-
-    <h3> Salud </h3>
-
-    <div class="don-grid">
-
-      <div class="don-item">
-        <span class="don-nombre">💉 Vacunas</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-vacunas">
-          <label for="d-vacunas">Apoyo para vacunas</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre"> Desparasitación</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-despar">
-          <label for="d-despar">Medicamento antiparasitario</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre">🐾 Pipetas antipulgas</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-pipetas">
-          <label for="d-pipetas">Pipetas para perros y gatos</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre">✂️ Esterilización</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-esteril">
-          <label for="d-esteril">Apoyo económico</label>
-        </div>
-      </div>
-
-      <div class="don-item">
-        <span class="don-nombre">🏥 Fondo veterinario</span>
-
-        <div class="don-check">
-          <input type="checkbox" id="d-vet">
-          <label for="d-vet">Consultas y medicamentos</label>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- TABLA -->
-
-  <div class="don-seccion">
-
-    <h3>📋 Animales que necesitan ayuda</h3>
-
-    <table>
-
-      <thead>
-
-        <tr>
-          <th>Animal</th>
-          <th>Vacunas</th>
-          <th>Esterilización</th>
-          <th>Desparasitación</th>
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        <tr>
-          <td>🐱 Canela</td>
-          <td><span class="badge badge-pend">Pendiente</span></td>
-          <td><span class="badge badge-pend">Pendiente</span></td>
-          <td><span class="badge badge-ok">Al día</span></td>
-        </tr>
-
-        <tr>
-          <td>🐶 Rocky</td>
-          <td><span class="badge badge-ok">Al día</span></td>
-          <td><span class="badge badge-pend">Pendiente</span></td>
-          <td><span class="badge badge-pend">Pendiente</span></td>
-        </tr>
-
-        <tr>
-          <td>🐱 Luna</td>
-          <td><span class="badge badge-pend">Pendiente</span></td>
-          <td><span class="badge badge-ok">Al día</span></td>
-          <td><span class="badge badge-pend">Pendiente</span></td>
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-  <!-- RESUMEN -->
-
-  <div class="resumen-box">
-
-    <h4>📦 Resumen de tu donación</h4>
-
-    <div id="resumen-lista">
-
-      <span style="color:#8b6340;font-style:italic;">
-        Aún no has seleccionado ningún artículo.
-      </span>
-
-    </div>
-
-    <button class="btn btn-green"
-            onclick="mostrarAgenda()">
-
-      Continuar con la donación 🐾
-
-    </button>
-
-  </div>
-
-  <!-- AGENDA -->
-
-  <div id="agenda-box" class="agenda-box">
-
-    <h3>📅 Agenda tu entrega</h3>
-
-    <p class="agenda-desc">
-      Selecciona el día y la hora para entregar tu donación.
-    </p>
-
-    <div class="agenda-grid">
-
-      <div class="campo">
-        <label>Nombre completo</label>
-        <input type="text" id="donador-nombre">
-      </div>
-
-      <div class="campo">
-        <label>Correo electrónico</label>
-        <input type="email" id="donador-email">
-      </div>
-
-      <div class="campo">
-        <label>Fecha</label>
-        <input type="date" id="fecha-donacion">
-      </div>
-
-      <div class="campo">
-        <label>Hora</label>
-        <input type="time" id="hora-donacion">
-      </div>
-
-    </div>
-
-    <div class="campo">
-
-      <label>Mensaje adicional</label>
-
-      <textarea id="mensaje-donacion"
-                rows="4"></textarea>
-
-    </div>
-
-    <br>
-
-    <button class="btn btn-green"
-            onclick="confirmarDonacion()">
-
-      Confirmar donación 
-
-    </button>
-
-  </div>
-
-</main>
-
+<div class="aviso">
+    Desde esta sección el administrador puede crear, editar y eliminar empleados reales de la tabla <strong>empleados</strong>.
+    También puede asignar el rol <strong>admin</strong> o <strong>empleado</strong>.
 </div>
 
-<!-- GRACIAS -->
+<div id="mensaje" class="mensaje"></div>
 
-<div id="pg-gracias" class="page">
+<section class="formulario">
+    <h2 id="tituloFormulario">Agregar empleado</h2>
 
-<header>
+    <input type="hidden" id="id_empleado">
 
-  <div class="brand">
-    🐾 Huellitas – Donaciones
-  </div>
+    <div class="grid">
+        <div>
+            <label>Número de empleado</label>
+            <input type="text" id="numero_empleado" placeholder="Ej. EMP-0006">
+        </div>
 
-</header>
+        <div>
+            <label>Nombre completo</label>
+            <input type="text" id="nombre_completo" placeholder="Nombre del empleado">
+        </div>
 
-<main>
+        <div>
+            <label>Correo</label>
+            <input type="email" id="correo" placeholder="correo@ejemplo.com">
+        </div>
 
-  <div class="gracias-box">
+        <div>
+            <label>Teléfono</label>
+            <input type="text" id="telefono" placeholder="Teléfono">
+        </div>
 
-    <span class="big-emoji">
-      🐾💛
-    </span>
+        <div>
+            <label>Contraseña</label>
+            <input type="text" id="password" placeholder="Contraseña">
+        </div>
 
-    <h2>¡Gracias de corazón por contribuir!</h2>
+        <div>
+            <label>Rol</label>
+            <select id="rol">
+                <option value="empleado">empleado</option>
+                <option value="admin">admin</option>
+            </select>
+        </div>
+    </div>
 
-    <br>
+    <div style="margin-top:14px;">
+        <label>Dirección</label>
+        <textarea id="direccion" placeholder="Dirección del empleado"></textarea>
+    </div>
 
-    <p>
-      Tu apoyo ayudará muchísimo a nuestros peluditos.
-    </p>
+    <div class="actions">
+        <button class="btn-primary" onclick="guardarEmpleado()">Guardar empleado</button>
+        <button class="btn-secondary" onclick="limpiarFormulario()">Limpiar</button>
+    </div>
+</section>
 
-    <div class="detalle" id="gracias-detalle"></div>
+<section class="controls">
+    <input type="text" id="buscar" placeholder="Buscar empleado" onkeyup="filtrarEmpleados()">
 
-    <br>
+    <select id="filtroRol" onchange="filtrarEmpleados()">
+        <option value="todos">Todos los roles</option>
+        <option value="admin">Admin</option>
+        <option value="empleado">Empleado</option>
+    </select>
 
-    <button class="btn btn-secondary"
-            onclick="volverInicio()">
+    <button class="btn-primary" onclick="cargarEmpleados()">Actualizar</button>
+</section>
 
-      Hacer otra donación
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Número empleado</th>
+            <th>Nombre completo</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Contraseña</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
 
-    </button>
-
-  </div>
-
-</main>
-
-</div>
+    <tbody id="tablaEmpleados">
+        <tr>
+            <td colspan="9">Cargando empleados...</td>
+        </tr>
+    </tbody>
+</table>
 
 <script src="static-supabase.js"></script>
 
 <script>
-
 const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
 const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
 
 const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
 );
 
-var etiquetas = {
+let empleadosGlobal = [];
 
-'d-cro-gato':'Croquetas para gato – Bolsa 3 kg',
-'d-cro-gato2':'Croquetas para gato – Bolsa 8 kg',
-'d-cro-perro':'Croquetas para perro – Bolsa 3 kg',
-'d-cro-perro2':'Croquetas para perro – Bolsa 10 kg',
-'d-hum-gato':'Comida húmeda para gato',
-'d-hum-perro':'Comida húmeda para perro',
+function protegerAdmin() {
+    const logueado = localStorage.getItem("empleado_logueado");
+    const rol = localStorage.getItem("rol_empleado");
+    const numero = localStorage.getItem("empleado_numero");
 
-'d-cloro':'Cloralex / Cloro',
-'d-desinfect':'Desinfectante multiusos',
-'d-papel':'Papel periódico / toallas',
-'d-cubeta':'Cubeta y jalador',
-
-'d-vacunas':'Apoyo para vacunas',
-'d-despar':'Medicamento antiparasitario',
-'d-pipetas':'Pipetas antipulgas',
-'d-esteril':'Apoyo para esterilización',
-'d-vet':'Fondo veterinario'
-
-};
-
-document.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
-
-  cb.addEventListener('change',actualizarResumen);
-
-});
-
-function obtenerSeleccionados(){
-
-  var seleccionados = [];
-
-  Object.keys(etiquetas).forEach(function(id){
-
-    var el = document.getElementById(id);
-
-    if(el && el.checked){
-
-      seleccionados.push(etiquetas[id]);
-
+    if (
+        logueado !== "true" ||
+        (
+            numero !== "EMP-0042" &&
+            rol !== "admin" &&
+            rol !== "administrador"
+        )
+    ) {
+        alert("Acceso restringido. Inicia sesión como administrador.");
+        window.location.href = "login-empleado.html";
+        return false;
     }
 
-  });
-
-  return seleccionados;
-
+    return true;
 }
 
-function actualizarResumen(){
-
-  var seleccionados = obtenerSeleccionados();
-
-  var div = document.getElementById('resumen-lista');
-
-  if(seleccionados.length === 0){
-
-    div.innerHTML =
-    '<span style="color:#8b6340;font-style:italic;">Aún no has seleccionado ningún artículo.</span>';
-
-  }
-
-  else{
-
-    div.innerHTML = seleccionados.map(function(item){
-      return '• ' + item;
-    }).join('<br>');
-
-  }
-
+function cerrarSesion() {
+    localStorage.clear();
 }
 
-function mostrarAgenda(){
+function mostrarMensaje(texto, tipo) {
+    const msg = document.getElementById("mensaje");
+    msg.textContent = texto;
+    msg.className = "mensaje " + tipo;
 
-  var seleccionados = obtenerSeleccionados();
-
-  if(seleccionados.length === 0){
-
-    alert('Selecciona al menos un artículo.');
-
-    return;
-
-  }
-
-  document.getElementById('agenda-box').style.display = 'block';
-
-  window.scrollTo({
-
-    top:document.getElementById('agenda-box').offsetTop - 20,
-
-    behavior:'smooth'
-
-  });
-
+    setTimeout(function() {
+        msg.textContent = "";
+        msg.className = "mensaje";
+    }, 3500);
 }
 
-async function confirmarDonacion(){
+function limpiarTexto(valor) {
+    if (valor === null || valor === undefined || valor === "") {
+        return "—";
+    }
 
-  var nombre = document.getElementById('donador-nombre').value.trim();
-
-  var email = document.getElementById('donador-email').value.trim();
-
-  var fecha = document.getElementById('fecha-donacion').value;
-
-  var hora = document.getElementById('hora-donacion').value;
-
-  var mensaje = document.getElementById('mensaje-donacion').value.trim();
-
-  if(!nombre || !email || !fecha || !hora){
-
-    alert('Completa todos los campos.');
-
-    return;
-
-  }
-
-  var seleccionados = obtenerSeleccionados();
-
-  if(seleccionados.length === 0){
-
-    alert('Selecciona al menos un artículo.');
-
-    return;
-
-  }
-
-  const { error } = await supabaseClient
-    .from("donaciones")
-    .insert([
-      {
-        nombre_completo: nombre,
-        correo: email,
-        fecha_entrega: fecha,
-        hora_entrega: hora,
-        mensaje: mensaje,
-        articulos: seleccionados.join(', ')
-      }
-    ]);
-
-  if(error){
-
-    console.error("Error Supabase donaciones:", error);
-
-    alert("Error guardando donación: " + error.message);
-
-    return;
-
-  }
-
-  document.getElementById('gracias-detalle').innerHTML =
-
-    '<strong>Donador:</strong> ' + nombre +
-
-    '<br><strong>Correo:</strong> ' + email +
-
-    '<br><strong>Fecha:</strong> ' + fecha +
-
-    '<br><strong>Hora:</strong> ' + hora +
-
-    '<br><br><strong>Artículos:</strong><br><br>' +
-
-    seleccionados.map(function(item){
-      return '• ' + item;
-    }).join('<br>');
-
-  document.getElementById('pg-donaciones').classList.remove('active');
-
-  document.getElementById('pg-gracias').classList.add('active');
-
-  window.scrollTo(0,0);
-
+    return String(valor)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
-function volverInicio(){
+function claseRol(rol) {
+    if (!rol) return "";
 
-  document.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
+    const r = String(rol).toLowerCase();
 
-    cb.checked = false;
+    if (r === "admin" || r === "administrador") {
+        return "rol-admin";
+    }
 
-  });
-
-  document.getElementById('donador-nombre').value = '';
-  document.getElementById('donador-email').value = '';
-  document.getElementById('fecha-donacion').value = '';
-  document.getElementById('hora-donacion').value = '';
-  document.getElementById('mensaje-donacion').value = '';
-
-  document.getElementById('agenda-box').style.display = 'none';
-
-  actualizarResumen();
-
-  document.getElementById('pg-gracias').classList.remove('active');
-
-  document.getElementById('pg-donaciones').classList.add('active');
-
-  window.scrollTo(0,0);
-
+    return "rol-empleado";
 }
 
+async function cargarEmpleados() {
+    const tbody = document.getElementById("tablaEmpleados");
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="9">Cargando empleados...</td>
+        </tr>
+    `;
+
+    const { data, error } = await supabaseClient
+        .from("empleados")
+        .select("id_empleado, numero_empleado, nombre_completo, correo, telefono, direccion, password, rol")
+        .order("id_empleado", { ascending: true });
+
+    if (error) {
+        console.error("Error cargando empleados:", error);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="9">Error al cargar empleados.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    empleadosGlobal = data || [];
+    renderEmpleados(empleadosGlobal);
+}
+
+function renderEmpleados(lista) {
+    const tbody = document.getElementById("tablaEmpleados");
+    tbody.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="9">No hay empleados registrados.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    lista.forEach(function(e) {
+        tbody.innerHTML += `
+            <tr>
+                <td>${limpiarTexto(e.id_empleado)}</td>
+                <td>${limpiarTexto(e.numero_empleado)}</td>
+                <td>${limpiarTexto(e.nombre_completo)}</td>
+                <td>${limpiarTexto(e.correo)}</td>
+                <td>${limpiarTexto(e.telefono)}</td>
+                <td>${limpiarTexto(e.direccion)}</td>
+                <td>${limpiarTexto(e.password)}</td>
+                <td class="${claseRol(e.rol)}">${limpiarTexto(e.rol)}</td>
+                <td>
+                    <button class="btn-edit" onclick="editarEmpleado(${e.id_empleado})">Editar</button>
+                    <button class="btn-admin" onclick="cambiarRol(${e.id_empleado}, 'admin')">Hacer admin</button>
+                    <button class="btn-employee" onclick="cambiarRol(${e.id_empleado}, 'empleado')">Hacer empleado</button>
+                    <button class="btn-delete" onclick="eliminarEmpleado(${e.id_empleado})">Eliminar</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function filtrarEmpleados() {
+    const texto = document.getElementById("buscar").value.toLowerCase();
+    const rol = document.getElementById("filtroRol").value;
+
+    const filtrados = empleadosGlobal.filter(function(e) {
+        const coincideTexto =
+            String(e.numero_empleado || "").toLowerCase().includes(texto) ||
+            String(e.nombre_completo || "").toLowerCase().includes(texto) ||
+            String(e.correo || "").toLowerCase().includes(texto);
+
+        const coincideRol =
+            rol === "todos" || String(e.rol || "").toLowerCase() === rol;
+
+        return coincideTexto && coincideRol;
+    });
+
+    renderEmpleados(filtrados);
+}
+
+function obtenerEmpleado(id) {
+    return empleadosGlobal.find(function(e) {
+        return Number(e.id_empleado) === Number(id);
+    });
+}
+
+async function guardarEmpleado() {
+    const id = document.getElementById("id_empleado").value;
+
+    const empleado = {
+        numero_empleado: document.getElementById("numero_empleado").value.trim(),
+        nombre_completo: document.getElementById("nombre_completo").value.trim(),
+        correo: document.getElementById("correo").value.trim(),
+        telefono: document.getElementById("telefono").value.trim(),
+        direccion: document.getElementById("direccion").value.trim(),
+        password: document.getElementById("password").value.trim(),
+        rol: document.getElementById("rol").value
+    };
+
+    if (
+        !empleado.numero_empleado ||
+        !empleado.nombre_completo ||
+        !empleado.correo ||
+        !empleado.telefono ||
+        !empleado.direccion ||
+        !empleado.password ||
+        !empleado.rol
+    ) {
+        mostrarMensaje("Completa todos los campos.", "error");
+        return;
+    }
+
+    if (id) {
+        const { error } = await supabaseClient
+            .from("empleados")
+            .update(empleado)
+            .eq("id_empleado", id);
+
+        if (error) {
+            console.error("Error actualizando empleado:", error);
+            mostrarMensaje("No se pudo actualizar el empleado.", "error");
+            return;
+        }
+
+        mostrarMensaje("Empleado actualizado correctamente.", "ok");
+    } else {
+        const { error } = await supabaseClient
+            .from("empleados")
+            .insert([empleado]);
+
+        if (error) {
+            console.error("Error insertando empleado:", error);
+            mostrarMensaje("No se pudo agregar el empleado. Revisa que el número de empleado no esté repetido.", "error");
+            return;
+        }
+
+        mostrarMensaje("Empleado agregado correctamente.", "ok");
+    }
+
+    limpiarFormulario();
+    cargarEmpleados();
+}
+
+function editarEmpleado(id) {
+    const e = obtenerEmpleado(id);
+
+    if (!e) {
+        mostrarMensaje("No se encontró el empleado.", "error");
+        return;
+    }
+
+    document.getElementById("id_empleado").value = e.id_empleado;
+    document.getElementById("numero_empleado").value = e.numero_empleado || "";
+    document.getElementById("nombre_completo").value = e.nombre_completo || "";
+    document.getElementById("correo").value = e.correo || "";
+    document.getElementById("telefono").value = e.telefono || "";
+    document.getElementById("direccion").value = e.direccion || "";
+    document.getElementById("password").value = e.password || "";
+    document.getElementById("rol").value = e.rol || "empleado";
+
+    document.getElementById("tituloFormulario").textContent = "Editar empleado";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function cambiarRol(id, nuevoRol) {
+    const empleadoActual = obtenerEmpleado(id);
+
+    if (!empleadoActual) {
+        mostrarMensaje("No se encontró el empleado.", "error");
+        return;
+    }
+
+    if (!confirm("¿Seguro que quieres cambiar el rol de este empleado a " + nuevoRol + "?")) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("empleados")
+        .update({ rol: nuevoRol })
+        .eq("id_empleado", id);
+
+    if (error) {
+        console.error("Error cambiando rol:", error);
+        mostrarMensaje("No se pudo cambiar el rol.", "error");
+        return;
+    }
+
+    mostrarMensaje("Rol actualizado correctamente.", "ok");
+    cargarEmpleados();
+}
+
+async function eliminarEmpleado(id) {
+    const empleadoActual = obtenerEmpleado(id);
+    const empleadoLogueado = localStorage.getItem("empleado_id");
+
+    if (!empleadoActual) {
+        mostrarMensaje("No se encontró el empleado.", "error");
+        return;
+    }
+
+    if (String(id) === String(empleadoLogueado)) {
+        mostrarMensaje("No puedes eliminar tu propio usuario mientras estás conectado.", "error");
+        return;
+    }
+
+    if (!confirm("¿Seguro que quieres eliminar este empleado?")) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("empleados")
+        .delete()
+        .eq("id_empleado", id);
+
+    if (error) {
+        console.error("Error eliminando empleado:", error);
+        mostrarMensaje("No se pudo eliminar el empleado.", "error");
+        return;
+    }
+
+    mostrarMensaje("Empleado eliminado correctamente.", "ok");
+    cargarEmpleados();
+}
+
+function limpiarFormulario() {
+    document.getElementById("id_empleado").value = "";
+    document.getElementById("numero_empleado").value = "";
+    document.getElementById("nombre_completo").value = "";
+    document.getElementById("correo").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("direccion").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("rol").value = "empleado";
+    document.getElementById("tituloFormulario").textContent = "Agregar empleado";
+}
+
+if (protegerAdmin()) {
+    cargarEmpleados();
+}
 </script>
 
 </body>

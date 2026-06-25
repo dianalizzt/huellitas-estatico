@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huellitas - Bienvenida</title>
+    <title>Huellitas - Confirmación de adopción</title>
     <style>
         * {
             box-sizing: border-box;
@@ -35,68 +35,86 @@
             white-space: nowrap;
         }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .btn-logout {
-            background: none;
-            border: 1px solid #8b6340;
-            color: #d4b896;
-            padding: 5px 12px;
-            font-family: Arial, sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-
         .adoptante-main {
             max-width: 980px;
             margin: 0 auto;
             padding: 36px 28px;
         }
 
-        .welcome-box {
+        .adoption-msg {
             background: #fff;
-            border: 2px solid #c9a97a;
-            padding: 32px;
-            max-width: 560px;
+            border: 3px solid #5aaa6e;
+            padding: 36px;
+            max-width: 620px;
             margin: 0 auto;
+            text-align: center;
         }
 
-        .welcome-box h3 {
-            font-size: 1.25rem;
-            color: #5c3317;
+        .big-emoji {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .adoption-msg h3 {
+            font-size: 1.5rem;
+            color: #2e7d32;
             margin-bottom: 12px;
         }
 
-        .welcome-box p {
+        .adoption-msg p {
             font-family: Arial, sans-serif;
-            font-size: 0.9rem;
-            color: #4a3020;
-            line-height: 1.65;
+            font-size: 0.92rem;
+            color: #2e1f0e;
+            line-height: 1.7;
         }
 
-        .protocol-link {
-            background: none;
-            border: none;
-            color: #5c3317;
-            font-weight: bold;
-            text-decoration: underline;
-            cursor: pointer;
+        .pickup-box {
+            margin-top: 20px;
+            border: 2px solid #c9a97a;
+            padding: 14px 18px;
+            background: #fdf9f4;
             font-family: Arial, sans-serif;
             font-size: 0.9rem;
-            padding: 0;
+        }
+
+        .pickup-box strong {
+            color: #5c3317;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .summary-box {
+            margin-top: 20px;
+            border: 2px solid #e8d8c4;
+            background: #fffdf9;
+            padding: 18px;
+            text-align: left;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .summary-box h4 {
+            color: #5c3317;
+            margin-bottom: 10px;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.1rem;
+        }
+
+        .summary-box p {
+            margin-bottom: 8px;
+            color: #4a3020;
+        }
+
+        .summary-box p:last-child {
+            margin-bottom: 0;
         }
 
         .actions {
             margin-top: 24px;
             display: flex;
             gap: 12px;
+            justify-content: center;
             flex-wrap: wrap;
         }
 
@@ -138,12 +156,8 @@
                 padding: 24px 16px;
             }
 
-            .welcome-box {
+            .adoption-msg {
                 padding: 24px;
-            }
-
-            .actions {
-                flex-direction: column;
             }
         }
     </style>
@@ -152,77 +166,131 @@
 
     <div class="adoptante-header">
         <span class="brand">🐾 Huellitas</span>
-
-        <div class="header-right">
-            <a href="#" class="btn-logout" id="logout-btn">Cerrar sesión</a>
-        </div>
     </div>
 
     <div class="adoptante-main">
-        <div class="welcome-box">
-            <h3>¡Hola, <span id="welcome-nombre">adoptante</span>! 🐾</h3>
+        <div class="adoption-msg">
+            <span class="big-emoji" id="adopt-emoji">🐾</span>
 
-            <p>
-                Estás iniciando sesión para poder adoptar un gatito o perrito.
-                <br><br>
-                Recuerda que cuando vayas a adoptar se te pedirá que sigas un
-                <strong>protocolo de adopción</strong>.
-                <br><br>
-                Dale clic aquí para ver cuál es el protocolo de adopción:
-                <button class="protocol-link" onclick="window.location.href='protocolo-adopcion.html'">📋 Protocolo de adopción</button>
+            <h3>¡Gracias por continuar con tu adopción! 🎉</h3>
+
+            <p id="adopt-msg">
+                Tu solicitud fue registrada correctamente.
             </p>
 
+            <div class="summary-box" id="summary-box">
+                <h4>Resumen de tu solicitud</h4>
+                <p><strong>Nombre:</strong> <span id="res-nombre">—</span></p>
+                <p><strong>Correo:</strong> <span id="res-correo">—</span></p>
+                <p><strong>Teléfono:</strong> <span id="res-telefono">—</span></p>
+                <p><strong>Dirección:</strong> <span id="res-direccion">—</span></p>
+                <p><strong>Animales en casa:</strong> <span id="res-animales">—</span></p>
+                <p><strong>Motivo:</strong> <span id="res-motivo">—</span></p>
+            </div>
+
+            <div class="pickup-box">
+                <strong>📅 Programa tu entrevista</strong>
+                <span>
+                    El siguiente paso es agendar una entrevista con un integrante del equipo de Huellitas.
+                </span>
+                <div style="margin-top:12px;">
+                    <a href="entrevista.html" class="btn btn-primary">📋 Entrevista</a>
+                </div>
+            </div>
+
             <div class="actions">
-                <a href="galeria.html" class="btn btn-primary">Ver animales disponibles</a>
-                <a href="index.html" class="btn btn-secondary">Ir al inicio</a>
+                <a href="galeria.html" class="btn btn-secondary">Ver más animales</a>
+                <a href="index.html" class="btn btn-primary">Ir al inicio</a>
             </div>
         </div>
     </div>
 
-    <script src="static-supabase.js"></script>
-    <script>
-        const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
-        const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+<script src="static-supabase.js"></script>
+<script>
+    const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+    const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
 
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        async function cargarUsuario() {
-            const { data, error } = await supabaseClient.auth.getUser();
+    function obtenerIdMascota() {
+        const params = new URLSearchParams(window.location.search);
+        return parseInt(params.get("id"));
+    }
 
-            if (error || !data.user) {
-                window.location.href = "registro-adoptante.html";
-                return;
-            }
+    function obtenerEmoji(tipo) {
+        if (!tipo) return "🐾";
+        const t = tipo.toLowerCase();
 
-            const user = data.user;
-            let nombreMostrar = "adoptante";
+        if (t.includes("gato")) return "🐱";
+        if (t.includes("perro")) return "🐶";
 
-            if (user.user_metadata && user.user_metadata.nombre_completo) {
-                nombreMostrar = user.user_metadata.nombre_completo.split(" ")[0];
-            } else if (user.email) {
-                nombreMostrar = user.email.split("@")[0];
-            }
+        return "🐾";
+    }
 
-            document.getElementById("welcome-nombre").textContent = nombreMostrar;
-        }
+    async function cargarConfirmacion() {
+        const idMascota = obtenerIdMascota();
 
-        async function cerrarSesion(event) {
-            event.preventDefault();
+        //Usuario actual
+        const { data: authData } = await supabaseClient.auth.getUser();
 
-            const { error } = await supabaseClient.auth.signOut();
-
-            if (error) {
-                alert("No se pudo cerrar sesión.");
-                return;
-            }
-
+        if (!authData.user) {
             window.location.href = "registro-adoptante.html";
+            return;
         }
 
-        document.getElementById("logout-btn").addEventListener("click", cerrarSesion);
+        const correo = authData.user.email;
 
-        cargarUsuario();
-    </script>
+        // 👤 Buscar adoptante
+        const { data: adoptante } = await supabaseClient
+            .from("adoptantes")
+            .select("*")
+            .eq("correo", correo)
+            .maybeSingle();
+
+        //Buscar protocolo
+        const { data: protocolo } = await supabaseClient
+            .from("protocolos")
+            .select("*")
+            .eq("id_adoptante", adoptante?.id_adoptante)
+            .order("id_protocolo", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+        //Buscar mascota
+        let mascota = null;
+
+        if (idMascota) {
+            const res = await supabaseClient
+                .from("mascotas")
+                .select("*")
+                .eq("id_mascota", idMascota)
+                .maybeSingle();
+
+            mascota = res.data;
+        }
+
+        //Mostrar emoji + mensaje
+        if (mascota) {
+            document.getElementById("adopt-emoji").textContent = obtenerEmoji(mascota.tipo);
+
+            document.getElementById("adopt-msg").innerHTML =
+                `Hola <strong>${adoptante?.nombre_completo || "adoptante"}</strong>, 
+                tu interés por adoptar a <strong>${mascota.nombre}</strong> fue registrado correctamente.`;
+        }
+
+        //Llenar resumen
+        if (adoptante && protocolo) {
+            document.getElementById("res-nombre").textContent = adoptante.nombre_completo;
+            document.getElementById("res-correo").textContent = adoptante.correo;
+            document.getElementById("res-telefono").textContent = adoptante.telefono;
+            document.getElementById("res-direccion").textContent = adoptante.direccion;
+            document.getElementById("res-animales").textContent = protocolo.animales_actuales;
+            document.getElementById("res-motivo").textContent = protocolo.motivo;
+        }
+    }
+
+    cargarConfirmacion();
+</script>
 
 </body>
 </html>

@@ -2,448 +2,70 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Admin - Adoptantes Huellitas</title>
-
+<title>Admin - Dashboard Huellitas</title>
 <style>
-body{
-    font-family: Arial, sans-serif;
-    background:#f9f5f0;
-    color:#3b2414;
-    padding:20px;
-}
-
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
-    margin-bottom:20px;
-}
-
-h1{
-    color:#5c3317;
-    font-size:2rem;
-}
-
-nav a{
-    background:#5c3317;
-    color:white;
-    padding:10px 14px;
-    border-radius:6px;
-    text-decoration:none;
-    margin:4px;
-    display:inline-block;
-}
-
-nav a:hover{
-    background:#7a4620;
-}
-
-.controls{
-    background:white;
-    padding:15px;
-    border-left:5px solid #c9a97a;
-    margin-bottom:20px;
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-input, select{
-    padding:9px;
-    border:1px solid #c9a97a;
-    border-radius:5px;
-    font-size:0.95rem;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-}
-
-th, td{
-    border:1px solid #ddd;
-    padding:11px;
-    text-align:left;
-    font-size:0.9rem;
-}
-
-th{
-    background:#5c3317;
-    color:white;
-}
-
-button{
-    padding:7px 10px;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-    margin:2px;
-}
-
-.detalle{
-    background:#c9a97a;
-    color:#3b2414;
-}
-
-.solicitudes{
-    background:#5c3317;
-    color:white;
-}
-
-.entrevistas{
-    background:#2e7d32;
-    color:white;
-}
-
-.bloquear{
-    background:#b71c1c;
-    color:white;
-}
-
-.activar{
-    background:#1976d2;
-    color:white;
-}
-
-.eliminar{
-    background:#333;
-    color:white;
-}
-
-.estado-activo{
-    color:#2e7d32;
-    font-weight:bold;
-}
-
-.estado-revision{
-    color:#b26a00;
-    font-weight:bold;
-}
-
-.estado-bloqueado{
-    color:#b71c1c;
-    font-weight:bold;
-}
-
-/* MODAL */
-.modal{
-    display:none;
-    position:fixed;
-    z-index:1000;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.5);
-}
-
-.modal-content{
-    background:white;
-    width:90%;
-    max-width:650px;
-    margin:60px auto;
-    padding:25px;
-    border-radius:10px;
-    border:3px solid #c9a97a;
-}
-
-.close{
-    float:right;
-    font-size:24px;
-    cursor:pointer;
-    color:#5c3317;
-}
-
-.info-box{
-    background:#f9f5f0;
-    padding:12px;
-    margin:10px 0;
-    border-left:4px solid #5c3317;
-}
-
-@media(max-width:900px){
-    table{
-        font-size:0.8rem;
-    }
-
-    th,td{
-        padding:7px;
-    }
-}
+body{font-family:Arial,sans-serif;background:#f9f5f0;color:#3b2414;padding:20px;}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:25px;}
+h1{color:#5c3317;}
+nav a{background:#5c3317;color:white;padding:10px 14px;border-radius:6px;text-decoration:none;margin:4px;display:inline-block;}
+nav a:hover{background:#7a4620;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
+.card{background:white;border-left:6px solid #c9a97a;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.08);}
+.card h2{font-size:1rem;color:#5c3317;}
+.card p{font-size:2rem;font-weight:bold;margin-top:10px;}
+section{background:white;margin-top:25px;padding:20px;border-radius:10px;}
+table{width:100%;border-collapse:collapse;margin-top:15px;}
+th,td{border:1px solid #ddd;padding:10px;text-align:left;}
+th{background:#5c3317;color:white;}
+.estado{font-weight:bold;color:#2e7d32;}
 </style>
 </head>
-
 <body>
 
-<div class="header">
-    <h1>👤 Adoptantes registrados</h1>
-
+<header>
+    <h1>🐾 Dashboard Administrador</h1>
     <nav>
         <a href="admin-dashboard.html">Inicio</a>
         <a href="admin-mascotas.html">Mascotas</a>
         <a href="admin-solicitudes.html">Solicitudes</a>
         <a href="admin-adoptantes.html">Adoptantes</a>
         <a href="admin-empleados.html">Empleados</a>
+        <a href="index.html">Salir</a>
     </nav>
+</header>
+
+<div class="cards">
+    <div class="card"><h2>Total de mascotas</h2><p>6</p></div>
+    <div class="card"><h2>Disponibles</h2><p>4</p></div>
+    <div class="card"><h2>En proceso</h2><p>1</p></div>
+    <div class="card"><h2>Adoptadas</h2><p>1</p></div>
+    <div class="card"><h2>Solicitudes pendientes</h2><p>3</p></div>
+    <div class="card"><h2>Entrevistas próximas</h2><p>2</p></div>
 </div>
 
-<div class="controls">
-    <input type="text" id="buscar" placeholder="Buscar por nombre o correo" onkeyup="filtrarAdoptantes()">
-
-    <select id="filtroEstado" onchange="filtrarAdoptantes()">
-        <option value="todos">Todos</option>
-        <option value="Activo">Activos</option>
-        <option value="En revisión">En revisión</option>
-        <option value="Bloqueado">Bloqueados</option>
-    </select>
-</div>
-
-<table>
-<thead>
-<tr>
-    <th>ID</th>
-    <th>Nombre completo</th>
-    <th>Correo</th>
-    <th>Teléfono</th>
-    <th>Dirección</th>
-    <th>Fecha registro</th>
-    <th>Solicitudes</th>
-    <th>Última solicitud</th>
-    <th>Estado</th>
-    <th>Acciones</th>
-</tr>
-</thead>
-
-<tbody id="tablaAdoptantes"></tbody>
-</table>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="cerrarModal()">&times;</span>
-        <h2 id="modalTitulo">Detalles</h2>
-        <div id="modalContenido"></div>
-    </div>
-</div>
-
-<script>
-let adoptantes = [
-    {
-        id:1,
-        nombre:"Juan Pérez",
-        correo:"juan@gmail.com",
-        telefono:"5511111111",
-        direccion:"CDMX",
-        fecha:"2026-04-10",
-        solicitudes:2,
-        ultimaSolicitud:"Canela",
-        entrevista:"2026-04-20 10:00",
-        estado:"Activo",
-        ine:"Entregada",
-        comprobante:"Entregado",
-        seguimiento:"Sí",
-        motivo:"Quiero darle un hogar a una mascota rescatada.",
-        mascotas:["Canela", "Rocky"],
-        entrevistas:["Canela - 2026-04-20 10:00", "Rocky - pendiente"],
-        adoptadas:["Ninguna"]
-    },
-    {
-        id:2,
-        nombre:"Ana López",
-        correo:"ana@gmail.com",
-        telefono:"5522222222",
-        direccion:"Guadalajara",
-        fecha:"2026-04-12",
-        solicitudes:1,
-        ultimaSolicitud:"Rocky",
-        entrevista:"2026-04-22 12:00",
-        estado:"En revisión",
-        ine:"Entregada",
-        comprobante:"Pendiente",
-        seguimiento:"Sí",
-        motivo:"Busco un compañero para mi familia.",
-        mascotas:["Rocky"],
-        entrevistas:["Rocky - 2026-04-22 12:00"],
-        adoptadas:["Ninguna"]
-    },
-    {
-        id:3,
-        nombre:"Luis Torres",
-        correo:"luis@gmail.com",
-        telefono:"5533333333",
-        direccion:"Monterrey",
-        fecha:"2026-04-15",
-        solicitudes:1,
-        ultimaSolicitud:"Sombra",
-        entrevista:"Sin entrevista",
-        estado:"Bloqueado",
-        ine:"No entregada",
-        comprobante:"No entregado",
-        seguimiento:"No",
-        motivo:"Deseo adoptar un gato.",
-        mascotas:["Sombra"],
-        entrevistas:["Sin entrevistas"],
-        adoptadas:["Ninguna"]
-    }
-];
-
-function claseEstado(estado){
-    if(estado === "Activo") return "estado-activo";
-    if(estado === "En revisión") return "estado-revision";
-    if(estado === "Bloqueado") return "estado-bloqueado";
-    return "";
-}
-
-function cargarAdoptantes(lista = adoptantes){
-    const tabla = document.getElementById("tablaAdoptantes");
-    tabla.innerHTML = "";
-
-    lista.forEach(a => {
-        let botonEstado = "";
-
-        if(a.estado === "Bloqueado"){
-            botonEstado = `<button class="activar" onclick="activarAdoptante(${a.id})">Activar</button>`;
-        } else {
-            botonEstado = `<button class="bloquear" onclick="bloquearAdoptante(${a.id})">Bloquear</button>`;
-        }
-
-        tabla.innerHTML += `
-            <tr>
-                <td>${a.id}</td>
-                <td>${a.nombre}</td>
-                <td>${a.correo}</td>
-                <td>${a.telefono}</td>
-                <td>${a.direccion}</td>
-                <td>${a.fecha}</td>
-                <td>${a.solicitudes}</td>
-                <td>${a.ultimaSolicitud}</td>
-                <td class="${claseEstado(a.estado)}">${a.estado}</td>
-                <td>
-                    <button class="detalle" onclick="verDetalles(${a.id})">Detalles</button>
-                    <button class="solicitudes" onclick="verSolicitudes(${a.id})">Solicitudes</button>
-                    <button class="entrevistas" onclick="verEntrevistas(${a.id})">Entrevistas</button>
-                    ${botonEstado}
-                    <button class="eliminar" onclick="eliminarAdoptante(${a.id})">Eliminar</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-function filtrarAdoptantes(){
-    const texto = document.getElementById("buscar").value.toLowerCase();
-    const estado = document.getElementById("filtroEstado").value;
-
-    let filtrados = adoptantes.filter(a => {
-        const coincideTexto =
-            a.nombre.toLowerCase().includes(texto) ||
-            a.correo.toLowerCase().includes(texto);
-
-        const coincideEstado =
-            estado === "todos" || a.estado === estado;
-
-        return coincideTexto && coincideEstado;
-    });
-
-    cargarAdoptantes(filtrados);
-}
-
-function abrirModal(titulo, contenido){
-    document.getElementById("modalTitulo").innerHTML = titulo;
-    document.getElementById("modalContenido").innerHTML = contenido;
-    document.getElementById("modal").style.display = "block";
-}
-
-function cerrarModal(){
-    document.getElementById("modal").style.display = "none";
-}
-
-function verDetalles(id){
-    const a = adoptantes.find(x => x.id === id);
-
-    abrirModal("Detalles del adoptante", `
-        <div class="info-box"><strong>Nombre:</strong> ${a.nombre}</div>
-        <div class="info-box"><strong>Correo:</strong> ${a.correo}</div>
-        <div class="info-box"><strong>Teléfono:</strong> ${a.telefono}</div>
-        <div class="info-box"><strong>Dirección:</strong> ${a.direccion}</div>
-        <div class="info-box"><strong>Fecha de registro:</strong> ${a.fecha}</div>
-        <div class="info-box"><strong>INE:</strong> ${a.ine}</div>
-        <div class="info-box"><strong>Comprobante:</strong> ${a.comprobante}</div>
-        <div class="info-box"><strong>Acepta seguimiento:</strong> ${a.seguimiento}</div>
-        <div class="info-box"><strong>Motivo:</strong> ${a.motivo}</div>
-        <div class="info-box"><strong>Estado:</strong> ${a.estado}</div>
-    `);
-}
-
-function verSolicitudes(id){
-    const a = adoptantes.find(x => x.id === id);
-
-    let lista = a.mascotas.map(m => `<li>${m}</li>`).join("");
-
-    abrirModal("Solicitudes de " + a.nombre, `
-        <p>Este adoptante ha solicitado las siguientes mascotas:</p>
-        <ul>${lista}</ul>
-        <p><strong>Total de solicitudes:</strong> ${a.solicitudes}</p>
-        <p><strong>Última solicitud:</strong> ${a.ultimaSolicitud}</p>
-    `);
-}
-
-function verEntrevistas(id){
-    const a = adoptantes.find(x => x.id === id);
-
-    let lista = a.entrevistas.map(e => `<li>${e}</li>`).join("");
-
-    abrirModal("Entrevistas de " + a.nombre, `
-        <p>Entrevistas relacionadas:</p>
-        <ul>${lista}</ul>
-    `);
-}
-
-function bloquearAdoptante(id){
-    if(confirm("¿Seguro que quieres bloquear este adoptante?")){
-        adoptantes = adoptantes.map(a => {
-            if(a.id === id){
-                a.estado = "Bloqueado";
-            }
-            return a;
-        });
-
-        cargarAdoptantes();
-    }
-}
-
-function activarAdoptante(id){
-    if(confirm("¿Seguro que quieres activar este adoptante?")){
-        adoptantes = adoptantes.map(a => {
-            if(a.id === id){
-                a.estado = "Activo";
-            }
-            return a;
-        });
-
-        cargarAdoptantes();
-    }
-}
-
-function eliminarAdoptante(id){
-    if(confirm("¿Seguro que quieres eliminar este adoptante?")){
-        adoptantes = adoptantes.filter(a => a.id !== id);
-        cargarAdoptantes();
-    }
-}
-
-window.onclick = function(event){
-    const modal = document.getElementById("modal");
-    if(event.target === modal){
-        cerrarModal();
-    }
-}
-
-cargarAdoptantes();
-</script>
+<section>
+    <h2>Últimas solicitudes</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Adoptante</th>
+            <th>Mascota</th>
+            <th>Estado</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Juan Pérez</td>
+            <td>Canela</td>
+            <td class="estado">Pendiente</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Ana López</td>
+            <td>Rocky</td>
+            <td class="estado">Pendiente</td>
+        </tr>
+    </table>
+</section>
 
 </body>
 </html>

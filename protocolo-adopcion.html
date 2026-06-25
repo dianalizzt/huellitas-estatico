@@ -1,502 +1,479 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Huellitas - Panel de Empleado</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Protocolo de adopción</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f9f5f0;
+            color: #2e1f0e;
+            font-size: 15px;
+            line-height: 1.6;
+        }
 
-body{
-    font-family: Georgia, 'Times New Roman', serif;
-    background:#f9f5f0;
-    color:#2e1f0e;
-    font-size:15px;
-    line-height:1.6;
-}
+        .adoptante-header {
+            background: #5c3317;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
 
-header{
-    background:#5c3317;
-    padding:0 28px;
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-}
+        .brand {
+            color: #f9f5f0;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
 
-.brand{
-    color:#f9f5f0;
-    font-size:1.3rem;
-    letter-spacing:1px;
-    padding:16px 0;
-    margin-right:32px;
-    white-space:nowrap;
-}
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
 
-nav{
-    display:flex;
-    flex:1;
-    flex-wrap:wrap;
-}
+        .btn-logout {
+            background: none;
+            border: 1px solid #8b6340;
+            color: #d4b896;
+            padding: 5px 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-nav a{
-    color:#d4b896;
-    text-decoration:none;
-    padding:17px 20px;
-    font-family:Arial, sans-serif;
-    font-size:0.88rem;
-    letter-spacing:0.04em;
-    border-bottom:3px solid transparent;
-    cursor:pointer;
-    display:block;
-}
+        .protocol-page {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 36px 28px;
+        }
 
-nav a.active{
-    color:#fff;
-    border-bottom-color:#c9a97a;
-}
+        .protocol-box {
+            background: #fff;
+            border: 2px solid #c9a97a;
+            padding: 32px;
+        }
 
-.header-user{
-    margin-left:auto;
-    color:#d4b896;
-    font-family:Arial, sans-serif;
-    font-size:0.85rem;
-    display:flex;
-    align-items:center;
-    gap:14px;
-    white-space:nowrap;
-}
+        h2 {
+            font-size: 1.5rem;
+            color: #5c3317;
+            border-bottom: 2px solid #c9a97a;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
 
-.btn-logout{
-    background:none;
-    border:1px solid #8b6340;
-    color:#d4b896;
-    padding:5px 12px;
-    font-family:Arial, sans-serif;
-    font-size:0.8rem;
-    cursor:pointer;
-    text-decoration:none;
-    display:inline-block;
-}
+        .sec-desc {
+            font-family: Arial, sans-serif;
+            font-size: 0.88rem;
+            color: #8b6340;
+            margin-bottom: 22px;
+            font-style: italic;
+        }
 
-main{
-    width:100%;
-    margin:0 auto;
-    padding:36px 28px;
-}
+        label {
+            display: block;
+            font-size: 0.82rem;
+            color: #5c3317;
+            margin-bottom: 6px;
+            font-family: Arial, sans-serif;
+            letter-spacing: 0.04em;
+        }
 
-.section{
-    display:none;
-}
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #c9a97a;
+            font-family: Arial, sans-serif;
+            font-size: 0.93rem;
+            color: #2e1f0e;
+            background: #fffdf9;
+            margin-bottom: 16px;
+            outline: none;
+        }
 
-.section.active{
-    display:block;
-}
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: #5c3317;
+        }
 
-h2{
-    font-size:1.9rem;
-    color:#5c3317;
-    border-bottom:2px solid #c9a97a;
-    padding-bottom:8px;
-    margin-bottom:6px;
-}
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
 
-.sec-desc{
-    font-family:Arial, sans-serif;
-    font-size:1rem;
-    color:#8b6340;
-    margin-bottom:34px;
-}
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
 
-.tab-bar{
-    display:flex;
-    border-bottom:2px solid #c9a97a;
-    margin-bottom:24px;
-    flex-wrap:wrap;
-}
+        .checkbox-box {
+            border: 1px solid #c9a97a;
+            background: #fffdf9;
+            padding: 14px 16px;
+            margin-bottom: 18px;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            color: #4a3020;
+        }
 
-.tab-btn{
-    padding:12px 24px;
-    border:none;
-    background:none;
-    font-family:Arial, sans-serif;
-    font-size:1rem;
-    color:#8b6340;
-    cursor:pointer;
-    border-bottom:4px solid transparent;
-    margin-bottom:-2px;
-    font-weight:bold;
-}
+        .checkbox-box label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 0;
+            letter-spacing: normal;
+            text-transform: none;
+            font-size: 0.9rem;
+            color: #4a3020;
+        }
 
-.tab-btn.active{
-    color:#5c3317;
-    border-bottom-color:#008b8b;
-}
+        .checkbox-box input[type="checkbox"] {
+            margin-top: 3px;
+            transform: scale(1.1);
+        }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-family:Arial, sans-serif;
-    font-size:1rem;
-    background:white;
-}
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
 
-table th{
-    background:#fff2df;
-    color:#5c3317;
-    text-align:left;
-    padding:14px 18px;
-    font-size:0.9rem;
-    letter-spacing:0.04em;
-    text-transform:uppercase;
-    border:1px solid #c9a97a;
-}
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.92rem;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-table td{
-    padding:14px 18px;
-    border:1px solid #ddd;
-    vertical-align:middle;
-    background:#fff;
-}
+        .btn-primary {
+            background: #5c3317;
+            color: #fff;
+        }
 
-table tr:nth-child(even) td{
-    background:#fdf9f4;
-}
+        .btn-primary:hover {
+            background: #7a4620;
+        }
 
-.badge{
-    font-size:0.85rem;
-    padding:5px 14px;
-    border:1px solid;
-    border-radius:20px;
-    font-family:Arial, sans-serif;
-    display:inline-block;
-    font-weight:bold;
-}
+        .btn-secondary {
+            background: #e8d8c4;
+            color: #5c3317;
+        }
 
-.badge-care{
-    border-color:#008b8b;
-    color:#006666;
-    background:#e7ffff;
-}
+        .btn-secondary:hover {
+            background: #dcc5aa;
+        }
 
-.badge-adopted{
-    border-color:#5aaa6e;
-    color:#1e6630;
-    background:#edf7f0;
-}
+        .msg {
+            font-family: Arial, sans-serif;
+            font-size: 0.84rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
 
-.badge-waiting{
-    border-color:#d4892a;
-    color:#7a4a00;
-    background:#fdf3e3;
-}
+        .msg.error {
+            color: #a12626;
+        }
 
-.turno-box{
-    border:1px solid #c9a97a;
-    background:#fff;
-    padding:45px 35px;
-    margin-bottom:34px;
-    font-family:Arial, sans-serif;
-    font-size:1rem;
-    border-radius:8px;
-    box-shadow:0 18px 40px rgba(92,51,23,0.12);
-}
+        .msg.ok {
+            color: #2e7d32;
+        }
 
-.turno-box p{
-    margin-bottom:22px;
-}
+        .note {
+            margin-top: 14px;
+            font-family: Arial, sans-serif;
+            font-size: 0.82rem;
+            color: #8b6340;
+        }
 
-.profile-name{
-    font-size:1.1rem;
-    color:#5c3317;
-    margin-bottom:18px;
-}
+        @media (max-width: 768px) {
+            .adoptante-header {
+                padding: 14px 18px;
+            }
 
-.profile-table{
-    width:100%;
-    border-collapse:collapse;
-    font-family:Arial, sans-serif;
-    font-size:1rem;
-    background:white;
-}
+            .protocol-page {
+                padding: 24px 16px;
+            }
 
-.profile-table td{
-    padding:16px 18px;
-    border:1px solid #e0d0be;
-    vertical-align:top;
-}
+            .protocol-box {
+                padding: 24px;
+            }
 
-.profile-table td:first-child{
-    width:220px;
-    color:#8b6340;
-    font-weight:bold;
-}
+            .two-cols {
+                grid-template-columns: 1fr;
+            }
 
-@media(max-width:768px){
-    header{
-        padding:0 16px;
-    }
-
-    .header-user{
-        width:100%;
-        justify-content:space-between;
-        padding-bottom:12px;
-    }
-
-    main{
-        padding:24px 16px;
-    }
-
-    .tab-btn{
-        padding:8px 10px;
-    }
-
-    table{
-        font-size:0.8rem;
-    }
-
-    table th,
-    table td{
-        padding:8px;
-    }
-}
-</style>
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-    <span class="brand">🐾 Huellitas</span>
-
-    <nav>
-        <a class="active" onclick="showSection('mascotas', this)">Mascotas</a>
-        <a onclick="showSection('horarios', this)">Horarios</a>
-        <a onclick="showSection('perfil', this)">Mi cuenta</a>
-    </nav>
-
-    <div class="header-user">
-        <span id="empleado-nombre-header">Empleado</span>
-        <a href="login-empleado.html" class="btn-logout">Cerrar sesión</a>
-    </div>
-</header>
-
-<main>
-
-<div id="sec-mascotas" class="section active">
-    <h2>Mascotas del refugio</h2>
-    <p class="sec-desc">Consulta las mascotas asignadas, adoptadas y disponibles para adopción.</p>
-
-    <div class="tab-bar">
-        <button class="tab-btn active" onclick="showTab('cuidado', this)">A mi cuidado</button>
-        <button class="tab-btn" onclick="showTab('adoptadas', this)">Adoptadas</button>
-        <button class="tab-btn" onclick="showTab('espera', this)">Buscando hogar</button>
+    <div class="adoptante-header">
+        <span class="brand">🐾 Huellitas</span>
+        <div class="header-right">
+            <a href="bienvenida-adoptante.html" class="btn-logout">← Regresar</a>
+        </div>
     </div>
 
-    <div id="tab-cuidado">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Edad</th>
-                    <th>Sexo</th>
-                    <th>Habitación</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Manchas</td><td>Gato</td><td>2 años</td><td>Macho</td><td>B-3</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
-                <tr><td>Coco</td><td>Perro</td><td>4 años</td><td>Hembra</td><td>C-1</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
-                <tr><td>Luna</td><td>Gata</td><td>1 año</td><td>Hembra</td><td>A-2</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
-                <tr><td>Peludo</td><td>Perro</td><td>3 años</td><td>Macho</td><td>D-4</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
-                <tr><td>Tigre</td><td>Gato</td><td>5 años</td><td>Macho</td><td>B-1</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
-                <tr><td>Nube</td><td>Perro</td><td>6 meses</td><td>Hembra</td><td>A-5</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
-            </tbody>
-        </table>
+    <div class="protocol-page">
+        <div class="protocol-box">
+            <h2>Protocolo de adopción</h2>
+            <p class="sec-desc">
+                Completa este formulario para continuar con tu proceso de adopción.
+            </p>
+
+            <div id="mensaje" class="msg"></div>
+
+            <form id="form-protocolo">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" placeholder="Tu nombre completo">
+
+                <div class="two-cols">
+                    <div>
+                        <label for="correo">Correo de contacto</label>
+                        <input type="email" id="correo" placeholder="correo@ejemplo.com">
+                    </div>
+
+                    <div>
+                        <label for="telefono">Número de teléfono</label>
+                        <input type="tel" id="telefono" placeholder="Ej. 5512345678">
+                    </div>
+                </div>
+
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Calle, número, colonia, ciudad">
+
+                <div class="two-cols">
+                    <div>
+                        <label for="animales">¿Cuántos animales tienes actualmente?</label>
+                        <input type="number" id="animales" min="0" placeholder="Ej. 2">
+                    </div>
+
+                    <div>
+                        <label for="ine">INE</label>
+                        <input type="file" id="ine" accept="image/*,.pdf">
+                    </div>
+                </div>
+
+                <label for="comprobante">Comprobante de domicilio</label>
+                <input type="file" id="comprobante" accept="image/*,.pdf">
+
+                <label for="motivo">¿Por qué quieres adoptar?</label>
+                <textarea id="motivo" placeholder="Escribe tu motivo para adoptar"></textarea>
+
+                <div class="checkbox-box">
+                    <label>
+                        <input type="checkbox" id="seguimiento">
+                        <span>
+                            Acepto continuar con el seguimiento post-adopción y enviar fotos de la mascota
+                            cuando el refugio Huellitas lo solicite, para verificar su bienestar.
+                        </span>
+                    </label>
+                </div>
+
+                <div class="actions">
+                    <button type="button" class="btn btn-primary" onclick="enviarFormulario()">
+                        Continuar
+                    </button>
+                    <a href="bienvenida-adoptante.html" class="btn btn-secondary">Cancelar</a>
+                </div>
+
+                <p class="note">
+                    Nota: este formulario es parte del proceso inicial y podrá ser revisado por el equipo del refugio.
+                </p>
+            </form>
+        </div>
     </div>
 
-    <div id="tab-adoptadas" style="display:none;">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Edad</th>
-                    <th>Sexo</th>
-                    <th>Fecha de adopción</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Max</td><td>Perro</td><td>2 años</td><td>Macho</td><td>10 Ene 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
-                <tr><td>Misi</td><td>Gata</td><td>3 años</td><td>Hembra</td><td>22 Feb 2025</td><td><span class="badge badge-adopted">Adoptada</span></td></tr>
-                <tr><td>Bruno</td><td>Perro</td><td>5 años</td><td>Macho</td><td>03 Mar 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
-                <tr><td>Caramelo</td><td>Gato</td><td>1 año</td><td>Macho</td><td>15 Abr 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
-            </tbody>
-        </table>
-    </div>
+    <script src="static-supabase.js"></script>
+    <script>
+        const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+        const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
 
-    <div id="tab-espera" style="display:none;">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Edad</th>
-                    <th>Sexo</th>
-                    <th>En refugio desde</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Canela</td><td>Perro</td><td>7 meses</td><td>Hembra</td><td>Ene 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
-                <tr><td>Sombra</td><td>Gato</td><td>4 años</td><td>Macho</td><td>Feb 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
-                <tr><td>Rocky</td><td>Perro</td><td>2 años</td><td>Macho</td><td>Mar 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
-                <tr><td>Bolita</td><td>Gata</td><td>8 meses</td><td>Hembra</td><td>Mar 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
-                <tr><td>Chispas</td><td>Perro</td><td>1 año</td><td>Hembra</td><td>Abr 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-<div id="sec-horarios" class="section">
-    <h2>Mis horarios</h2>
-    <p class="sec-desc">Tu turno asignado y las actividades de cuidado del día.</p>
+        function mostrarMensaje(texto, tipo) {
+            const msg = document.getElementById('mensaje');
+            msg.textContent = texto;
+            msg.className = 'msg ' + tipo;
+        }
 
-    <div class="turno-box">
-        <p><strong>Turno:</strong> Matutino</p>
-        <p><strong>Horario:</strong> 07:00 - 14:00 hrs</p>
-        <p><strong>Días:</strong> Lunes a viernes</p>
-        <p><strong>Área:</strong> Habitaciones A y B</p>
-    </div>
+        function obtenerIdMascotaDesdeURL() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            return id ? parseInt(id) : null;
+        }
 
-    <table>
-        <thead>
-            <tr>
-                <th>Mascota</th>
-                <th>Tipo</th>
-                <th>Actividad</th>
-                <th>Hora</th>
-                <th>Días</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>Manchas</td><td>Gato</td><td>Alimentación y limpieza</td><td>07:30</td><td>Lun, Mié, Vie</td></tr>
-            <tr><td>Coco</td><td>Perro</td><td>Paseo matutino</td><td>08:00</td><td>Lun, Mar, Jue</td></tr>
-            <tr><td>Luna</td><td>Gata</td><td>Alimentación y medicamento</td><td>08:30</td><td>Mar, Jue</td></tr>
-            <tr><td>Peludo</td><td>Perro</td><td>Baño semanal</td><td>09:00</td><td>Mié</td></tr>
-            <tr><td>Tigre</td><td>Gato</td><td>Revisión veterinaria</td><td>10:00</td><td>Lun</td></tr>
-            <tr><td>Nube</td><td>Perro</td><td>Socialización y juego</td><td>10:30</td><td>Mar, Vie</td></tr>
-        </tbody>
-    </table>
-</div>
+        async function precargarUsuario() {
+            const { data, error } = await supabaseClient.auth.getUser();
 
-<div id="sec-perfil" class="section">
-    <h2>Mi cuenta</h2>
-    <p class="sec-desc">Información personal del empleado.</p>
+            if (error || !data.user) {
+                window.location.href = 'registro-adoptante.html';
+                return;
+            }
 
-    <table class="profile-table">
-        <tr><td>Nombre completo</td><td id="perfil-nombre-completo">—</td></tr>
-        <tr><td>Fecha de nacimiento</td><td>14 de marzo de 1998</td></tr>
-        <tr><td>CURP</td><td>RALE980314MDFMRN06</td></tr>
-        <tr><td>Dirección</td><td id="perfil-direccion">Calle Girasoles #14, Col. Jardines, Guadalajara, Jalisco</td></tr>
-        <tr><td>Número de empleado</td><td id="perfil-numero">—</td></tr>
-    </table>
-</div>
+            const user = data.user;
 
-</main>
+            const nombre = user.user_metadata?.nombre_completo || "";
+            const direccion = user.user_metadata?.direccion || "";
+            const correo = user.email || "";
 
-<script>
-const logueadoNuevo = localStorage.getItem("empleado_logueado");
-const logueadoViejo = localStorage.getItem("empleadoLogueado");
+            if (nombre) document.getElementById('nombre').value = nombre;
+            if (direccion) document.getElementById('direccion').value = direccion;
+            if (correo) document.getElementById('correo').value = correo;
+        }
 
-const rolNuevo = localStorage.getItem("rol_empleado");
-const rolViejo = localStorage.getItem("empleadoRol");
+        async function subirArchivo(file, carpeta, userId) {
+            if (!file) return null;
 
-const rol = rolNuevo || rolViejo;
+            const nombreSeguro = `${carpeta}/${userId}_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
 
-if(logueadoNuevo !== "true" && logueadoViejo !== "true"){
-    alert("Debes iniciar sesión como empleado.");
-    window.location.href = "login-empleado.html";
-}
+            const { data, error } = await supabaseClient
+                .storage
+                .from('documentos')
+                .upload(nombreSeguro, file);
 
-if(rol !== "empleado" && rol !== "admin" && rol !== "administrador"){
-    alert("No tienes permisos para entrar.");
-    window.location.href = "login-empleado.html";
-}
+            if (error) {
+                throw error;
+            }
 
-const nombre =
-    localStorage.getItem("empleado_nombre") ||
-    localStorage.getItem("empleadoNombre") ||
-    "Empleado";
+            return data.path;
+        }
 
-const numero =
-    localStorage.getItem("empleado_numero") ||
-    localStorage.getItem("empleadoNumero") ||
-    "Sin número";
+        async function enviarFormulario() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const correo = document.getElementById('correo').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const direccion = document.getElementById('direccion').value.trim();
+            const animales = document.getElementById('animales').value.trim();
+            const ineFile = document.getElementById('ine').files[0];
+            const comprobanteFile = document.getElementById('comprobante').files[0];
+            const motivo = document.getElementById('motivo').value.trim();
+            const seguimiento = document.getElementById('seguimiento').checked;
+            const idMascota = obtenerIdMascotaDesdeURL();
 
-const direccion =
-    localStorage.getItem("empleado_direccion") ||
-    localStorage.getItem("empleadoDireccion") ||
-    "Calle Girasoles #14, Col. Jardines, Guadalajara, Jalisco";
+            if (!nombre || !correo || !telefono || !direccion || animales === '' || !ineFile || !comprobanteFile || !motivo) {
+                mostrarMensaje('Por favor completa todos los campos y adjunta los documentos solicitados.', 'error');
+                return;
+            }
 
-document.getElementById("empleado-nombre-header").textContent = rol || "Empleado";
-document.getElementById("perfil-nombre-completo").textContent = nombre;
-document.getElementById("perfil-numero").textContent = numero;
-document.getElementById("perfil-direccion").textContent = direccion;
+            if (!seguimiento) {
+                mostrarMensaje('Debes aceptar el seguimiento con envío de fotos para continuar.', 'error');
+                return;
+            }
 
-document.querySelector(".btn-logout").addEventListener("click", function(e){
-    e.preventDefault();
+            mostrarMensaje('Guardando solicitud...', 'ok');
 
-    localStorage.removeItem("empleado_logueado");
-    localStorage.removeItem("rol_empleado");
-    localStorage.removeItem("empleado_id");
-    localStorage.removeItem("empleado_numero");
-    localStorage.removeItem("empleado_nombre");
-    localStorage.removeItem("empleado_correo");
-    localStorage.removeItem("empleado_direccion");
+            const { data: authData, error: authError } = await supabaseClient.auth.getUser();
 
-    localStorage.removeItem("empleadoLogueado");
-    localStorage.removeItem("empleadoRol");
-    localStorage.removeItem("empleadoId");
-    localStorage.removeItem("empleadoNumero");
-    localStorage.removeItem("empleadoNombre");
-    localStorage.removeItem("empleadoCorreo");
-    localStorage.removeItem("empleadoDireccion");
+            if (authError || !authData.user) {
+                mostrarMensaje('Tu sesión expiró. Inicia sesión de nuevo.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'registro-adoptante.html';
+                }, 1200);
+                return;
+            }
 
-    window.location.href = "login-empleado.html";
-});
+            const user = authData.user;
 
-function showSection(id, el){
-    document.querySelectorAll(".section").forEach(function(section){
-        section.classList.remove("active");
-    });
+            try {
+                const inePath = await subirArchivo(ineFile, 'ine', user.id);
+                const comprobantePath = await subirArchivo(comprobanteFile, 'comprobantes', user.id);
 
-    document.querySelectorAll("nav a").forEach(function(link){
-        link.classList.remove("active");
-    });
+                const { data: adoptanteData, error: adoptanteError } = await supabaseClient
+                    .from('adoptantes')
+                    .upsert({
+                        nombre_completo: nombre,
+                        correo: correo,
+                        telefono: telefono,
+                        direccion: direccion
+                    }, {
+                        onConflict: 'correo'
+                    })
+                    .select('id_adoptante')
+                    .single();
 
-    document.getElementById("sec-" + id).classList.add("active");
-    el.classList.add("active");
-}
+                if (adoptanteError) {
+                    console.error(adoptanteError);
+                    mostrarMensaje('No se pudo guardar la información del adoptante.', 'error');
+                    return;
+                }
 
-function showTab(id, el){
-    ["cuidado", "adoptadas", "espera"].forEach(function(tab){
-        document.getElementById("tab-" + tab).style.display = "none";
-    });
+                localStorage.setItem('inePath', inePath || '');
+                localStorage.setItem('comprobantePath', comprobantePath || '');
 
-    document.querySelectorAll(".tab-btn").forEach(function(btn){
-        btn.classList.remove("active");
-    });
+                const { data: protocoloData, error: protocoloError } = await supabaseClient
+                    .from('protocolos')
+                    .insert({
+                        id_adoptante: adoptanteData.id_adoptante,
+                        id_mascota: idMascota,
+                        animales_actuales: parseInt(animales),
+                        motivo: motivo,
+                        seguimiento: true
+                    })
+                    .select('id_protocolo')
+                    .single();
 
-    document.getElementById("tab-" + id).style.display = "block";
-    el.classList.add("active");
-}
-</script>
+                if (protocoloError) {
+                    console.error(protocoloError);
+                    mostrarMensaje('No se pudo guardar la solicitud.', 'error');
+                    return;
+                }
+
+                localStorage.setItem('protocoloId', protocoloData.id_protocolo);
+                localStorage.setItem('protocoloNombre', nombre);
+                localStorage.setItem('protocoloCorreo', correo);
+                localStorage.setItem('protocoloTelefono', telefono);
+                localStorage.setItem('protocoloDireccion', direccion);
+                localStorage.setItem('protocoloAnimales', animales);
+                localStorage.setItem('protocoloMotivo', motivo);
+
+                mostrarMensaje('Solicitud guardada correctamente.', 'ok');
+
+                const destino = idMascota
+                    ? `confirmacion-adopcion.html?id=${idMascota}`
+                    : 'confirmacion-adopcion.html';
+
+                setTimeout(() => {
+                    window.location.href = destino;
+                }, 1000);
+
+            } catch (error) {
+                console.error(error);
+                mostrarMensaje('Ocurrió un error al subir documentos o guardar la solicitud.', 'error');
+            }
+        }
+
+        precargarUsuario();
+    </script>
 
 </body>
 </html>

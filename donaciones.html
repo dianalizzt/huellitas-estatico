@@ -1,340 +1,946 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huellitas - Detalle del animal</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
 
-        body {
-            font-family: Georgia, 'Times New Roman', serif;
-            background: #f9f5f0;
-            color: #2e1f0e;
-            font-size: 15px;
-            line-height: 1.6;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .adoptante-header {
-            background: #5c3317;
-            padding: 16px 28px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
+<title>Huellitas – Donaciones</title>
 
-        .brand {
-            color: #f9f5f0;
-            font-size: 1.3rem;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
+<style>
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-        .btn-logout {
-            background: none;
-            border: 1px solid #8b6340;
-            color: #d4b896;
-            padding: 5px 12px;
-            font-family: Arial, sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
+body{
+  background:#f8f4ef;
+  font-family:Arial,sans-serif;
+  color:#3b2414;
+}
 
-        .adoptante-main {
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 36px 28px;
-        }
+/* ───────── HEADER ───────── */
 
-        .detail-box {
-            background: #fff;
-            border: 2px solid #c9a97a;
-            padding: 32px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+header{
+  background:#5c3317;
+  color:white;
+  padding:20px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-        .detail-top {
-            display: flex;
-            gap: 24px;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
+.brand{
+  font-size:1.5rem;
+  font-weight:bold;
+}
 
-        .detail-emoji {
-            font-size: 5rem;
-        }
+.header-right{
+  font-size:0.95rem;
+}
 
-        .detail-info h3 {
-            font-size: 1.6rem;
-            color: #5c3317;
-            margin-bottom: 6px;
-        }
+/* ───────── MAIN ───────── */
 
-        .detail-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: Arial, sans-serif;
-            font-size: 0.88rem;
-            margin-bottom: 16px;
-        }
+main{
+  max-width:1150px;
+  margin:auto;
+  padding:35px 20px;
+}
 
-        .detail-table td {
-            padding: 7px 10px;
-            border-bottom: 1px solid #e8d8c4;
-        }
+/* ───────── MENSAJE ───────── */
 
-        .detail-table td:first-child {
-            color: #8b6340;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: bold;
-            width: 190px;
-        }
+.motivador{
+  background:white;
+  border-radius:22px;
+  padding:30px;
+  box-shadow:0 8px 22px rgba(0,0,0,0.08);
+  margin-bottom:28px;
+  line-height:1.8;
+}
 
-        .detail-story {
-            font-size: 0.88rem;
-            color: #4a3020;
-            font-family: Arial, sans-serif;
-            line-height: 1.65;
-            border-top: 1px solid #e8d8c4;
-            padding-top: 14px;
-        }
+.motivador strong{
+  font-size:1.3rem;
+  color:#5c3317;
+}
 
-        .detail-story strong {
-            color: #5c3317;
-        }
+/* ───────── CONTACTO ───────── */
 
-        .detail-actions {
-            margin-top: 20px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
+.contacto-bar{
+  background:#ead8c6;
+  padding:18px;
+  border-radius:18px;
+  display:flex;
+  gap:25px;
+  flex-wrap:wrap;
+  margin-bottom:35px;
+  font-size:0.95rem;
+}
 
-        .badge {
-            font-size: 0.75rem;
-            padding: 2px 9px;
-            border: 1px solid;
-            font-family: Arial, sans-serif;
-            display: inline-block;
-        }
+/* ───────── TITULOS ───────── */
 
-        .badge-waiting {
-            border-color: #d4892a;
-            color: #7a4a00;
-            background: #fdf3e3;
-        }
+h2{
+  margin-bottom:10px;
+  color:#5c3317;
+}
 
-        .btn {
-            padding: 10px 22px;
-            border: none;
-            font-family: Arial, sans-serif;
-            font-size: 0.92rem;
-            cursor: pointer;
-            letter-spacing: 0.04em;
-            text-decoration: none;
-            display: inline-block;
-        }
+.sec-desc{
+  margin-bottom:30px;
+  color:#8b6340;
+}
 
-        .btn-green {
-            background: #2e7d32;
-            color: #fff;
-        }
+/* ───────── SECCIONES ───────── */
 
-        .btn-green:hover {
-            background: #246728;
-        }
+.don-seccion{
+  margin-bottom:40px;
+}
 
-        .btn-secondary {
-            background: #e8d8c4;
-            color: #5c3317;
-        }
+.don-seccion h3{
+  margin-bottom:18px;
+  color:#5c3317;
+  border-left:5px solid #c9a97a;
+  padding-left:12px;
+}
 
-        .btn-secondary:hover {
-            background: #dcc5aa;
-        }
+/* ───────── GRID ───────── */
 
-        .not-found {
-            background: #fff;
-            border: 2px solid #c9a97a;
-            padding: 32px;
-            max-width: 560px;
-            margin: 0 auto;
-            text-align: center;
-        }
+.don-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;
+}
 
-        .not-found h3 {
-            color: #5c3317;
-            margin-bottom: 12px;
-        }
+/* ───────── CARDS ───────── */
 
-        .not-found p {
-            font-family: Arial, sans-serif;
-            color: #4a3020;
-            margin-bottom: 18px;
-        }
+.don-item{
+  background:white;
+  padding:22px;
+  border-radius:20px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
 
-        @media (max-width: 768px) {
-            .adoptante-header {
-                padding: 14px 18px;
-            }
+.don-item:hover{
+  transform:translateY(-4px);
+}
 
-            .adoptante-main {
-                padding: 24px 16px;
-            }
+.don-nombre{
+  display:block;
+  font-weight:bold;
+  margin-bottom:12px;
+  color:#5c3317;
+  font-size:1rem;
+}
 
-            .detail-box {
-                padding: 24px;
-            }
+.don-check{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+}
 
-            .detail-top {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
+input[type="checkbox"]{
+  transform:scale(1.2);
+  accent-color:#5c3317;
+}
 
-            .detail-table td:first-child {
-                width: 140px;
-            }
-        }
-    </style>
+/* ───────── TABLA ───────── */
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:20px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+table th{
+  background:#5c3317;
+  color:white;
+  padding:15px;
+  text-align:left;
+}
+
+table td{
+  background:white;
+  padding:15px;
+  border-bottom:1px solid #eee;
+}
+
+table tr:hover td{
+  background:#fdf8f2;
+}
+
+/* ───────── BADGES ───────── */
+
+.badge{
+  padding:5px 10px;
+  border-radius:12px;
+  font-size:0.8rem;
+  font-weight:bold;
+}
+
+.badge-pend{
+  background:#ffe9c7;
+  color:#8b5a00;
+}
+
+.badge-ok{
+  background:#dff5e4;
+  color:#1f6d37;
+}
+
+/* ───────── RESUMEN ───────── */
+
+.resumen-box{
+  background:white;
+  border-radius:22px;
+  padding:30px;
+  margin-top:35px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+.resumen-box h4{
+  margin-bottom:18px;
+  color:#5c3317;
+  font-size:1.2rem;
+}
+
+#resumen-lista{
+  margin-bottom:20px;
+  line-height:1.8;
+}
+
+/* ───────── BOTONES ───────── */
+
+.btn{
+  border:none;
+  padding:13px 24px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+.btn-green{
+  background:#2e7d32;
+  color:white;
+}
+
+.btn-green:hover{
+  background:#256628;
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  background:#ead8c6;
+  color:#5c3317;
+}
+
+/* ───────── AGENDA ───────── */
+
+.agenda-box{
+  display:none;
+  background:white;
+  margin-top:30px;
+  padding:30px;
+  border-radius:22px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+.agenda-box h3{
+  margin-bottom:10px;
+  color:#5c3317;
+}
+
+.agenda-desc{
+  color:#8b6340;
+  margin-bottom:24px;
+}
+
+.agenda-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;
+  margin-bottom:20px;
+}
+
+.campo{
+  display:flex;
+  flex-direction:column;
+}
+
+.campo label{
+  margin-bottom:8px;
+  font-weight:bold;
+  color:#5c3317;
+}
+
+.campo input,
+.campo textarea{
+  border:2px solid #e5d3bf;
+  border-radius:14px;
+  padding:12px;
+  font-size:0.95rem;
+  outline:none;
+}
+
+.campo input:focus,
+.campo textarea:focus{
+  border-color:#c9a97a;
+}
+
+/* ───────── PÁGINAS ───────── */
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+/* ───────── GRACIAS ───────── */
+
+.gracias-box{
+  background:white;
+  max-width:650px;
+  margin:40px auto;
+  padding:40px;
+  border-radius:24px;
+  text-align:center;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+.big-emoji{
+  font-size:4rem;
+  margin-bottom:15px;
+  display:block;
+}
+
+.detalle{
+  background:#fdf8f2;
+  padding:20px;
+  border-radius:16px;
+  margin-top:22px;
+  text-align:left;
+  line-height:1.8;
+}
+
+@media(max-width:700px){
+
+  header{
+    flex-direction:column;
+    gap:10px;
+    text-align:center;
+  }
+
+}
+
+</style>
+
 </head>
+
 <body>
 
-    <div class="adoptante-header">
-        <span class="brand">🐾 Huellitas</span>
-        <div class="header-right">
-            <a href="galeria.html" class="btn-logout">← Regresar a la galería</a>
+<!-- ════════════════════
+     DONACIONES
+════════════════════ -->
+
+<div id="pg-donaciones" class="page active">
+
+<header>
+
+  <div class="brand">
+    🐾 Huellitas – Donaciones
+  </div>
+
+  <div class="header-right">
+    Gracias por apoyar 
+  </div>
+
+</header>
+
+<main>
+
+  <div class="motivador">
+
+    <strong>¡Gracias por ayudar a nuestros peluditos! 🐾</strong>
+
+    <br><br>
+
+    Cada donación ayuda a brindar alimento, vacunas,
+    medicamentos, productos de limpieza y mucho amor
+    a los animales rescatados de Huellitas.
+
+  </div>
+
+  <div class="contacto-bar">
+
+    <div>📞 55 78819252 </div>
+
+    <div>✉️ contacto@huellitas.org</div>
+
+    <div>📍 Ciudad de México</div>
+
+  </div>
+
+  <h2>¿Cómo deseas apoyarnos?</h2>
+
+  <p class="sec-desc">
+    Selecciona los artículos que deseas donar.
+  </p>
+
+  <!-- ALIMENTO -->
+
+  <div class="don-seccion">
+
+    <h3>🥣 Alimento</h3>
+
+    <div class="don-grid">
+
+      <div class="don-item">
+        <span class="don-nombre"> Croquetas para gato</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-cro-gato">
+          <label for="d-cro-gato">Bolsa 3 kg</label>
         </div>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-cro-gato2">
+          <label for="d-cro-gato2">Bolsa 8 kg</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre"> Croquetas para perro</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-cro-perro">
+          <label for="d-cro-perro">Bolsa 3 kg</label>
+        </div>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-cro-perro2">
+          <label for="d-cro-perro2">Bolsa 10 kg</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre">🥫 Comida húmeda para gato</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-hum-gato">
+          <label for="d-hum-gato">Paquete de latas</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre"> Comida húmeda para perro</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-hum-perro">
+          <label for="d-hum-perro">Paquete de latas</label>
+        </div>
+      </div>
+
     </div>
 
-    <div class="adoptante-main">
-        <div id="contenido-detalle"></div>
+  </div>
+
+  <!-- LIMPIEZA -->
+
+  <div class="don-seccion">
+
+    <h3>Productos de limpieza</h3>
+
+    <div class="don-grid">
+
+      <div class="don-item">
+        <span class="don-nombre">🧴 Cloralex / Cloro</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-cloro">
+          <label for="d-cloro">Botella 1 litro</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre">🫧 Desinfectante multiusos</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-desinfect">
+          <label for="d-desinfect">Botella grande</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre">🧻 Papel / toallas</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-papel">
+          <label for="d-papel">Paquete grande</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre">🪣 Cubeta y jalador</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-cubeta">
+          <label for="d-cubeta">Kit de limpieza</label>
+        </div>
+      </div>
+
     </div>
 
-<script src="static-supabase.js"></script>
+  </div>
+
+  <!-- SALUD -->
+
+  <div class="don-seccion">
+
+    <h3> Salud </h3>
+
+    <div class="don-grid">
+
+      <div class="don-item">
+        <span class="don-nombre">💉 Vacunas</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-vacunas">
+          <label for="d-vacunas">Apoyo para vacunas</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre"> Desparasitación</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-despar">
+          <label for="d-despar">Medicamento antiparasitario</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre">🐾 Pipetas antipulgas</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-pipetas">
+          <label for="d-pipetas">Pipetas para perros y gatos</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre">✂️ Esterilización</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-esteril">
+          <label for="d-esteril">Apoyo económico</label>
+        </div>
+      </div>
+
+      <div class="don-item">
+        <span class="don-nombre">🏥 Fondo veterinario</span>
+
+        <div class="don-check">
+          <input type="checkbox" id="d-vet">
+          <label for="d-vet">Consultas y medicamentos</label>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- TABLA -->
+
+  <div class="don-seccion">
+
+    <h3>📋 Animales que necesitan ayuda</h3>
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Animal</th>
+          <th>Vacunas</th>
+          <th>Esterilización</th>
+          <th>Desparasitación</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>🐱 Canela</td>
+          <td><span class="badge badge-pend">Pendiente</span></td>
+          <td><span class="badge badge-pend">Pendiente</span></td>
+          <td><span class="badge badge-ok">Al día</span></td>
+        </tr>
+
+        <tr>
+          <td>🐶 Rocky</td>
+          <td><span class="badge badge-ok">Al día</span></td>
+          <td><span class="badge badge-pend">Pendiente</span></td>
+          <td><span class="badge badge-pend">Pendiente</span></td>
+        </tr>
+
+        <tr>
+          <td>🐱 Luna</td>
+          <td><span class="badge badge-pend">Pendiente</span></td>
+          <td><span class="badge badge-ok">Al día</span></td>
+          <td><span class="badge badge-pend">Pendiente</span></td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- RESUMEN -->
+
+  <div class="resumen-box">
+
+    <h4>📦 Resumen de tu donación</h4>
+
+    <div id="resumen-lista">
+
+      <span style="color:#8b6340;font-style:italic;">
+        Aún no has seleccionado ningún artículo.
+      </span>
+
+    </div>
+
+    <button class="btn btn-green"
+            onclick="mostrarAgenda()">
+
+      Continuar con la donación 🐾
+
+    </button>
+
+  </div>
+
+  <!-- AGENDA -->
+
+  <div id="agenda-box" class="agenda-box">
+
+    <h3>📅 Agenda tu entrega</h3>
+
+    <p class="agenda-desc">
+      Selecciona el día y la hora para entregar tu donación.
+    </p>
+
+    <div class="agenda-grid">
+
+      <div class="campo">
+        <label>Nombre completo</label>
+        <input type="text" id="donador-nombre">
+      </div>
+
+      <div class="campo">
+        <label>Correo electrónico</label>
+        <input type="email" id="donador-email">
+      </div>
+
+      <div class="campo">
+        <label>Fecha</label>
+        <input type="date" id="fecha-donacion">
+      </div>
+
+      <div class="campo">
+        <label>Hora</label>
+        <input type="time" id="hora-donacion">
+      </div>
+
+    </div>
+
+    <div class="campo">
+
+      <label>Mensaje adicional</label>
+
+      <textarea id="mensaje-donacion"
+                rows="4"></textarea>
+
+    </div>
+
+    <br>
+
+    <button class="btn btn-green"
+            onclick="confirmarDonacion()">
+
+      Confirmar donación 
+
+    </button>
+
+  </div>
+
+</main>
+
+</div>
+
+<!-- GRACIAS -->
+
+<div id="pg-gracias" class="page">
+
+<header>
+
+  <div class="brand">
+    🐾 Huellitas – Donaciones
+  </div>
+
+</header>
+
+<main>
+
+  <div class="gracias-box">
+
+    <span class="big-emoji">
+      🐾💛
+    </span>
+
+    <h2>¡Gracias de corazón por contribuir!</h2>
+
+    <br>
+
+    <p>
+      Tu apoyo ayudará muchísimo a nuestros peluditos.
+    </p>
+
+    <div class="detalle" id="gracias-detalle"></div>
+
+    <br>
+
+    <button class="btn btn-secondary"
+            onclick="volverInicio()">
+
+      Hacer otra donación
+
+    </button>
+
+  </div>
+
+</main>
+
+</div>
+
 <script>
-    const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
-    const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
 
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const DB_KEY = "huellitas_static_db_v3";
 
-    function obtenerIdDesdeURL() {
-        const params = new URLSearchParams(window.location.search);
-        return parseInt(params.get('id'));
-    }
+function guardarDonacionLocal(donacion) {
+  let db = {};
+  try {
+    db = JSON.parse(localStorage.getItem(DB_KEY) || "{}");
+  } catch (e) {
+    db = {};
+  }
 
-    function obtenerEmoji(tipo) {
-        if (!tipo) return "🐾";
+  if (!Array.isArray(db.donaciones)) db.donaciones = [];
 
-        const t = tipo.toLowerCase();
+  const siguienteId = db.donaciones.length
+    ? Math.max(...db.donaciones.map(d => Number(d.id_donacion) || 0)) + 1
+    : 1;
 
-        if (t.includes("gato")) return "🐱";
-        if (t.includes("perro")) return "🐶";
+  db.donaciones.push({
+    id_donacion: siguienteId,
+    fecha_registro: new Date().toISOString().split("T")[0],
+    ...donacion
+  });
 
-        return "🐾";
-    }
-
-    async function renderDetalle() {
-        const id = obtenerIdDesdeURL();
-        const contenedor = document.getElementById('contenido-detalle');
-
-        if (!id) {
-            contenedor.innerHTML = `
-                <div class="not-found">
-                    <h3>ID inválido</h3>
-                    <a href="galeria.html" class="btn btn-secondary">Volver</a>
-                </div>
-            `;
-            return;
-        }
-
-        const { data, error } = await supabaseClient
-            .from("mascotas")
-            .select("*")
-            .eq("id_mascota", id)
-            .maybeSingle();
-
-        if (error || !data) {
-            contenedor.innerHTML = `
-                <div class="not-found">
-                    <h3>Animalito no encontrado</h3>
-                    <p>No pudimos encontrar el perfil.</p>
-                    <a href="galeria.html" class="btn btn-secondary">Volver</a>
-                </div>
-            `;
-            return;
-        }
-
-        const emoji = obtenerEmoji(data.tipo);
-
-        contenedor.innerHTML = `
-            <div class="detail-box">
-                <div class="detail-top">
-                    <div class="detail-emoji">${emoji}</div>
-                    <div class="detail-info">
-                        <h3>${data.nombre}</h3>
-                        <span class="badge badge-waiting">Disponible para adopción</span>
-                    </div>
-                </div>
-
-                <table class="detail-table">
-                    <tr><td>Tipo</td><td>${data.tipo || "No disponible"}</td></tr>
-                    <tr><td>Edad</td><td>${data.edad || "No disponible"}</td></tr>
-                    <tr><td>Raza</td><td>${data.raza || "No disponible"}</td></tr>
-                    <tr><td>Sexo</td><td>${data.sexo || "No disponible"}</td></tr>
-                </table>
-
-                <div class="detail-story">
-                    <strong>Descripción</strong><br>
-                    ${data.descripcion || "Sin descripción"}
-                    <br><br>
-                    <strong>Historia</strong><br>
-                    ${data.historia || "Sin historia registrada"}
-                </div>
-
-                <div class="detail-actions">
-                   <a href="#"
-   class="btn btn-primary"
-   onclick="seleccionarMascota(${data.id_mascota})">
-   🏠 Quiero adoptar a ${data.nombre}
-</a>
-                    <a href="galeria.html" class="btn btn-secondary">← Regresar</a>
-                </div>
-            </div>
-        `;
-    }
-
-    renderDetalle();
-
-function seleccionarMascota(idMascota) {
-
-    // guardar mascota seleccionada
-    localStorage.setItem("id_mascota", idMascota);
-
-    console.log("Mascota guardada:", idMascota);
-
-    // mandar a entrevista
-    window.location.href = "entrevista.html";
+  localStorage.setItem(DB_KEY, JSON.stringify(db));
 }
+
+var etiquetas = {
+
+'d-cro-gato':'Croquetas para gato – Bolsa 3 kg',
+'d-cro-gato2':'Croquetas para gato – Bolsa 8 kg',
+'d-cro-perro':'Croquetas para perro – Bolsa 3 kg',
+'d-cro-perro2':'Croquetas para perro – Bolsa 10 kg',
+'d-hum-gato':'Comida húmeda para gato',
+'d-hum-perro':'Comida húmeda para perro',
+
+'d-cloro':'Cloralex / Cloro',
+'d-desinfect':'Desinfectante multiusos',
+'d-papel':'Papel periódico / toallas',
+'d-cubeta':'Cubeta y jalador',
+
+'d-vacunas':'Apoyo para vacunas',
+'d-despar':'Medicamento antiparasitario',
+'d-pipetas':'Pipetas antipulgas',
+'d-esteril':'Apoyo para esterilización',
+'d-vet':'Fondo veterinario'
+
+};
+
+document.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
+
+  cb.addEventListener('change',actualizarResumen);
+
+});
+
+function obtenerSeleccionados(){
+
+  var seleccionados = [];
+
+  Object.keys(etiquetas).forEach(function(id){
+
+    var el = document.getElementById(id);
+
+    if(el && el.checked){
+
+      seleccionados.push(etiquetas[id]);
+
+    }
+
+  });
+
+  return seleccionados;
+
+}
+
+function actualizarResumen(){
+
+  var seleccionados = obtenerSeleccionados();
+
+  var div = document.getElementById('resumen-lista');
+
+  if(seleccionados.length === 0){
+
+    div.innerHTML =
+    '<span style="color:#8b6340;font-style:italic;">Aún no has seleccionado ningún artículo.</span>';
+
+  }
+
+  else{
+
+    div.innerHTML = seleccionados.map(function(item){
+      return '• ' + item;
+    }).join('<br>');
+
+  }
+
+}
+
+function mostrarAgenda(){
+
+  var seleccionados = obtenerSeleccionados();
+
+  if(seleccionados.length === 0){
+
+    alert('Selecciona al menos un artículo.');
+
+    return;
+
+  }
+
+  document.getElementById('agenda-box').style.display = 'block';
+
+  window.scrollTo({
+
+    top:document.getElementById('agenda-box').offsetTop - 20,
+
+    behavior:'smooth'
+
+  });
+
+}
+
+async function confirmarDonacion(){
+
+  var nombre = document.getElementById('donador-nombre').value.trim();
+
+  var email = document.getElementById('donador-email').value.trim();
+
+  var fecha = document.getElementById('fecha-donacion').value;
+
+  var hora = document.getElementById('hora-donacion').value;
+
+  var mensaje = document.getElementById('mensaje-donacion').value.trim();
+
+  if(!nombre || !email || !fecha || !hora){
+
+    alert('Completa todos los campos.');
+
+    return;
+
+  }
+
+  var seleccionados = obtenerSeleccionados();
+
+  if(seleccionados.length === 0){
+
+    alert('Selecciona al menos un artículo.');
+
+    return;
+
+  }
+
+  guardarDonacionLocal({
+    nombre_completo: nombre,
+    correo: email,
+    fecha_entrega: fecha,
+    hora_entrega: hora,
+    mensaje: mensaje,
+    articulos: seleccionados.join(', ')
+  });
+
+  document.getElementById('gracias-detalle').innerHTML =
+
+    '<strong>Donador:</strong> ' + nombre +
+
+    '<br><strong>Correo:</strong> ' + email +
+
+    '<br><strong>Fecha:</strong> ' + fecha +
+
+    '<br><strong>Hora:</strong> ' + hora +
+
+    '<br><br><strong>Artículos:</strong><br><br>' +
+
+    seleccionados.map(function(item){
+      return '• ' + item;
+    }).join('<br>');
+
+  document.getElementById('pg-donaciones').classList.remove('active');
+
+  document.getElementById('pg-gracias').classList.add('active');
+
+  window.scrollTo(0,0);
+
+}
+
+function volverInicio(){
+
+  document.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
+
+    cb.checked = false;
+
+  });
+
+  document.getElementById('donador-nombre').value = '';
+  document.getElementById('donador-email').value = '';
+  document.getElementById('fecha-donacion').value = '';
+  document.getElementById('hora-donacion').value = '';
+  document.getElementById('mensaje-donacion').value = '';
+
+  document.getElementById('agenda-box').style.display = 'none';
+
+  actualizarResumen();
+
+  document.getElementById('pg-gracias').classList.remove('active');
+
+  document.getElementById('pg-donaciones').classList.add('active');
+
+  window.scrollTo(0,0);
+
+}
+
 </script>
 
 </body>

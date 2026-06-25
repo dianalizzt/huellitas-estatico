@@ -1,513 +1,340 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Dashboard Huellitas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Detalle del animal</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #f9f5f0;
+            color: #2e1f0e;
+            font-size: 15px;
+            line-height: 1.6;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f9f5f0;
-    color: #3b2414;
-    padding: 20px;
-}
+        .adoptante-header {
+            background: #5c3317;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 25px;
-}
+        .brand {
+            color: #f9f5f0;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
 
-h1 {
-    color: #5c3317;
-    font-size: 2rem;
-}
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
 
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
+        .btn-logout {
+            background: none;
+            border: 1px solid #8b6340;
+            color: #d4b896;
+            padding: 5px 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-nav a {
-    background: #5c3317;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-block;
-}
+        .adoptante-main {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 36px 28px;
+        }
 
-nav a:hover {
-    background: #7a4620;
-}
+        .detail-box {
+            background: #fff;
+            border: 2px solid #c9a97a;
+            padding: 32px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-.admin-info {
-    background: white;
-    border-left: 5px solid #c9a97a;
-    padding: 14px;
-    margin-bottom: 22px;
-    border-radius: 8px;
-}
+        .detail-top {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
 
-.admin-info strong {
-    color: #5c3317;
-}
+        .detail-emoji {
+            font-size: 5rem;
+        }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 18px;
-}
+        .detail-info h3 {
+            font-size: 1.6rem;
+            color: #5c3317;
+            margin-bottom: 6px;
+        }
 
-.card {
-    background: white;
-    border-left: 6px solid #c9a97a;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            font-size: 0.88rem;
+            margin-bottom: 16px;
+        }
 
-.card h2 {
-    font-size: 1rem;
-    color: #5c3317;
-    margin-bottom: 8px;
-}
+        .detail-table td {
+            padding: 7px 10px;
+            border-bottom: 1px solid #e8d8c4;
+        }
 
-.card p {
-    font-size: 2rem;
-    font-weight: bold;
-}
+        .detail-table td:first-child {
+            color: #8b6340;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: bold;
+            width: 190px;
+        }
 
-section {
-    background: white;
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 10px;
-}
+        .detail-story {
+            font-size: 0.88rem;
+            color: #4a3020;
+            font-family: Arial, sans-serif;
+            line-height: 1.65;
+            border-top: 1px solid #e8d8c4;
+            padding-top: 14px;
+        }
 
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-}
+        .detail-story strong {
+            color: #5c3317;
+        }
 
-.btn {
-    background: #5c3317;
-    color: white;
-    padding: 9px 13px;
-    border-radius: 6px;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-}
+        .detail-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
 
-.btn:hover {
-    background: #7a4620;
-}
+        .badge {
+            font-size: 0.75rem;
+            padding: 2px 9px;
+            border: 1px solid;
+            font-family: Arial, sans-serif;
+            display: inline-block;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-    background: white;
-}
+        .badge-waiting {
+            border-color: #d4892a;
+            color: #7a4a00;
+            background: #fdf3e3;
+        }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    font-size: 0.92rem;
-}
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.92rem;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-th {
-    background: #5c3317;
-    color: white;
-}
+        .btn-green {
+            background: #2e7d32;
+            color: #fff;
+        }
 
-.estado {
-    font-weight: bold;
-}
+        .btn-green:hover {
+            background: #246728;
+        }
 
-.disponible {
-    color: #2e7d32;
-}
+        .btn-secondary {
+            background: #e8d8c4;
+            color: #5c3317;
+        }
 
-.en_proceso {
-    color: #b26a00;
-}
+        .btn-secondary:hover {
+            background: #dcc5aa;
+        }
 
-.adoptado {
-    color: #b71c1c;
-}
+        .not-found {
+            background: #fff;
+            border: 2px solid #c9a97a;
+            padding: 32px;
+            max-width: 560px;
+            margin: 0 auto;
+            text-align: center;
+        }
 
-.msg {
-    color: #8b6340;
-    font-style: italic;
-}
+        .not-found h3 {
+            color: #5c3317;
+            margin-bottom: 12px;
+        }
 
-@media(max-width:800px) {
-    body {
-        padding: 12px;
-    }
+        .not-found p {
+            font-family: Arial, sans-serif;
+            color: #4a3020;
+            margin-bottom: 18px;
+        }
 
-    h1 {
-        font-size: 1.5rem;
-    }
+        @media (max-width: 768px) {
+            .adoptante-header {
+                padding: 14px 18px;
+            }
 
-    table {
-        font-size: 0.8rem;
-    }
+            .adoptante-main {
+                padding: 24px 16px;
+            }
 
-    th, td {
-        padding: 7px;
-    }
-}
-</style>
+            .detail-box {
+                padding: 24px;
+            }
+
+            .detail-top {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .detail-table td:first-child {
+                width: 140px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-    <h1>🐾 Dashboard Administrador</h1>
-
-<nav>
-    <a href="dashboard-admin.html">Inicio</a>
-    <a href="mascotas-admin.html">Mascotas</a>
-    <a href="solicitudes-admin.html">Solicitudes</a>
-    <a href="adoptantes-admin.html">Adoptantes</a>
-    <a href="empleados-admin.html">Empleados</a>
-    <a href="entrevistas-admin.html">Entrevistas</a>
-    <a href="adopciones-admin.html">Adopciones</a>
-    <a href="login-empleado.html" onclick="cerrarSesion()">Cerrar sesión</a>
-</nav>
-</header>
-
-<div class="admin-info">
-    Bienvenido, <strong id="nombreAdmin">Administrador</strong>.  
-    Desde este panel puedes consultar el estado general del refugio Huellitas.
-</div>
-
-<div class="cards">
-    <div class="card">
-        <h2>Total de mascotas</h2>
-        <p id="totalMascotas">0</p>
+    <div class="adoptante-header">
+        <span class="brand">🐾 Huellitas</span>
+        <div class="header-right">
+            <a href="galeria.html" class="btn-logout">← Regresar a la galería</a>
+        </div>
     </div>
 
-    <div class="card">
-        <h2>Disponibles</h2>
-        <p id="disponibles">0</p>
+    <div class="adoptante-main">
+        <div id="contenido-detalle"></div>
     </div>
-
-    <div class="card">
-        <h2>En proceso</h2>
-        <p id="proceso">0</p>
-    </div>
-
-    <div class="card">
-        <h2>Adoptadas</h2>
-        <p id="adoptadas">0</p>
-    </div>
-
-    <div class="card">
-        <h2>Solicitudes</h2>
-        <p id="solicitudes">0</p>
-    </div>
-
-    <div class="card">
-        <h2>Entrevistas</h2>
-        <p id="entrevistas">0</p>
-    </div>
-
-    <div class="card">
-        <h2>Adoptantes</h2>
-        <p id="adoptantes">0</p>
-    </div>
-
-    <div class="card">
-        <h2>Empleados</h2>
-        <p id="empleados">0</p>
-    </div>
-</div>
-
-<section>
-    <div class="section-header">
-        <h2>Últimas solicitudes de adopción</h2>
-        <a href="solicitudes-admin.html" class="btn">Ver todas</a>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Adoptante</th>
-                <th>Mascota</th>
-                <th>Motivo</th>
-                <th>Fecha</th>
-            </tr>
-        </thead>
-
-        <tbody id="tablaSolicitudes">
-            <tr>
-                <td colspan="5" class="msg">Cargando solicitudes...</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<section>
-    <div class="section-header">
-        <h2>Mascotas recientes</h2>
-        <a href="mascotas-admin.html" class="btn">Gestionar mascotas</a>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Edad</th>
-                <th>Sexo</th>
-                <th>Estado</th>
-            </tr>
-        </thead>
-
-        <tbody id="tablaMascotas">
-            <tr>
-                <td colspan="6" class="msg">Cargando mascotas...</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
 
 <script src="static-supabase.js"></script>
-
 <script>
-const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
-const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+    const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
+    const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-function protegerAdmin() {
-    const logueado = localStorage.getItem("empleado_logueado");
-    const rol = localStorage.getItem("rol_empleado");
-    const numero = localStorage.getItem("empleado_numero");
-
-    if (
-        logueado !== "true" ||
-        (
-            numero !== "EMP-0042" &&
-            rol !== "admin" &&
-            rol !== "administrador"
-        )
-    ) {
-        alert("Acceso restringido. Inicia sesión como administrador.");
-        window.location.href = "login-empleado.html";
-        return false;
+    function obtenerIdDesdeURL() {
+        const params = new URLSearchParams(window.location.search);
+        return parseInt(params.get('id'));
     }
 
-    return true;
-}
+    function obtenerEmoji(tipo) {
+        if (!tipo) return "🐾";
 
-function cargarNombreAdmin() {
-    const nombre = localStorage.getItem("empleado_nombre") || "Administrador";
-    document.getElementById("nombreAdmin").textContent = nombre;
-}
+        const t = tipo.toLowerCase();
 
-function cerrarSesion() {
-    localStorage.clear();
-}
+        if (t.includes("gato")) return "🐱";
+        if (t.includes("perro")) return "🐶";
 
-async function contar(tabla, filtro = null) {
-    let consulta = supabaseClient
-        .from(tabla)
-        .select("*", { count: "exact", head: true });
-
-    if (filtro) {
-        consulta = consulta.eq(filtro.campo, filtro.valor);
+        return "🐾";
     }
 
-    const { count, error } = await consulta;
+    async function renderDetalle() {
+        const id = obtenerIdDesdeURL();
+        const contenedor = document.getElementById('contenido-detalle');
 
-    if (error) {
-        console.error("Error contando " + tabla + ":", error);
-        return 0;
-    }
+        if (!id) {
+            contenedor.innerHTML = `
+                <div class="not-found">
+                    <h3>ID inválido</h3>
+                    <a href="galeria.html" class="btn btn-secondary">Volver</a>
+                </div>
+            `;
+            return;
+        }
 
-    return count || 0;
-}
+        const { data, error } = await supabaseClient
+            .from("mascotas")
+            .select("*")
+            .eq("id_mascota", id)
+            .maybeSingle();
 
-function limpiarTexto(valor) {
-    if (valor === null || valor === undefined || valor === "") {
-        return "—";
-    }
+        if (error || !data) {
+            contenedor.innerHTML = `
+                <div class="not-found">
+                    <h3>Animalito no encontrado</h3>
+                    <p>No pudimos encontrar el perfil.</p>
+                    <a href="galeria.html" class="btn btn-secondary">Volver</a>
+                </div>
+            `;
+            return;
+        }
 
-    return String(valor)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
+        const emoji = obtenerEmoji(data.tipo);
 
-function claseEstado(estado) {
-    if (!estado) return "";
+        contenedor.innerHTML = `
+            <div class="detail-box">
+                <div class="detail-top">
+                    <div class="detail-emoji">${emoji}</div>
+                    <div class="detail-info">
+                        <h3>${data.nombre}</h3>
+                        <span class="badge badge-waiting">Disponible para adopción</span>
+                    </div>
+                </div>
 
-    return String(estado)
-        .toLowerCase()
-        .replaceAll(" ", "_");
-}
+                <table class="detail-table">
+                    <tr><td>Tipo</td><td>${data.tipo || "No disponible"}</td></tr>
+                    <tr><td>Edad</td><td>${data.edad || "No disponible"}</td></tr>
+                    <tr><td>Raza</td><td>${data.raza || "No disponible"}</td></tr>
+                    <tr><td>Sexo</td><td>${data.sexo || "No disponible"}</td></tr>
+                </table>
 
-async function cargarContadores() {
-    document.getElementById("totalMascotas").textContent =
-        await contar("mascotas");
+                <div class="detail-story">
+                    <strong>Descripción</strong><br>
+                    ${data.descripcion || "Sin descripción"}
+                    <br><br>
+                    <strong>Historia</strong><br>
+                    ${data.historia || "Sin historia registrada"}
+                </div>
 
-    document.getElementById("disponibles").textContent =
-        await contar("mascotas", { campo: "estado", valor: "disponible" });
-
-    document.getElementById("proceso").textContent =
-        await contar("mascotas", { campo: "estado", valor: "en_proceso" });
-
-    document.getElementById("adoptadas").textContent =
-        await contar("mascotas", { campo: "estado", valor: "adoptado" });
-
-    document.getElementById("solicitudes").textContent =
-        await contar("protocolos");
-
-    document.getElementById("entrevistas").textContent =
-        await contar("entrevistas");
-
-    document.getElementById("adoptantes").textContent =
-        await contar("adoptantes");
-
-    document.getElementById("empleados").textContent =
-        await contar("empleados");
-}
-
-async function cargarUltimasSolicitudes() {
-    const tbody = document.getElementById("tablaSolicitudes");
-
-    const { data, error } = await supabaseClient
-        .from("protocolos")
-        .select(`
-            id_protocolo,
-            motivo,
-            fecha_registro,
-            adoptantes(nombre_completo),
-            mascotas(nombre)
-        `)
-        .order("id_protocolo", { ascending: false })
-        .limit(5);
-
-    tbody.innerHTML = "";
-
-    if (error) {
-        console.error("Error cargando solicitudes:", error);
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5">Error al cargar solicitudes.</td>
-            </tr>
+                <div class="detail-actions">
+                   <a href="#"
+   class="btn btn-primary"
+   onclick="seleccionarMascota(${data.id_mascota})">
+   🏠 Quiero adoptar a ${data.nombre}
+</a>
+                    <a href="galeria.html" class="btn btn-secondary">← Regresar</a>
+                </div>
+            </div>
         `;
-        return;
     }
 
-    if (!data || data.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5">No hay solicitudes registradas.</td>
-            </tr>
-        `;
-        return;
-    }
+    renderDetalle();
 
-    data.forEach(function(p) {
-        tbody.innerHTML += `
-            <tr>
-                <td>${limpiarTexto(p.id_protocolo)}</td>
-                <td>${limpiarTexto(p.adoptantes?.nombre_completo)}</td>
-                <td>${limpiarTexto(p.mascotas?.nombre)}</td>
-                <td>${limpiarTexto(p.motivo)}</td>
-                <td>${limpiarTexto(p.fecha_registro)}</td>
-            </tr>
-        `;
-    });
+function seleccionarMascota(idMascota) {
+
+    // guardar mascota seleccionada
+    localStorage.setItem("id_mascota", idMascota);
+
+    console.log("Mascota guardada:", idMascota);
+
+    // mandar a entrevista
+    window.location.href = "entrevista.html";
 }
-
-async function cargarMascotasRecientes() {
-    const tbody = document.getElementById("tablaMascotas");
-
-    const { data, error } = await supabaseClient
-        .from("mascotas")
-        .select("id_mascota, nombre, tipo, edad, sexo, estado")
-        .order("id_mascota", { ascending: false })
-        .limit(5);
-
-    tbody.innerHTML = "";
-
-    if (error) {
-        console.error("Error cargando mascotas:", error);
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6">Error al cargar mascotas.</td>
-            </tr>
-        `;
-        return;
-    }
-
-    if (!data || data.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6">No hay mascotas registradas.</td>
-            </tr>
-        `;
-        return;
-    }
-
-    data.forEach(function(m) {
-        const estado = limpiarTexto(m.estado);
-
-        tbody.innerHTML += `
-            <tr>
-                <td>${limpiarTexto(m.id_mascota)}</td>
-                <td>${limpiarTexto(m.nombre)}</td>
-                <td>${limpiarTexto(m.tipo)}</td>
-                <td>${limpiarTexto(m.edad)}</td>
-                <td>${limpiarTexto(m.sexo)}</td>
-                <td class="estado ${claseEstado(m.estado)}">${estado}</td>
-            </tr>
-        `;
-    });
-}
-
-async function iniciarDashboard() {
-    if (!protegerAdmin()) {
-        return;
-    }
-
-    cargarNombreAdmin();
-    await cargarContadores();
-    await cargarUltimasSolicitudes();
-    await cargarMascotasRecientes();
-}
-
-iniciarDashboard();
 </script>
 
 </body>

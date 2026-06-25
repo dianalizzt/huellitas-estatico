@@ -1,350 +1,312 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Empleados Huellitas</title>
+
+<title>Huellitas – Refugio de Mascotas</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f9f5f0;
-    color: #3b2414;
-    padding: 20px;
+body{
+    font-family:Georgia, 'Times New Roman', serif;
+    background:#f9f5f0;
+    color:#2e1f0e;
+    font-size:15px;
+    line-height:1.6;
+    padding:20px;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 25px;
+.page{
+    display:none;
 }
 
-h1 {
-    color: #5c3317;
-    font-size: 2rem;
+.page.active{
+    display:block;
 }
 
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+.adoptante-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
 }
 
-nav a {
-    background: #5c3317;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 6px;
-    text-decoration: none;
+.brand{
+    font-size:28px;
+    font-weight:bold;
+    color:#5c3317;
 }
 
-nav a:hover {
-    background: #7a4620;
+.adoptante-main{
+    max-width:800px;
+    margin:auto;
 }
 
-.formulario {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    border-left: 5px solid #c9a97a;
-    margin-bottom: 20px;
+.adoption-msg{
+    background:white;
+    border:2px solid #c9a97a;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
 }
 
-.formulario h2 {
-    color: #5c3317;
-    margin-bottom: 15px;
+.big-emoji{
+    font-size:70px;
+    display:block;
+    margin-bottom:15px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
+.pickup-box{
+    background:#fff8ef;
+    border:1px solid #c9a97a;
+    padding:18px;
+    border-radius:10px;
 }
 
-label {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #5c3317;
+.btn{
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
 }
 
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 9px;
-    margin-top: 6px;
-    border: 1px solid #c9a97a;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
+.btn-primary{
+    background:#8b5e3c;
+    color:white;
 }
 
-textarea {
-    resize: vertical;
-    min-height: 70px;
+.btn-secondary{
+    background:#d8c2a8;
+    color:#2e1f0e;
 }
 
-.actions,
-.controls {
-    margin-top: 15px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+.btn-full{
+    width:100%;
+    margin-top:15px;
 }
 
-.controls {
-    background: white;
-    padding: 15px;
-    border-left: 5px solid #c9a97a;
-    margin-bottom: 20px;
+.btn-logout{
+    padding:8px 14px;
+    border:none;
+    border-radius:8px;
+    background:#8b5e3c;
+    color:white;
+    cursor:pointer;
 }
 
-.controls input,
-.controls select {
-    width: auto;
-    min-width: 230px;
-    margin-top: 0;
+.sec-desc{
+    margin-top:10px;
+    margin-bottom:20px;
 }
 
-button,
-.btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.9rem;
+.cal-dia{
+    padding:10px;
+    background:white;
+    border:1px solid #c9a97a;
+    text-align:center;
+    cursor:pointer;
+    border-radius:6px;
 }
 
-.btn-primary {
-    background: #5c3317;
-    color: white;
+.cal-dia:hover{
+    background:#f2e2cf;
 }
 
-.btn-primary:hover {
-    background: #7a4620;
-}
-
-.btn-secondary {
-    background: #e8d8c4;
-    color: #5c3317;
-}
-
-.btn-edit {
-    background: #c9a97a;
-    color: #3b2414;
-}
-
-.btn-delete {
-    background: #b71c1c;
-    color: white;
-}
-
-.btn-admin {
-    background: #1976d2;
-    color: white;
-}
-
-.btn-employee {
-    background: #2e7d32;
-    color: white;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-}
-
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    font-size: 0.9rem;
-    vertical-align: top;
-}
-
-th {
-    background: #5c3317;
-    color: white;
-}
-
-.rol-admin {
-    color: #1976d2;
-    font-weight: bold;
-}
-
-.rol-empleado {
-    color: #2e7d32;
-    font-weight: bold;
-}
-
-.mensaje {
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-
-.ok {
-    color: #2e7d32;
-}
-
-.error {
-    color: #b71c1c;
-}
-
-.aviso {
-    background: white;
-    border-left: 5px solid #c9a97a;
-    padding: 14px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-}
-
-@media(max-width:900px) {
-    body {
-        padding: 12px;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    table {
-        font-size: 0.78rem;
-    }
-
-    th,
-    td {
-        padding: 7px;
-    }
-
-    .controls input,
-    .controls select {
-        width: 100%;
-    }
+.cal-dia.selected{
+    background:#8b5e3c;
+    color:white;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>👨‍💼 Gestión de empleados</h1>
+<div id="pg-adopcion-ok" class="page active">
 
-<nav>
-    <a href="dashboard-admin.html">Inicio</a>
-    <a href="mascotas-admin.html">Mascotas</a>
-    <a href="solicitudes-admin.html">Solicitudes</a>
-    <a href="adoptantes-admin.html">Adoptantes</a>
-    <a href="empleados-admin.html">Empleados</a>
-    <a href="entrevistas-admin.html">Entrevistas</a>
-    <a href="adopciones-admin.html">Adopciones</a>
-    <a href="login-empleado.html" onclick="cerrarSesion()">Cerrar sesión</a>
-</nav>
-</header>
+    <div class="adoptante-header">
+        <span class="brand">🐾 Huellitas</span>
+    </div>
 
-<div class="aviso">
-    Desde esta sección el administrador puede crear, editar y eliminar empleados reales de la tabla <strong>empleados</strong>.
-    También puede asignar el rol <strong>admin</strong> o <strong>empleado</strong>.
+    <div class="adoptante-main">
+
+        <div class="adoption-msg">
+
+            <span class="big-emoji">🐾</span>
+
+            <h3>¡Felicidades por tu nueva familia! 🎉</h3>
+
+            <p>
+                Has dado el paso más hermoso.
+            </p>
+
+            <div class="pickup-box" style="margin-top:20px;">
+
+                <strong>Programa tu entrevista:</strong>
+
+                <span>
+                    Por favor asigna qué día quieres una entrevista con un integrante del equipo de Huellitas.
+                </span>
+
+                <div style="margin-top:12px;">
+                    <button class="btn btn-primary" onclick="irPagina('pg-entrevista')">
+                        📋 Entrevista
+                    </button>
+                </div>
+
+            </div>
+
+            <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+
+                <button class="btn btn-secondary" onclick="window.location.href='galeria.html'">
+                    Ver más animales
+                </button>
+
+                <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                    Ir al inicio
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
-<div id="mensaje" class="mensaje"></div>
+<div id="pg-entrevista" class="page">
 
-<section class="formulario">
-    <h2 id="tituloFormulario">Agregar empleado</h2>
+    <div class="adoptante-header">
 
-    <input type="hidden" id="id_empleado">
+        <span class="brand">🐾 Huellitas</span>
 
-    <div class="grid">
-        <div>
-            <label>Número de empleado</label>
-            <input type="text" id="numero_empleado" placeholder="Ej. EMP-0006">
+        <div class="header-right">
+            <button class="btn-logout" onclick="irPagina('pg-adopcion-ok')">
+                ← Regresar
+            </button>
         </div>
 
-        <div>
-            <label>Nombre completo</label>
-            <input type="text" id="nombre_completo" placeholder="Nombre del empleado">
-        </div>
-
-        <div>
-            <label>Correo</label>
-            <input type="email" id="correo" placeholder="correo@ejemplo.com">
-        </div>
-
-        <div>
-            <label>Teléfono</label>
-            <input type="text" id="telefono" placeholder="Teléfono">
-        </div>
-
-        <div>
-            <label>Contraseña</label>
-            <input type="text" id="password" placeholder="Contraseña">
-        </div>
-
-        <div>
-            <label>Rol</label>
-            <select id="rol">
-                <option value="empleado">empleado</option>
-                <option value="admin">admin</option>
-            </select>
-        </div>
     </div>
 
-    <div style="margin-top:14px;">
-        <label>Dirección</label>
-        <textarea id="direccion" placeholder="Dirección del empleado"></textarea>
+    <div class="adoptante-main">
+
+        <div style="max-width:500px;margin:0 auto;">
+
+            <h2>Agendar entrevista</h2>
+
+            <p class="sec-desc">
+                Selecciona el día y la hora en que quieres reunirte con un miembro de Huellitas.
+            </p>
+
+            <div style="background:#fff;border:2px solid #c9a97a;padding:28px;margin-top:20px;">
+
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                    <span style="font-size:1.05rem;color:#5c3317;font-weight:bold;">
+                        Julio 2026
+                    </span>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;text-align:center;font-size:0.75rem;color:#8b6340;font-weight:bold;">
+                    <div>Dom</div>
+                    <div>Lun</div>
+                    <div>Mar</div>
+                    <div>Mié</div>
+                    <div>Jue</div>
+                    <div>Vie</div>
+                    <div>Sáb</div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:20px;">
+                    <div class="cal-dia" onclick="seleccionarDia(this,1)">1</div>
+                    <div class="cal-dia" onclick="seleccionarDia(this,2)">2</div>
+                    <div class="cal-dia" onclick="seleccionarDia(this,3)">3</div>
+                    <div class="cal-dia" onclick="seleccionarDia(this,4)">4</div>
+                    <div class="cal-dia" onclick="seleccionarDia(this,5)">5</div>
+                    <div class="cal-dia" onclick="seleccionarDia(this,6)">6</div>
+                    <div class="cal-dia" onclick="seleccionarDia(this,7)">7</div>
+                </div>
+
+                <div id="cal-hora-wrap" style="display:none;margin-bottom:20px;">
+
+                    <label>Hora</label>
+
+                    <select id="entrevista-hora" style="width:100%;padding:9px 10px;border:1px solid #c9a97a;">
+                        <option value="">-- Selecciona una hora --</option>
+                        <option value="09:00">09:00 hrs</option>
+                        <option value="10:00">10:00 hrs</option>
+                        <option value="11:00">11:00 hrs</option>
+                        <option value="12:00">12:00 hrs</option>
+                        <option value="13:00">13:00 hrs</option>
+                        <option value="14:00">14:00 hrs</option>
+                        <option value="15:00">15:00 hrs</option>
+                    </select>
+
+                </div>
+
+                <button class="btn btn-primary btn-full" onclick="confirmarEntrevista()">
+                    Confirmar entrevista
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="actions">
-        <button class="btn-primary" onclick="guardarEmpleado()">Guardar empleado</button>
-        <button class="btn-secondary" onclick="limpiarFormulario()">Limpiar</button>
+</div>
+
+<div id="pg-entrevista-ok" class="page">
+
+    <div class="adoptante-header">
+        <span class="brand">🐾 Huellitas</span>
     </div>
-</section>
 
-<section class="controls">
-    <input type="text" id="buscar" placeholder="Buscar empleado" onkeyup="filtrarEmpleados()">
+    <div class="adoptante-main">
 
-    <select id="filtroRol" onchange="filtrarEmpleados()">
-        <option value="todos">Todos los roles</option>
-        <option value="admin">Admin</option>
-        <option value="empleado">Empleado</option>
-    </select>
+        <div class="adoption-msg">
 
-    <button class="btn-primary" onclick="cargarEmpleados()">Actualizar</button>
-</section>
+            <h3 style="color:#5c3317;">
+                ¡Gracias por elegir tu horario!
+            </h3>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Número empleado</th>
-            <th>Nombre completo</th>
-            <th>Correo</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>Contraseña</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+            <p>
+                Nos vemos más tarde.
+                <br><br>
+                El equipo de Huellitas estará listo para recibirte y platicar contigo sobre tu nueva familia peluda.
+            </p>
 
-    <tbody id="tablaEmpleados">
-        <tr>
-            <td colspan="9">Cargando empleados...</td>
-        </tr>
-    </tbody>
-</table>
+            <div class="pickup-box" style="margin-top:20px;">
+
+                <strong>Tu cita es:</strong>
+
+                <span id="entrevista-resumen">—</span>
+
+            </div>
+
+            <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+
+                <button class="btn btn-secondary" onclick="window.location.href='galeria.html'">
+                    Ver más animales
+                </button>
+
+                <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                    Ir al inicio
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script src="static-supabase.js"></script>
 
@@ -357,309 +319,109 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-let empleadosGlobal = [];
+let diaSeleccionado = "";
 
-function protegerAdmin() {
-    const logueado = localStorage.getItem("empleado_logueado");
-    const rol = localStorage.getItem("rol_empleado");
-    const numero = localStorage.getItem("empleado_numero");
+function irPagina(id){
 
-    if (
-        logueado !== "true" ||
-        (
-            numero !== "EMP-0042" &&
-            rol !== "admin" &&
-            rol !== "administrador"
-        )
-    ) {
-        alert("Acceso restringido. Inicia sesión como administrador.");
-        window.location.href = "login-empleado.html";
-        return false;
-    }
+    let paginas = document.querySelectorAll(".page");
 
-    return true;
-}
-
-function cerrarSesion() {
-    localStorage.clear();
-}
-
-function mostrarMensaje(texto, tipo) {
-    const msg = document.getElementById("mensaje");
-    msg.textContent = texto;
-    msg.className = "mensaje " + tipo;
-
-    setTimeout(function() {
-        msg.textContent = "";
-        msg.className = "mensaje";
-    }, 3500);
-}
-
-function limpiarTexto(valor) {
-    if (valor === null || valor === undefined || valor === "") {
-        return "—";
-    }
-
-    return String(valor)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-function claseRol(rol) {
-    if (!rol) return "";
-
-    const r = String(rol).toLowerCase();
-
-    if (r === "admin" || r === "administrador") {
-        return "rol-admin";
-    }
-
-    return "rol-empleado";
-}
-
-async function cargarEmpleados() {
-    const tbody = document.getElementById("tablaEmpleados");
-
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="9">Cargando empleados...</td>
-        </tr>
-    `;
-
-    const { data, error } = await supabaseClient
-        .from("empleados")
-        .select("id_empleado, numero_empleado, nombre_completo, correo, telefono, direccion, password, rol")
-        .order("id_empleado", { ascending: true });
-
-    if (error) {
-        console.error("Error cargando empleados:", error);
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="9">Error al cargar empleados.</td>
-            </tr>
-        `;
-        return;
-    }
-
-    empleadosGlobal = data || [];
-    renderEmpleados(empleadosGlobal);
-}
-
-function renderEmpleados(lista) {
-    const tbody = document.getElementById("tablaEmpleados");
-    tbody.innerHTML = "";
-
-    if (!lista || lista.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="9">No hay empleados registrados.</td>
-            </tr>
-        `;
-        return;
-    }
-
-    lista.forEach(function(e) {
-        tbody.innerHTML += `
-            <tr>
-                <td>${limpiarTexto(e.id_empleado)}</td>
-                <td>${limpiarTexto(e.numero_empleado)}</td>
-                <td>${limpiarTexto(e.nombre_completo)}</td>
-                <td>${limpiarTexto(e.correo)}</td>
-                <td>${limpiarTexto(e.telefono)}</td>
-                <td>${limpiarTexto(e.direccion)}</td>
-                <td>${limpiarTexto(e.password)}</td>
-                <td class="${claseRol(e.rol)}">${limpiarTexto(e.rol)}</td>
-                <td>
-                    <button class="btn-edit" onclick="editarEmpleado(${e.id_empleado})">Editar</button>
-                    <button class="btn-admin" onclick="cambiarRol(${e.id_empleado}, 'admin')">Hacer admin</button>
-                    <button class="btn-employee" onclick="cambiarRol(${e.id_empleado}, 'empleado')">Hacer empleado</button>
-                    <button class="btn-delete" onclick="eliminarEmpleado(${e.id_empleado})">Eliminar</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-function filtrarEmpleados() {
-    const texto = document.getElementById("buscar").value.toLowerCase();
-    const rol = document.getElementById("filtroRol").value;
-
-    const filtrados = empleadosGlobal.filter(function(e) {
-        const coincideTexto =
-            String(e.numero_empleado || "").toLowerCase().includes(texto) ||
-            String(e.nombre_completo || "").toLowerCase().includes(texto) ||
-            String(e.correo || "").toLowerCase().includes(texto);
-
-        const coincideRol =
-            rol === "todos" || String(e.rol || "").toLowerCase() === rol;
-
-        return coincideTexto && coincideRol;
+    paginas.forEach(function(pagina){
+        pagina.classList.remove("active");
     });
 
-    renderEmpleados(filtrados);
+    document.getElementById(id).classList.add("active");
 }
 
-function obtenerEmpleado(id) {
-    return empleadosGlobal.find(function(e) {
-        return Number(e.id_empleado) === Number(id);
+function seleccionarDia(elemento,dia){
+
+    let dias = document.querySelectorAll(".cal-dia");
+
+    dias.forEach(function(d){
+        d.classList.remove("selected");
     });
+
+    elemento.classList.add("selected");
+
+    diaSeleccionado = dia;
+
+    document.getElementById("cal-hora-wrap").style.display = "block";
 }
 
-async function guardarEmpleado() {
-    const id = document.getElementById("id_empleado").value;
+async function confirmarEntrevista(){
 
-    const empleado = {
-        numero_empleado: document.getElementById("numero_empleado").value.trim(),
-        nombre_completo: document.getElementById("nombre_completo").value.trim(),
-        correo: document.getElementById("correo").value.trim(),
-        telefono: document.getElementById("telefono").value.trim(),
-        direccion: document.getElementById("direccion").value.trim(),
-        password: document.getElementById("password").value.trim(),
-        rol: document.getElementById("rol").value
-    };
+    let hora = document.getElementById("entrevista-hora").value;
 
-    if (
-        !empleado.numero_empleado ||
-        !empleado.nombre_completo ||
-        !empleado.correo ||
-        !empleado.telefono ||
-        !empleado.direccion ||
-        !empleado.password ||
-        !empleado.rol
-    ) {
-        mostrarMensaje("Completa todos los campos.", "error");
+    if(diaSeleccionado === ""){
+        alert("Selecciona un día");
         return;
     }
 
-    if (id) {
-        const { error } = await supabaseClient
-            .from("empleados")
-            .update(empleado)
-            .eq("id_empleado", id);
-
-        if (error) {
-            console.error("Error actualizando empleado:", error);
-            mostrarMensaje("No se pudo actualizar el empleado.", "error");
-            return;
-        }
-
-        mostrarMensaje("Empleado actualizado correctamente.", "ok");
-    } else {
-        const { error } = await supabaseClient
-            .from("empleados")
-            .insert([empleado]);
-
-        if (error) {
-            console.error("Error insertando empleado:", error);
-            mostrarMensaje("No se pudo agregar el empleado. Revisa que el número de empleado no esté repetido.", "error");
-            return;
-        }
-
-        mostrarMensaje("Empleado agregado correctamente.", "ok");
-    }
-
-    limpiarFormulario();
-    cargarEmpleados();
-}
-
-function editarEmpleado(id) {
-    const e = obtenerEmpleado(id);
-
-    if (!e) {
-        mostrarMensaje("No se encontró el empleado.", "error");
+    if(hora === ""){
+        alert("Selecciona una hora");
         return;
     }
 
-    document.getElementById("id_empleado").value = e.id_empleado;
-    document.getElementById("numero_empleado").value = e.numero_empleado || "";
-    document.getElementById("nombre_completo").value = e.nombre_completo || "";
-    document.getElementById("correo").value = e.correo || "";
-    document.getElementById("telefono").value = e.telefono || "";
-    document.getElementById("direccion").value = e.direccion || "";
-    document.getElementById("password").value = e.password || "";
-    document.getElementById("rol").value = e.rol || "empleado";
+    const idMascota = localStorage.getItem("id_mascota");
 
-    document.getElementById("tituloFormulario").textContent = "Editar empleado";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-async function cambiarRol(id, nuevoRol) {
-    const empleadoActual = obtenerEmpleado(id);
-
-    if (!empleadoActual) {
-        mostrarMensaje("No se encontró el empleado.", "error");
+    if(!idMascota){
+        alert("Primero debes seleccionar una mascota para adoptar.");
+        window.location.href = "galeria.html";
         return;
     }
 
-    if (!confirm("¿Seguro que quieres cambiar el rol de este empleado a " + nuevoRol + "?")) {
+    const { data: authData, error: authError } = await supabaseClient.auth.getUser();
+
+    if(authError || !authData.user){
+        alert("Debes iniciar sesión primero.");
+        window.location.href = "registro-adoptante.html";
         return;
     }
 
-    const { error } = await supabaseClient
-        .from("empleados")
-        .update({ rol: nuevoRol })
-        .eq("id_empleado", id);
+    const correoUsuario = authData.user.email;
 
-    if (error) {
-        console.error("Error cambiando rol:", error);
-        mostrarMensaje("No se pudo cambiar el rol.", "error");
+    const { data: adoptante, error: adoptanteError } = await supabaseClient
+        .from("adoptantes")
+        .select("id_adoptante, correo")
+        .eq("correo", correoUsuario)
+        .maybeSingle();
+
+    if(adoptanteError || !adoptante){
+        console.error(adoptanteError);
+        alert("No se encontró el adoptante con el correo: " + correoUsuario);
         return;
     }
 
-    mostrarMensaje("Rol actualizado correctamente.", "ok");
-    cargarEmpleados();
-}
+    const fechaEntrevista = "2026-07-" + String(diaSeleccionado).padStart(2, "0");
 
-async function eliminarEmpleado(id) {
-    const empleadoActual = obtenerEmpleado(id);
-    const empleadoLogueado = localStorage.getItem("empleado_id");
+    const { error: entrevistaError } = await supabaseClient
+        .from("entrevistas")
+        .insert([
+            {
+                id_adoptante: adoptante.id_adoptante,
+                id_mascota: Number(idMascota),
+                fecha: fechaEntrevista,
+                hora: hora,
+                estado: "pendiente"
+            }
+        ]);
 
-    if (!empleadoActual) {
-        mostrarMensaje("No se encontró el empleado.", "error");
+    if(entrevistaError){
+        console.error("Error al guardar entrevista:", entrevistaError);
+        alert("Error al guardar la entrevista: " + entrevistaError.message);
         return;
     }
 
-    if (String(id) === String(empleadoLogueado)) {
-        mostrarMensaje("No puedes eliminar tu propio usuario mientras estás conectado.", "error");
-        return;
-    }
+    await supabaseClient
+        .from("mascotas")
+        .update({ estado: "pendiente" })
+        .eq("id_mascota", Number(idMascota));
 
-    if (!confirm("¿Seguro que quieres eliminar este empleado?")) {
-        return;
-    }
+    document.getElementById("entrevista-resumen").innerHTML =
+    "Día " + diaSeleccionado + " de julio de 2026 a las " + hora + " hrs";
 
-    const { error } = await supabaseClient
-        .from("empleados")
-        .delete()
-        .eq("id_empleado", id);
+    localStorage.removeItem("id_mascota");
 
-    if (error) {
-        console.error("Error eliminando empleado:", error);
-        mostrarMensaje("No se pudo eliminar el empleado.", "error");
-        return;
-    }
-
-    mostrarMensaje("Empleado eliminado correctamente.", "ok");
-    cargarEmpleados();
-}
-
-function limpiarFormulario() {
-    document.getElementById("id_empleado").value = "";
-    document.getElementById("numero_empleado").value = "";
-    document.getElementById("nombre_completo").value = "";
-    document.getElementById("correo").value = "";
-    document.getElementById("telefono").value = "";
-    document.getElementById("direccion").value = "";
-    document.getElementById("password").value = "";
-    document.getElementById("rol").value = "empleado";
-    document.getElementById("tituloFormulario").textContent = "Agregar empleado";
-}
-
-if (protegerAdmin()) {
-    cargarEmpleados();
+    irPagina("pg-entrevista-ok");
 }
 </script>
 

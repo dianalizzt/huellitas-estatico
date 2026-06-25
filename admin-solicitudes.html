@@ -2,27 +2,131 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Admin - Gestión de Mascotas</title>
+<title>Admin - Solicitudes Huellitas</title>
+
 <style>
-body{font-family:Arial,sans-serif;background:#f9f5f0;color:#3b2414;padding:20px;}
-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
-h1{color:#5c3317;}
-nav a,.btn{background:#5c3317;color:white;padding:9px 13px;border-radius:6px;text-decoration:none;margin:4px;display:inline-block;border:none;cursor:pointer;}
-nav a:hover,.btn:hover{background:#7a4620;}
-.formulario{background:white;padding:20px;border-radius:10px;margin-bottom:20px;}
-input,select,textarea{width:100%;padding:9px;margin:7px 0 14px;border:1px solid #c9a97a;}
-table{width:100%;border-collapse:collapse;background:white;}
-th,td{border:1px solid #ddd;padding:10px;text-align:left;}
-th{background:#5c3317;color:white;}
-.editar{background:#2e7d32;color:white;}
-.eliminar{background:#b71c1c;color:white;}
-button{padding:7px 10px;border:none;border-radius:5px;cursor:pointer;margin:2px;}
+body{
+    font-family: Arial, sans-serif;
+    background:#f9f5f0;
+    color:#3b2414;
+    padding:20px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+h1{
+    color:#5c3317;
+    font-size:2rem;
+}
+
+nav a{
+    background:#5c3317;
+    color:white;
+    padding:10px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    margin:4px;
+    display:inline-block;
+}
+
+.controls{
+    background:white;
+    padding:15px;
+    border-left:5px solid #c9a97a;
+    margin-bottom:20px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+input, select{
+    padding:9px;
+    border:1px solid #c9a97a;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:11px;
+    text-align:left;
+}
+
+th{
+    background:#5c3317;
+    color:white;
+}
+
+button{
+    padding:7px 10px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    margin:2px;
+}
+
+.ver{background:#c9a97a;color:#3b2414;}
+.aprobar{background:#2e7d32;color:white;}
+.rechazar{background:#b71c1c;color:white;}
+.entrevista{background:#1976d2;color:white;}
+
+.pendiente{color:#b26a00;font-weight:bold;}
+.aprobada{color:#2e7d32;font-weight:bold;}
+.rechazada{color:#b71c1c;font-weight:bold;}
+
+.modal{
+    display:none;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+}
+
+.modal-content{
+    background:white;
+    width:90%;
+    max-width:650px;
+    margin:60px auto;
+    padding:25px;
+    border-radius:10px;
+    border:3px solid #c9a97a;
+}
+
+.close{
+    float:right;
+    font-size:24px;
+    cursor:pointer;
+    color:#5c3317;
+}
+
+.info-box{
+    background:#f9f5f0;
+    padding:12px;
+    margin:10px 0;
+    border-left:4px solid #5c3317;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-    <h1>🐾 Gestión de Mascotas</h1>
+<div class="header">
+    <h1>📋 Solicitudes de adopción</h1>
+
     <nav>
         <a href="admin-dashboard.html">Inicio</a>
         <a href="admin-mascotas.html">Mascotas</a>
@@ -30,117 +134,211 @@ button{padding:7px 10px;border:none;border-radius:5px;cursor:pointer;margin:2px;
         <a href="admin-adoptantes.html">Adoptantes</a>
         <a href="admin-empleados.html">Empleados</a>
     </nav>
-</header>
+</div>
 
-<div class="formulario">
-    <h2>Alta de mascota</h2>
+<div class="controls">
+    <input type="text" id="buscar" placeholder="Buscar adoptante, correo o mascota" onkeyup="filtrarSolicitudes()">
 
-    <label>Nombre</label>
-    <input type="text" id="nombre">
-
-    <label>Tipo</label>
-    <select id="tipo">
-        <option>Perro</option>
-        <option>Gato</option>
+    <select id="filtroEstado" onchange="filtrarSolicitudes()">
+        <option value="todos">Todos</option>
+        <option value="Pendiente">Pendientes</option>
+        <option value="Aprobada">Aprobadas</option>
+        <option value="Rechazada">Rechazadas</option>
     </select>
-
-    <label>Edad</label>
-    <input type="text" id="edad">
-
-    <label>Sexo</label>
-    <select id="sexo">
-        <option>Macho</option>
-        <option>Hembra</option>
-    </select>
-
-    <label>Raza</label>
-    <input type="text" id="raza">
-
-    <label>Descripción</label>
-    <textarea id="descripcion"></textarea>
-
-    <button class="btn" onclick="agregarMascota()">Agregar mascota</button>
 </div>
 
 <table>
 <thead>
 <tr>
     <th>ID</th>
-    <th>Nombre</th>
-    <th>Tipo</th>
-    <th>Edad</th>
-    <th>Sexo</th>
-    <th>Raza</th>
+    <th>Adoptante</th>
+    <th>Correo</th>
+    <th>Mascota</th>
+    <th>Animales</th>
+    <th>Seguimiento</th>
+    <th>Fecha</th>
     <th>Estado</th>
     <th>Acciones</th>
 </tr>
 </thead>
-<tbody id="tablaMascotas"></tbody>
+
+<tbody id="tablaSolicitudes"></tbody>
 </table>
 
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2 id="modalTitulo"></h2>
+        <div id="modalContenido"></div>
+    </div>
+</div>
+
 <script>
-let mascotas = [
-    {id:1,nombre:"Canela",tipo:"Gato",edad:"7 meses",sexo:"Hembra",raza:"Mestiza",estado:"disponible"},
-    {id:2,nombre:"Rocky",tipo:"Perro",edad:"2 años",sexo:"Macho",raza:"Labrador mix",estado:"disponible"},
-    {id:3,nombre:"Sombra",tipo:"Gato",edad:"4 años",sexo:"Macho",raza:"Mestizo",estado:"en_proceso"}
+let solicitudes = [
+    {
+        id:1,
+        adoptante:"Juan Pérez",
+        correo:"juan@gmail.com",
+        telefono:"5511111111",
+        direccion:"CDMX",
+        mascota:"Canela",
+        motivo:"Quiero darle un hogar a una mascota rescatada.",
+        animales:2,
+        seguimiento:"Sí",
+        fecha:"2026-04-10",
+        ine:"Entregada",
+        comprobante:"Entregado",
+        entrevista:"Sin agendar",
+        estado:"Pendiente"
+    },
+    {
+        id:2,
+        adoptante:"Ana López",
+        correo:"ana@gmail.com",
+        telefono:"5522222222",
+        direccion:"Guadalajara",
+        mascota:"Rocky",
+        motivo:"Busco compañía para mi familia.",
+        animales:0,
+        seguimiento:"Sí",
+        fecha:"2026-04-12",
+        ine:"Entregada",
+        comprobante:"Pendiente",
+        entrevista:"2026-04-22 12:00",
+        estado:"Pendiente"
+    },
+    {
+        id:3,
+        adoptante:"Luis Torres",
+        correo:"luis@gmail.com",
+        telefono:"5533333333",
+        direccion:"Monterrey",
+        mascota:"Sombra",
+        motivo:"Me gustan los gatos y quiero adoptar uno.",
+        animales:1,
+        seguimiento:"Sí",
+        fecha:"2026-04-15",
+        ine:"No entregada",
+        comprobante:"No entregado",
+        entrevista:"Sin agendar",
+        estado:"Pendiente"
+    }
 ];
 
-function cargarMascotas(){
-    const tabla = document.getElementById("tablaMascotas");
+function claseEstado(estado){
+    if(estado === "Pendiente") return "pendiente";
+    if(estado === "Aprobada") return "aprobada";
+    if(estado === "Rechazada") return "rechazada";
+    return "";
+}
+
+function cargarSolicitudes(lista = solicitudes){
+    const tabla = document.getElementById("tablaSolicitudes");
     tabla.innerHTML = "";
 
-    mascotas.forEach(m => {
+    lista.forEach(s => {
         tabla.innerHTML += `
             <tr>
-                <td>${m.id}</td>
-                <td>${m.nombre}</td>
-                <td>${m.tipo}</td>
-                <td>${m.edad}</td>
-                <td>${m.sexo}</td>
-                <td>${m.raza}</td>
-                <td>${m.estado}</td>
+                <td>${s.id}</td>
+                <td>${s.adoptante}</td>
+                <td>${s.correo}</td>
+                <td>${s.mascota}</td>
+                <td>${s.animales}</td>
+                <td>${s.seguimiento}</td>
+                <td>${s.fecha}</td>
+                <td class="${claseEstado(s.estado)}">${s.estado}</td>
                 <td>
-                    <button class="editar" onclick="editarMascota(${m.id})">Editar</button>
-                    <button class="eliminar" onclick="eliminarMascota(${m.id})">Eliminar</button>
+                    <button class="ver" onclick="verDetalle(${s.id})">Ver</button>
+                    <button class="entrevista" onclick="agendarEntrevista(${s.id})">Entrevista</button>
+                    <button class="aprobar" onclick="cambiarEstado(${s.id}, 'Aprobada')">Aprobar</button>
+                    <button class="rechazar" onclick="cambiarEstado(${s.id}, 'Rechazada')">Rechazar</button>
                 </td>
             </tr>
         `;
     });
 }
 
-function agregarMascota(){
-    const nueva = {
-        id: mascotas.length + 1,
-        nombre: document.getElementById("nombre").value,
-        tipo: document.getElementById("tipo").value,
-        edad: document.getElementById("edad").value,
-        sexo: document.getElementById("sexo").value,
-        raza: document.getElementById("raza").value,
-        estado: "disponible"
-    };
+function filtrarSolicitudes(){
+    const texto = document.getElementById("buscar").value.toLowerCase();
+    const estado = document.getElementById("filtroEstado").value;
 
-    if(!nueva.nombre || !nueva.edad || !nueva.raza){
-        alert("Completa los datos principales.");
-        return;
+    const filtradas = solicitudes.filter(s => {
+        const coincideTexto =
+            s.adoptante.toLowerCase().includes(texto) ||
+            s.correo.toLowerCase().includes(texto) ||
+            s.mascota.toLowerCase().includes(texto);
+
+        const coincideEstado = estado === "todos" || s.estado === estado;
+
+        return coincideTexto && coincideEstado;
+    });
+
+    cargarSolicitudes(filtradas);
+}
+
+function abrirModal(titulo, contenido){
+    document.getElementById("modalTitulo").innerHTML = titulo;
+    document.getElementById("modalContenido").innerHTML = contenido;
+    document.getElementById("modal").style.display = "block";
+}
+
+function cerrarModal(){
+    document.getElementById("modal").style.display = "none";
+}
+
+function verDetalle(id){
+    const s = solicitudes.find(x => x.id === id);
+
+    abrirModal("Detalle de solicitud", `
+        <div class="info-box"><strong>Adoptante:</strong> ${s.adoptante}</div>
+        <div class="info-box"><strong>Correo:</strong> ${s.correo}</div>
+        <div class="info-box"><strong>Teléfono:</strong> ${s.telefono}</div>
+        <div class="info-box"><strong>Dirección:</strong> ${s.direccion}</div>
+        <div class="info-box"><strong>Mascota solicitada:</strong> ${s.mascota}</div>
+        <div class="info-box"><strong>Motivo:</strong> ${s.motivo}</div>
+        <div class="info-box"><strong>Animales actuales:</strong> ${s.animales}</div>
+        <div class="info-box"><strong>Acepta seguimiento:</strong> ${s.seguimiento}</div>
+        <div class="info-box"><strong>INE:</strong> ${s.ine}</div>
+        <div class="info-box"><strong>Comprobante:</strong> ${s.comprobante}</div>
+        <div class="info-box"><strong>Entrevista:</strong> ${s.entrevista}</div>
+        <div class="info-box"><strong>Estado:</strong> ${s.estado}</div>
+    `);
+}
+
+function cambiarEstado(id, nuevoEstado){
+    solicitudes = solicitudes.map(s => {
+        if(s.id === id){
+            s.estado = nuevoEstado;
+        }
+        return s;
+    });
+
+    cargarSolicitudes();
+}
+
+function agendarEntrevista(id){
+    const fecha = prompt("Escribe fecha y hora de entrevista. Ejemplo: 2026-04-30 10:00");
+
+    if(fecha){
+        solicitudes = solicitudes.map(s => {
+            if(s.id === id){
+                s.entrevista = fecha;
+            }
+            return s;
+        });
+
+        alert("Entrevista agendada.");
+        cargarSolicitudes();
     }
-
-    mascotas.push(nueva);
-    cargarMascotas();
-    alert("Mascota agregada correctamente.");
 }
 
-function editarMascota(id){
-    alert("Aquí se editaría la mascota con ID: " + id);
-}
-
-function eliminarMascota(id){
-    if(confirm("¿Eliminar mascota?")){
-        mascotas = mascotas.filter(m => m.id !== id);
-        cargarMascotas();
+window.onclick = function(event){
+    if(event.target === document.getElementById("modal")){
+        cerrarModal();
     }
-}
+};
 
-cargarMascotas();
+cargarSolicitudes();
 </script>
 
 </body>

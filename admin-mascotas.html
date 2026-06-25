@@ -2,500 +2,145 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Admin - Entrevistas Huellitas</title>
-
+<title>Admin - Gestión de Mascotas</title>
 <style>
-body{
-    font-family: Arial, sans-serif;
-    background:#f9f5f0;
-    color:#3b2414;
-    padding:20px;
-}
-
-.admin-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
-    margin-bottom:20px;
-}
-
-h1{
-    color:#5c3317;
-}
-
-.admin-actions{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-}
-
-th,td{
-    padding:12px;
-    border:1px solid #ddd;
-    text-align:left;
-    font-size:0.92rem;
-}
-
-th{
-    background:#5c3317;
-    color:white;
-}
-
-button,
-.btn{
-    padding:8px 12px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    margin:3px;
-    text-decoration:none;
-    display:inline-block;
-    font-size:0.9rem;
-}
-
-.aprobar{
-    background:#2e7d32;
-    color:white;
-}
-
-.rechazar{
-    background:#b71c1c;
-    color:white;
-}
-
-.recargar{
-    background:#5c3317;
-    color:white;
-}
-
-.salir{
-    background:#e8d8c4;
-    color:#5c3317;
-}
-
-.pendiente{
-    color:#b26a00;
-    font-weight:bold;
-}
-
-.aprobada{
-    color:#2e7d32;
-    font-weight:bold;
-}
-
-.rechazada{
-    color:#b71c1c;
-    font-weight:bold;
-}
-
-.sin-datos{
-    color:#999;
-    font-style:italic;
-}
-
-.aviso{
-    background:white;
-    padding:14px;
-    border-left:5px solid #c9a97a;
-    margin-bottom:18px;
-}
-
-@media(max-width:800px){
-    table{
-        font-size:0.8rem;
-    }
-
-    th,td{
-        padding:8px;
-    }
-}
+body{font-family:Arial,sans-serif;background:#f9f5f0;color:#3b2414;padding:20px;}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+h1{color:#5c3317;}
+nav a,.btn{background:#5c3317;color:white;padding:9px 13px;border-radius:6px;text-decoration:none;margin:4px;display:inline-block;border:none;cursor:pointer;}
+nav a:hover,.btn:hover{background:#7a4620;}
+.formulario{background:white;padding:20px;border-radius:10px;margin-bottom:20px;}
+input,select,textarea{width:100%;padding:9px;margin:7px 0 14px;border:1px solid #c9a97a;}
+table{width:100%;border-collapse:collapse;background:white;}
+th,td{border:1px solid #ddd;padding:10px;text-align:left;}
+th{background:#5c3317;color:white;}
+.editar{background:#2e7d32;color:white;}
+.eliminar{background:#b71c1c;color:white;}
+button{padding:7px 10px;border:none;border-radius:5px;cursor:pointer;margin:2px;}
 </style>
 </head>
-
 <body>
 
-<div class="admin-header">
-    <h1>🐾 Panel de entrevistas</h1>
+<header>
+    <h1>🐾 Gestión de Mascotas</h1>
+    <nav>
+        <a href="admin-dashboard.html">Inicio</a>
+        <a href="admin-mascotas.html">Mascotas</a>
+        <a href="admin-solicitudes.html">Solicitudes</a>
+        <a href="admin-adoptantes.html">Adoptantes</a>
+        <a href="admin-empleados.html">Empleados</a>
+    </nav>
+</header>
 
-    <div class="admin-actions">
-        <button class="recargar" onclick="cargarEntrevistas()">Actualizar</button>
-        <button class="salir" onclick="cerrarSesionAdmin()">Cerrar sesión</button>
-        <a href="index.html" class="btn salir">Ir al inicio</a>
-    </div>
-</div>
+<div class="formulario">
+    <h2>Alta de mascota</h2>
 
-<div class="aviso">
-    Desde este panel puedes aprobar o rechazar entrevistas.  
-    Al aprobar, la entrevista queda como <strong>aprobada</strong>, la adopción como <strong>aprobada</strong> y la mascota como <strong>adoptado</strong>.  
-    Al rechazar, la entrevista queda como <strong>rechazada</strong>, la adopción como <strong>rechazada</strong> y la mascota vuelve a <strong>disponible</strong>.
+    <label>Nombre</label>
+    <input type="text" id="nombre">
+
+    <label>Tipo</label>
+    <select id="tipo">
+        <option>Perro</option>
+        <option>Gato</option>
+    </select>
+
+    <label>Edad</label>
+    <input type="text" id="edad">
+
+    <label>Sexo</label>
+    <select id="sexo">
+        <option>Macho</option>
+        <option>Hembra</option>
+    </select>
+
+    <label>Raza</label>
+    <input type="text" id="raza">
+
+    <label>Descripción</label>
+    <textarea id="descripcion"></textarea>
+
+    <button class="btn" onclick="agregarMascota()">Agregar mascota</button>
 </div>
 
 <table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Adoptante</th>
-            <th>Correo</th>
-            <th>Mascota</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-
-    <tbody id="tabla-entrevistas">
-        <tr>
-            <td colspan="8">Cargando entrevistas...</td>
-        </tr>
-    </tbody>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Tipo</th>
+    <th>Edad</th>
+    <th>Sexo</th>
+    <th>Raza</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+</tr>
+</thead>
+<tbody id="tablaMascotas"></tbody>
 </table>
 
-<script src="static-supabase.js"></script>
-
 <script>
-const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
-const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+let mascotas = [
+    {id:1,nombre:"Canela",tipo:"Gato",edad:"7 meses",sexo:"Hembra",raza:"Mestiza",estado:"disponible"},
+    {id:2,nombre:"Rocky",tipo:"Perro",edad:"2 años",sexo:"Macho",raza:"Labrador mix",estado:"disponible"},
+    {id:3,nombre:"Sombra",tipo:"Gato",edad:"4 años",sexo:"Macho",raza:"Mestizo",estado:"en_proceso"}
+];
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+function cargarMascotas(){
+    const tabla = document.getElementById("tablaMascotas");
+    tabla.innerHTML = "";
 
-/*
-    PROTECCIÓN DEL PANEL ADMIN
-
-    IMPORTANTE:
-    Tu login-empleado.html debe guardar esto cuando el login sea correcto:
-
-    localStorage.setItem("empleado_logueado", "true");
-    localStorage.setItem("rol_empleado", empleado.rol);
-
-    Donde empleado.rol debe ser "admin" o "empleado".
-*/
-
-function protegerPanelAdmin(){
-    const empleadoLogueado = localStorage.getItem("empleado_logueado");
-    const rolEmpleado = localStorage.getItem("rol_empleado");
-
-    if(empleadoLogueado !== "true"){
-        alert("Debes iniciar sesión como empleado o administrador.");
-        window.location.href = "login-empleado.html";
-        return false;
-    }
-
-if(rolEmpleado !== "admin"){
-    alert("Solo un administrador puede entrar a este panel.");
-    window.location.href = "login-empleado.html";
-    return false;
-}
-
-    return true;
-}
-
-function cerrarSesionAdmin(){
-    localStorage.removeItem("empleado_logueado");
-    localStorage.removeItem("rol_empleado");
-    localStorage.removeItem("empleado_nombre");
-    window.location.href = "login-empleado.html";
-}
-
-function limpiarTexto(valor){
-    if(valor === null || valor === undefined){
-        return "—";
-    }
-
-    return String(valor)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-function claseEstado(estado){
-    if(!estado){
-        return "";
-    }
-
-    return String(estado).toLowerCase();
-}
-
-async function cargarEntrevistas(){
-
-    const tbody = document.getElementById("tabla-entrevistas");
-
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="8">Cargando entrevistas...</td>
-        </tr>
-    `;
-
-    const { data, error } = await supabaseClient
-        .from("entrevistas")
-        .select(`
-            id_entrevista,
-            id_adoptante,
-            id_mascota,
-            fecha,
-            hora,
-            estado,
-            adoptantes(nombre_completo, correo),
-            mascotas(nombre)
-        `)
-        .order("id_entrevista", { ascending:false });
-
-    if(error){
-        console.error("Error al cargar entrevistas:", error);
-
-        tbody.innerHTML = `
+    mascotas.forEach(m => {
+        tabla.innerHTML += `
             <tr>
-                <td colspan="8">Error al cargar entrevistas: ${limpiarTexto(error.message)}</td>
-            </tr>
-        `;
-
-        return;
-    }
-
-    tbody.innerHTML = "";
-
-    if(!data || data.length === 0){
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="8">No hay entrevistas registradas.</td>
-            </tr>
-        `;
-        return;
-    }
-
-    data.forEach(function(e){
-
-        const nombreAdoptante = e.adoptantes?.nombre_completo || "Sin datos";
-        const correo = e.adoptantes?.correo || "Sin correo";
-        const nombreMascota = e.mascotas?.nombre || "Sin mascota";
-        const estado = e.estado || "pendiente";
-
-        const idEntrevista = e.id_entrevista;
-        const idAdoptante = e.id_adoptante;
-        const idMascota = e.id_mascota;
-
-        let botones = "";
-
-        if(!idAdoptante || !idMascota){
-            botones = `<span class="sin-datos">Faltan IDs</span>`;
-        } else if(estado === "aprobada" || estado === "rechazada"){
-            botones = `<span class="sin-datos">Ya resuelta</span>`;
-        } else {
-            botones = `
-                <button class="aprobar"
-                    onclick="aprobarAdopcion(${idEntrevista}, ${idAdoptante}, ${idMascota}, '${limpiarTexto(correo)}')">
-                    Aprobar
-                </button>
-
-                <button class="rechazar"
-                    onclick="rechazarAdopcion(${idEntrevista}, ${idAdoptante}, ${idMascota}, '${limpiarTexto(correo)}')">
-                    Rechazar
-                </button>
-            `;
-        }
-
-        tbody.innerHTML += `
-            <tr>
-                <td>${limpiarTexto(idEntrevista)}</td>
-                <td>${limpiarTexto(nombreAdoptante)}</td>
-                <td>${limpiarTexto(correo)}</td>
-                <td>${limpiarTexto(nombreMascota)}</td>
-                <td>${limpiarTexto(e.fecha)}</td>
-                <td>${limpiarTexto(e.hora)}</td>
-                <td class="${claseEstado(estado)}">${limpiarTexto(estado)}</td>
-                <td>${botones}</td>
+                <td>${m.id}</td>
+                <td>${m.nombre}</td>
+                <td>${m.tipo}</td>
+                <td>${m.edad}</td>
+                <td>${m.sexo}</td>
+                <td>${m.raza}</td>
+                <td>${m.estado}</td>
+                <td>
+                    <button class="editar" onclick="editarMascota(${m.id})">Editar</button>
+                    <button class="eliminar" onclick="eliminarMascota(${m.id})">Eliminar</button>
+                </td>
             </tr>
         `;
     });
 }
 
-async function aprobarAdopcion(idEntrevista, idAdoptante, idMascota, correo){
+function agregarMascota(){
+    const nueva = {
+        id: mascotas.length + 1,
+        nombre: document.getElementById("nombre").value,
+        tipo: document.getElementById("tipo").value,
+        edad: document.getElementById("edad").value,
+        sexo: document.getElementById("sexo").value,
+        raza: document.getElementById("raza").value,
+        estado: "disponible"
+    };
 
-    if(!idEntrevista || !idAdoptante || !idMascota){
-        alert("Esta entrevista no tiene datos completos.");
+    if(!nueva.nombre || !nueva.edad || !nueva.raza){
+        alert("Completa los datos principales.");
         return;
     }
 
-    if(!confirm("¿Seguro que quieres aprobar esta adopción?")){
-        return;
-    }
-
-    const { error: errorEntrevista } = await supabaseClient
-        .from("entrevistas")
-        .update({ estado:"aprobada" })
-        .eq("id_entrevista", idEntrevista);
-
-    if(errorEntrevista){
-        console.error("Error actualizando entrevista:", errorEntrevista);
-        alert("No se pudo actualizar la entrevista: " + errorEntrevista.message);
-        return;
-    }
-
-    const { data: adopcionExistente, error: errorBuscarAdopcion } = await supabaseClient
-        .from("adopciones")
-        .select("*")
-        .eq("id_adoptante", idAdoptante)
-        .eq("id_mascota", idMascota);
-
-    if(errorBuscarAdopcion){
-        console.error("Error buscando adopción:", errorBuscarAdopcion);
-        alert("No se pudo buscar la adopción: " + errorBuscarAdopcion.message);
-        return;
-    }
-
-    if(adopcionExistente && adopcionExistente.length > 0){
-
-        const { error: errorActualizarAdopcion } = await supabaseClient
-            .from("adopciones")
-            .update({
-                estado:"aprobada",
-                fecha_adopcion:new Date().toISOString().split("T")[0]
-            })
-            .eq("id_adoptante", idAdoptante)
-            .eq("id_mascota", idMascota);
-
-        if(errorActualizarAdopcion){
-            console.error("Error actualizando adopción:", errorActualizarAdopcion);
-            alert("No se pudo actualizar adopción: " + errorActualizarAdopcion.message);
-            return;
-        }
-
-    } else {
-
-        const { error: errorInsertarAdopcion } = await supabaseClient
-            .from("adopciones")
-            .insert([
-                {
-                    id_adoptante:idAdoptante,
-                    id_mascota:idMascota,
-                    fecha_adopcion:new Date().toISOString().split("T")[0],
-                    estado:"aprobada"
-                }
-            ]);
-
-        if(errorInsertarAdopcion){
-            console.error("Error insertando adopción:", errorInsertarAdopcion);
-            alert("No se pudo insertar adopción: " + errorInsertarAdopcion.message);
-            return;
-        }
-    }
-
-    const { error: errorMascota } = await supabaseClient
-        .from("mascotas")
-        .update({ estado:"adoptado" })
-        .eq("id_mascota", idMascota);
-
-    if(errorMascota){
-        console.error("Error actualizando mascota:", errorMascota);
-        alert("La adopción se aprobó, pero no se pudo actualizar la mascota: " + errorMascota.message);
-        return;
-    }
-
-    alert("Adopción aprobada. Puedes mandar correo a: " + correo);
-
-    cargarEntrevistas();
+    mascotas.push(nueva);
+    cargarMascotas();
+    alert("Mascota agregada correctamente.");
 }
 
-async function rechazarAdopcion(idEntrevista, idAdoptante, idMascota, correo){
-
-    if(!idEntrevista || !idAdoptante || !idMascota){
-        alert("Esta entrevista no tiene datos completos.");
-        return;
-    }
-
-    if(!confirm("¿Seguro que quieres rechazar esta adopción?")){
-        return;
-    }
-
-    const { error: errorEntrevista } = await supabaseClient
-        .from("entrevistas")
-        .update({ estado:"rechazada" })
-        .eq("id_entrevista", idEntrevista);
-
-    if(errorEntrevista){
-        console.error("Error actualizando entrevista:", errorEntrevista);
-        alert("No se pudo actualizar la entrevista: " + errorEntrevista.message);
-        return;
-    }
-
-    const { data: adopcionExistente, error: errorBuscarAdopcion } = await supabaseClient
-        .from("adopciones")
-        .select("*")
-        .eq("id_adoptante", idAdoptante)
-        .eq("id_mascota", idMascota);
-
-    if(errorBuscarAdopcion){
-        console.error("Error buscando adopción:", errorBuscarAdopcion);
-        alert("No se pudo buscar la adopción: " + errorBuscarAdopcion.message);
-        return;
-    }
-
-    if(adopcionExistente && adopcionExistente.length > 0){
-
-        const { error: errorActualizarAdopcion } = await supabaseClient
-            .from("adopciones")
-            .update({ estado:"rechazada" })
-            .eq("id_adoptante", idAdoptante)
-            .eq("id_mascota", idMascota);
-
-        if(errorActualizarAdopcion){
-            console.error("Error actualizando adopción:", errorActualizarAdopcion);
-            alert("No se pudo actualizar adopción: " + errorActualizarAdopcion.message);
-            return;
-        }
-
-    } else {
-
-        const { error: errorInsertarAdopcion } = await supabaseClient
-            .from("adopciones")
-            .insert([
-                {
-                    id_adoptante:idAdoptante,
-                    id_mascota:idMascota,
-                    fecha_adopcion:new Date().toISOString().split("T")[0],
-                    estado:"rechazada"
-                }
-            ]);
-
-        if(errorInsertarAdopcion){
-            console.error("Error insertando adopción:", errorInsertarAdopcion);
-            alert("No se pudo insertar adopción: " + errorInsertarAdopcion.message);
-            return;
-        }
-    }
-
-    const { error: errorMascota } = await supabaseClient
-        .from("mascotas")
-        .update({ estado:"disponible" })
-        .eq("id_mascota", idMascota);
-
-    if(errorMascota){
-        console.error("Error actualizando mascota:", errorMascota);
-        alert("La adopción se rechazó, pero no se pudo actualizar la mascota: " + errorMascota.message);
-        return;
-    }
-
-    alert("Adopción rechazada. Puedes mandar correo a: " + correo);
-
-    cargarEntrevistas();
+function editarMascota(id){
+    alert("Aquí se editaría la mascota con ID: " + id);
 }
 
-if(protegerPanelAdmin()){
-    cargarEntrevistas();
+function eliminarMascota(id){
+    if(confirm("¿Eliminar mascota?")){
+        mascotas = mascotas.filter(m => m.id !== id);
+        cargarMascotas();
+    }
 }
+
+cargarMascotas();
 </script>
 
 </body>

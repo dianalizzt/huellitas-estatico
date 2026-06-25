@@ -2,70 +2,346 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Admin - Dashboard Huellitas</title>
+<title>Admin - Empleados Huellitas</title>
+
 <style>
-body{font-family:Arial,sans-serif;background:#f9f5f0;color:#3b2414;padding:20px;}
-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:25px;}
-h1{color:#5c3317;}
-nav a{background:#5c3317;color:white;padding:10px 14px;border-radius:6px;text-decoration:none;margin:4px;display:inline-block;}
-nav a:hover{background:#7a4620;}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
-.card{background:white;border-left:6px solid #c9a97a;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.08);}
-.card h2{font-size:1rem;color:#5c3317;}
-.card p{font-size:2rem;font-weight:bold;margin-top:10px;}
-section{background:white;margin-top:25px;padding:20px;border-radius:10px;}
-table{width:100%;border-collapse:collapse;margin-top:15px;}
-th,td{border:1px solid #ddd;padding:10px;text-align:left;}
-th{background:#5c3317;color:white;}
-.estado{font-weight:bold;color:#2e7d32;}
+body{
+    font-family: Arial, sans-serif;
+    background:#f9f5f0;
+    color:#3b2414;
+    padding:20px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+h1{
+    color:#5c3317;
+    font-size:2rem;
+}
+
+nav a{
+    background:#5c3317;
+    color:white;
+    padding:10px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    margin:4px;
+    display:inline-block;
+}
+
+.formulario{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    border-left:5px solid #c9a97a;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:12px;
+}
+
+input, select{
+    width:100%;
+    padding:9px;
+    margin-top:6px;
+    border:1px solid #c9a97a;
+    border-radius:5px;
+}
+
+.btn{
+    background:#5c3317;
+    color:white;
+    padding:9px 13px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+.controls{
+    background:white;
+    padding:15px;
+    border-left:5px solid #c9a97a;
+    margin-bottom:20px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:11px;
+    text-align:left;
+}
+
+th{
+    background:#5c3317;
+    color:white;
+}
+
+button{
+    padding:7px 10px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    margin:2px;
+}
+
+.editar{background:#c9a97a;color:#3b2414;}
+.eliminar{background:#b71c1c;color:white;}
+.activar{background:#1976d2;color:white;}
+.bloquear{background:#333;color:white;}
+
+.activo{color:#2e7d32;font-weight:bold;}
+.inactivo{color:#b71c1c;font-weight:bold;}
 </style>
 </head>
+
 <body>
 
-<header>
-    <h1>🐾 Dashboard Administrador</h1>
+<div class="header">
+    <h1>👨‍💼 Gestión de empleados</h1>
+
     <nav>
         <a href="admin-dashboard.html">Inicio</a>
         <a href="admin-mascotas.html">Mascotas</a>
         <a href="admin-solicitudes.html">Solicitudes</a>
         <a href="admin-adoptantes.html">Adoptantes</a>
         <a href="admin-empleados.html">Empleados</a>
-        <a href="index.html">Salir</a>
     </nav>
-</header>
-
-<div class="cards">
-    <div class="card"><h2>Total de mascotas</h2><p>6</p></div>
-    <div class="card"><h2>Disponibles</h2><p>4</p></div>
-    <div class="card"><h2>En proceso</h2><p>1</p></div>
-    <div class="card"><h2>Adoptadas</h2><p>1</p></div>
-    <div class="card"><h2>Solicitudes pendientes</h2><p>3</p></div>
-    <div class="card"><h2>Entrevistas próximas</h2><p>2</p></div>
 </div>
 
-<section>
-    <h2>Últimas solicitudes</h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Adoptante</th>
-            <th>Mascota</th>
-            <th>Estado</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Juan Pérez</td>
-            <td>Canela</td>
-            <td class="estado">Pendiente</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Ana López</td>
-            <td>Rocky</td>
-            <td class="estado">Pendiente</td>
-        </tr>
-    </table>
-</section>
+<div class="formulario">
+    <h2 id="tituloFormulario">Agregar empleado</h2>
+
+    <div class="grid">
+        <div>
+            <label>Número de empleado</label>
+            <input type="text" id="numero">
+        </div>
+
+        <div>
+            <label>Nombre completo</label>
+            <input type="text" id="nombre">
+        </div>
+
+        <div>
+            <label>Correo</label>
+            <input type="email" id="correo">
+        </div>
+
+        <div>
+            <label>Teléfono</label>
+            <input type="text" id="telefono">
+        </div>
+
+        <div>
+            <label>Rol</label>
+            <select id="rol">
+                <option>Admin</option>
+                <option>Empleado</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Estado</label>
+            <select id="estado">
+                <option>Activo</option>
+                <option>Inactivo</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn" onclick="guardarEmpleado()">Guardar empleado</button>
+    <button class="btn" onclick="limpiarFormulario()">Limpiar</button>
+</div>
+
+<div class="controls">
+    <input type="text" id="buscar" placeholder="Buscar empleado" onkeyup="filtrarEmpleados()">
+
+    <select id="filtroRol" onchange="filtrarEmpleados()">
+        <option value="todos">Todos los roles</option>
+        <option value="Admin">Admin</option>
+        <option value="Empleado">Empleado</option>
+    </select>
+</div>
+
+<table>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Número</th>
+    <th>Nombre completo</th>
+    <th>Correo</th>
+    <th>Teléfono</th>
+    <th>Rol</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+</tr>
+</thead>
+
+<tbody id="tablaEmpleados"></tbody>
+</table>
+
+<script>
+let empleados = [
+    {id:1,numero:"EMP-0042",nombre:"Miranda Ramírez López",correo:"miranda@huellitas.com",telefono:"5512345678",rol:"Admin",estado:"Activo"},
+    {id:2,numero:"EMP-0043",nombre:"Carlos Méndez",correo:"carlos@huellitas.com",telefono:"5522222222",rol:"Empleado",estado:"Activo"}
+];
+
+let editandoId = null;
+
+function claseEstado(estado){
+    return estado === "Activo" ? "activo" : "inactivo";
+}
+
+function cargarEmpleados(lista = empleados){
+    const tabla = document.getElementById("tablaEmpleados");
+    tabla.innerHTML = "";
+
+    lista.forEach(e => {
+        let botonEstado = e.estado === "Activo"
+            ? `<button class="bloquear" onclick="cambiarEstado(${e.id}, 'Inactivo')">Desactivar</button>`
+            : `<button class="activar" onclick="cambiarEstado(${e.id}, 'Activo')">Activar</button>`;
+
+        tabla.innerHTML += `
+            <tr>
+                <td>${e.id}</td>
+                <td>${e.numero}</td>
+                <td>${e.nombre}</td>
+                <td>${e.correo}</td>
+                <td>${e.telefono}</td>
+                <td>${e.rol}</td>
+                <td class="${claseEstado(e.estado)}">${e.estado}</td>
+                <td>
+                    <button class="editar" onclick="editarEmpleado(${e.id})">Editar</button>
+                    ${botonEstado}
+                    <button class="eliminar" onclick="eliminarEmpleado(${e.id})">Eliminar</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function guardarEmpleado(){
+    const numero = document.getElementById("numero").value.trim();
+    const nombre = document.getElementById("nombre").value.trim();
+    const correo = document.getElementById("correo").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const rol = document.getElementById("rol").value;
+    const estado = document.getElementById("estado").value;
+
+    if(!numero || !nombre || !correo || !telefono){
+        alert("Completa todos los campos.");
+        return;
+    }
+
+    if(editandoId){
+        empleados = empleados.map(e => {
+            if(e.id === editandoId){
+                return {id:e.id, numero, nombre, correo, telefono, rol, estado};
+            }
+            return e;
+        });
+
+        alert("Empleado actualizado.");
+    } else {
+        empleados.push({
+            id: empleados.length + 1,
+            numero,
+            nombre,
+            correo,
+            telefono,
+            rol,
+            estado
+        });
+
+        alert("Empleado agregado.");
+    }
+
+    limpiarFormulario();
+    cargarEmpleados();
+}
+
+function editarEmpleado(id){
+    const e = empleados.find(x => x.id === id);
+
+    editandoId = id;
+
+    document.getElementById("tituloFormulario").textContent = "Editar empleado";
+    document.getElementById("numero").value = e.numero;
+    document.getElementById("nombre").value = e.nombre;
+    document.getElementById("correo").value = e.correo;
+    document.getElementById("telefono").value = e.telefono;
+    document.getElementById("rol").value = e.rol;
+    document.getElementById("estado").value = e.estado;
+}
+
+function eliminarEmpleado(id){
+    if(confirm("¿Seguro que quieres eliminar este empleado?")){
+        empleados = empleados.filter(e => e.id !== id);
+        cargarEmpleados();
+    }
+}
+
+function cambiarEstado(id, estado){
+    empleados = empleados.map(e => {
+        if(e.id === id){
+            e.estado = estado;
+        }
+        return e;
+    });
+
+    cargarEmpleados();
+}
+
+function limpiarFormulario(){
+    editandoId = null;
+    document.getElementById("tituloFormulario").textContent = "Agregar empleado";
+    document.getElementById("numero").value = "";
+    document.getElementById("nombre").value = "";
+    document.getElementById("correo").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("rol").value = "Empleado";
+    document.getElementById("estado").value = "Activo";
+}
+
+function filtrarEmpleados(){
+    const texto = document.getElementById("buscar").value.toLowerCase();
+    const rol = document.getElementById("filtroRol").value;
+
+    const filtrados = empleados.filter(e => {
+        const coincideTexto =
+            e.nombre.toLowerCase().includes(texto) ||
+            e.correo.toLowerCase().includes(texto) ||
+            e.numero.toLowerCase().includes(texto);
+
+        const coincideRol = rol === "todos" || e.rol === rol;
+
+        return coincideTexto && coincideRol;
+    });
+
+    cargarEmpleados(filtrados);
+}
+
+cargarEmpleados();
+</script>
 
 </body>
 </html>

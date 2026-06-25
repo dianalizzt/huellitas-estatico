@@ -3,225 +3,265 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Mascotas Huellitas</title>
+<title>Huellitas - Panel de Empleado</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f9f5f0;
-    color: #3b2414;
-    padding: 20px;
+body{
+    font-family: Georgia, 'Times New Roman', serif;
+    background:#f9f5f0;
+    color:#2e1f0e;
+    font-size:15px;
+    line-height:1.6;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 25px;
+header{
+    background:#5c3317;
+    padding:0 28px;
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
 }
 
-h1 {
-    color: #5c3317;
-    font-size: 2rem;
+.brand{
+    color:#f9f5f0;
+    font-size:1.3rem;
+    letter-spacing:1px;
+    padding:16px 0;
+    margin-right:32px;
+    white-space:nowrap;
 }
 
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+nav{
+    display:flex;
+    flex:1;
+    flex-wrap:wrap;
 }
 
-nav a {
-    background: #5c3317;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 6px;
-    text-decoration: none;
+nav a{
+    color:#d4b896;
+    text-decoration:none;
+    padding:17px 20px;
+    font-family:Arial, sans-serif;
+    font-size:0.88rem;
+    letter-spacing:0.04em;
+    border-bottom:3px solid transparent;
+    cursor:pointer;
+    display:block;
 }
 
-nav a:hover {
-    background: #7a4620;
+nav a.active{
+    color:#fff;
+    border-bottom-color:#c9a97a;
 }
 
-.formulario {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    border-left: 5px solid #c9a97a;
-    margin-bottom: 20px;
+.header-user{
+    margin-left:auto;
+    color:#d4b896;
+    font-family:Arial, sans-serif;
+    font-size:0.85rem;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    white-space:nowrap;
 }
 
-.formulario h2 {
-    color: #5c3317;
-    margin-bottom: 15px;
+.btn-logout{
+    background:none;
+    border:1px solid #8b6340;
+    color:#d4b896;
+    padding:5px 12px;
+    font-family:Arial, sans-serif;
+    font-size:0.8rem;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
+main{
+    width:100%;
+    margin:0 auto;
+    padding:36px 28px;
 }
 
-label {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #5c3317;
+.section{
+    display:none;
 }
 
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 9px;
-    margin-top: 6px;
-    border: 1px solid #c9a97a;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
+.section.active{
+    display:block;
 }
 
-textarea {
-    resize: vertical;
-    min-height: 70px;
+h2{
+    font-size:1.9rem;
+    color:#5c3317;
+    border-bottom:2px solid #c9a97a;
+    padding-bottom:8px;
+    margin-bottom:6px;
 }
 
-.actions {
-    margin-top: 15px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+.sec-desc{
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    color:#8b6340;
+    margin-bottom:34px;
 }
 
-button,
-.btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.9rem;
+.tab-bar{
+    display:flex;
+    border-bottom:2px solid #c9a97a;
+    margin-bottom:24px;
+    flex-wrap:wrap;
 }
 
-.btn-primary {
-    background: #5c3317;
-    color: white;
+.tab-btn{
+    padding:12px 24px;
+    border:none;
+    background:none;
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    color:#8b6340;
+    cursor:pointer;
+    border-bottom:4px solid transparent;
+    margin-bottom:-2px;
+    font-weight:bold;
 }
 
-.btn-primary:hover {
-    background: #7a4620;
+.tab-btn.active{
+    color:#5c3317;
+    border-bottom-color:#008b8b;
 }
 
-.btn-secondary {
-    background: #e8d8c4;
-    color: #5c3317;
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    background:white;
 }
 
-.btn-edit {
-    background: #c9a97a;
-    color: #3b2414;
+table th{
+    background:#fff2df;
+    color:#5c3317;
+    text-align:left;
+    padding:14px 18px;
+    font-size:0.9rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    border:1px solid #c9a97a;
 }
 
-.btn-delete {
-    background: #b71c1c;
-    color: white;
+table td{
+    padding:14px 18px;
+    border:1px solid #ddd;
+    vertical-align:middle;
+    background:#fff;
 }
 
-.controls {
-    background: white;
-    padding: 15px;
-    border-left: 5px solid #c9a97a;
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+table tr:nth-child(even) td{
+    background:#fdf9f4;
 }
 
-.controls input,
-.controls select {
-    width: auto;
-    min-width: 230px;
-    margin-top: 0;
+.badge{
+    font-size:0.85rem;
+    padding:5px 14px;
+    border:1px solid;
+    border-radius:20px;
+    font-family:Arial, sans-serif;
+    display:inline-block;
+    font-weight:bold;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
+.badge-care{
+    border-color:#008b8b;
+    color:#006666;
+    background:#e7ffff;
 }
 
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    font-size: 0.9rem;
-    vertical-align: top;
+.badge-adopted{
+    border-color:#5aaa6e;
+    color:#1e6630;
+    background:#edf7f0;
 }
 
-th {
-    background: #5c3317;
-    color: white;
+.badge-waiting{
+    border-color:#d4892a;
+    color:#7a4a00;
+    background:#fdf3e3;
 }
 
-.estado {
-    font-weight: bold;
+.turno-box{
+    border:1px solid #c9a97a;
+    background:#fff;
+    padding:45px 35px;
+    margin-bottom:34px;
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    border-radius:8px;
+    box-shadow:0 18px 40px rgba(92,51,23,0.12);
 }
 
-.disponible {
-    color: #2e7d32;
+.turno-box p{
+    margin-bottom:22px;
 }
 
-.en_proceso {
-    color: #b26a00;
+.profile-name{
+    font-size:1.1rem;
+    color:#5c3317;
+    margin-bottom:18px;
 }
 
-.adoptado {
-    color: #b71c1c;
+.profile-table{
+    width:100%;
+    border-collapse:collapse;
+    font-family:Arial, sans-serif;
+    font-size:1rem;
+    background:white;
 }
 
-.mensaje {
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    font-weight: bold;
+.profile-table td{
+    padding:16px 18px;
+    border:1px solid #e0d0be;
+    vertical-align:top;
 }
 
-.ok {
-    color: #2e7d32;
+.profile-table td:first-child{
+    width:220px;
+    color:#8b6340;
+    font-weight:bold;
 }
 
-.error {
-    color: #b71c1c;
-}
-
-@media(max-width:900px) {
-    body {
-        padding: 12px;
+@media(max-width:768px){
+    header{
+        padding:0 16px;
     }
 
-    h1 {
-        font-size: 1.5rem;
+    .header-user{
+        width:100%;
+        justify-content:space-between;
+        padding-bottom:12px;
     }
 
-    table {
-        font-size: 0.78rem;
+    main{
+        padding:24px 16px;
     }
 
-    th,
-    td {
-        padding: 7px;
+    .tab-btn{
+        padding:8px 10px;
     }
 
-    .controls input,
-    .controls select {
-        width: 100%;
+    table{
+        font-size:0.8rem;
+    }
+
+    table th,
+    table td{
+        padding:8px;
     }
 }
 </style>
@@ -230,383 +270,231 @@ th {
 <body>
 
 <header>
-    <h1>🐾 Gestión de Mascotas</h1>
+    <span class="brand">🐾 Huellitas</span>
 
-<nav>
-    <a href="dashboard-admin.html">Inicio</a>
-    <a href="mascotas-admin.html">Mascotas</a>
-    <a href="solicitudes-admin.html">Solicitudes</a>
-    <a href="adoptantes-admin.html">Adoptantes</a>
-    <a href="empleados-admin.html">Empleados</a>
-    <a href="entrevistas-admin.html">Entrevistas</a>
-    <a href="adopciones-admin.html">Adopciones</a>
-    <a href="login-empleado.html" onclick="cerrarSesion()">Cerrar sesión</a>
-</nav>
+    <nav>
+        <a class="active" onclick="showSection('mascotas', this)">Mascotas</a>
+        <a onclick="showSection('horarios', this)">Horarios</a>
+        <a onclick="showSection('perfil', this)">Mi cuenta</a>
+    </nav>
+
+    <div class="header-user">
+        <span id="empleado-nombre-header">Empleado</span>
+        <a href="login-empleado.html" class="btn-logout">Cerrar sesión</a>
+    </div>
 </header>
 
-<div id="mensaje" class="mensaje"></div>
+<main>
 
-<section class="formulario">
-    <h2 id="tituloFormulario">Agregar mascota</h2>
+<div id="sec-mascotas" class="section active">
+    <h2>Mascotas del refugio</h2>
+    <p class="sec-desc">Consulta las mascotas asignadas, adoptadas y disponibles para adopción.</p>
 
-    <input type="hidden" id="id_mascota">
-
-    <div class="grid">
-        <div>
-            <label>Nombre</label>
-            <input type="text" id="nombre" placeholder="Ej. Canela">
-        </div>
-
-        <div>
-            <label>Tipo</label>
-            <select id="tipo">
-                <option value="">Seleccionar</option>
-                <option value="Perro">Perro</option>
-                <option value="Gato">Gato</option>
-            </select>
-        </div>
-
-        <div>
-            <label>Edad</label>
-            <input type="text" id="edad" placeholder="Ej. 2 años">
-        </div>
-
-        <div>
-            <label>Sexo</label>
-            <select id="sexo">
-                <option value="">Seleccionar</option>
-                <option value="Macho">Macho</option>
-                <option value="Hembra">Hembra</option>
-            </select>
-        </div>
-
-        <div>
-            <label>Raza</label>
-            <input type="text" id="raza" placeholder="Ej. Mestiza">
-        </div>
-
-        <div>
-            <label>Estado</label>
-            <select id="estado">
-                <option value="disponible">disponible</option>
-                <option value="en_proceso">en_proceso</option>
-                <option value="adoptado">adoptado</option>
-            </select>
-        </div>
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab('cuidado', this)">A mi cuidado</button>
+        <button class="tab-btn" onclick="showTab('adoptadas', this)">Adoptadas</button>
+        <button class="tab-btn" onclick="showTab('espera', this)">Buscando hogar</button>
     </div>
 
-    <div style="margin-top:14px;">
-        <label>Descripción</label>
-        <textarea id="descripcion" placeholder="Descripción breve de la mascota"></textarea>
+    <div id="tab-cuidado">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Edad</th>
+                    <th>Sexo</th>
+                    <th>Habitación</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Manchas</td><td>Gato</td><td>2 años</td><td>Macho</td><td>B-3</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Coco</td><td>Perro</td><td>4 años</td><td>Hembra</td><td>C-1</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Luna</td><td>Gata</td><td>1 año</td><td>Hembra</td><td>A-2</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Peludo</td><td>Perro</td><td>3 años</td><td>Macho</td><td>D-4</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Tigre</td><td>Gato</td><td>5 años</td><td>Macho</td><td>B-1</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+                <tr><td>Nube</td><td>Perro</td><td>6 meses</td><td>Hembra</td><td>A-5</td><td><span class="badge badge-care">A tu cuidado</span></td></tr>
+            </tbody>
+        </table>
     </div>
 
-    <div style="margin-top:14px;">
-        <label>Historia</label>
-        <textarea id="historia" placeholder="Historia o contexto de rescate"></textarea>
+    <div id="tab-adoptadas" style="display:none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Edad</th>
+                    <th>Sexo</th>
+                    <th>Fecha de adopción</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Max</td><td>Perro</td><td>2 años</td><td>Macho</td><td>10 Ene 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
+                <tr><td>Misi</td><td>Gata</td><td>3 años</td><td>Hembra</td><td>22 Feb 2025</td><td><span class="badge badge-adopted">Adoptada</span></td></tr>
+                <tr><td>Bruno</td><td>Perro</td><td>5 años</td><td>Macho</td><td>03 Mar 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
+                <tr><td>Caramelo</td><td>Gato</td><td>1 año</td><td>Macho</td><td>15 Abr 2025</td><td><span class="badge badge-adopted">Adoptado</span></td></tr>
+            </tbody>
+        </table>
     </div>
 
-    <div class="actions">
-        <button class="btn-primary" onclick="guardarMascota()">Guardar mascota</button>
-        <button class="btn-secondary" onclick="limpiarFormulario()">Limpiar</button>
+    <div id="tab-espera" style="display:none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Edad</th>
+                    <th>Sexo</th>
+                    <th>En refugio desde</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Canela</td><td>Perro</td><td>7 meses</td><td>Hembra</td><td>Ene 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+                <tr><td>Sombra</td><td>Gato</td><td>4 años</td><td>Macho</td><td>Feb 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+                <tr><td>Rocky</td><td>Perro</td><td>2 años</td><td>Macho</td><td>Mar 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+                <tr><td>Bolita</td><td>Gata</td><td>8 meses</td><td>Hembra</td><td>Mar 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+                <tr><td>Chispas</td><td>Perro</td><td>1 año</td><td>Hembra</td><td>Abr 2025</td><td><span class="badge badge-waiting">Buscando hogar</span></td></tr>
+            </tbody>
+        </table>
     </div>
-</section>
+</div>
 
-<section class="controls">
-    <input type="text" id="buscar" placeholder="Buscar por nombre, tipo o raza" onkeyup="filtrarMascotas()">
+<div id="sec-horarios" class="section">
+    <h2>Mis horarios</h2>
+    <p class="sec-desc">Tu turno asignado y las actividades de cuidado del día.</p>
 
-    <select id="filtroEstado" onchange="filtrarMascotas()">
-        <option value="todos">Todos los estados</option>
-        <option value="disponible">Disponibles</option>
-        <option value="en_proceso">En proceso</option>
-        <option value="adoptado">Adoptadas</option>
-    </select>
+    <div class="turno-box">
+        <p><strong>Turno:</strong> Matutino</p>
+        <p><strong>Horario:</strong> 07:00 - 14:00 hrs</p>
+        <p><strong>Días:</strong> Lunes a viernes</p>
+        <p><strong>Área:</strong> Habitaciones A y B</p>
+    </div>
 
-    <button class="btn-primary" onclick="cargarMascotas()">Actualizar</button>
-</section>
+    <table>
+        <thead>
+            <tr>
+                <th>Mascota</th>
+                <th>Tipo</th>
+                <th>Actividad</th>
+                <th>Hora</th>
+                <th>Días</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Manchas</td><td>Gato</td><td>Alimentación y limpieza</td><td>07:30</td><td>Lun, Mié, Vie</td></tr>
+            <tr><td>Coco</td><td>Perro</td><td>Paseo matutino</td><td>08:00</td><td>Lun, Mar, Jue</td></tr>
+            <tr><td>Luna</td><td>Gata</td><td>Alimentación y medicamento</td><td>08:30</td><td>Mar, Jue</td></tr>
+            <tr><td>Peludo</td><td>Perro</td><td>Baño semanal</td><td>09:00</td><td>Mié</td></tr>
+            <tr><td>Tigre</td><td>Gato</td><td>Revisión veterinaria</td><td>10:00</td><td>Lun</td></tr>
+            <tr><td>Nube</td><td>Perro</td><td>Socialización y juego</td><td>10:30</td><td>Mar, Vie</td></tr>
+        </tbody>
+    </table>
+</div>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Edad</th>
-            <th>Sexo</th>
-            <th>Raza</th>
-            <th>Estado</th>
-            <th>Descripción</th>
-            <th>Historia</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+<div id="sec-perfil" class="section">
+    <h2>Mi cuenta</h2>
+    <p class="sec-desc">Información personal del empleado.</p>
 
-    <tbody id="tablaMascotas">
-        <tr>
-            <td colspan="10">Cargando mascotas...</td>
-        </tr>
-    </tbody>
-</table>
+    <table class="profile-table">
+        <tr><td>Nombre completo</td><td id="perfil-nombre-completo">—</td></tr>
+        <tr><td>Fecha de nacimiento</td><td>14 de marzo de 1998</td></tr>
+        <tr><td>CURP</td><td>RALE980314MDFMRN06</td></tr>
+        <tr><td>Dirección</td><td id="perfil-direccion">Calle Girasoles #14, Col. Jardines, Guadalajara, Jalisco</td></tr>
+        <tr><td>Número de empleado</td><td id="perfil-numero">—</td></tr>
+    </table>
+</div>
 
-<script src="static-supabase.js"></script>
+</main>
 
 <script>
-const SUPABASE_URL = "modo-estatico-sin-base-de-datos";
-const SUPABASE_ANON_KEY = "clave-desactivada-modo-estatico";
+const logueadoNuevo = localStorage.getItem("empleado_logueado");
+const logueadoViejo = localStorage.getItem("empleadoLogueado");
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+const rolNuevo = localStorage.getItem("rol_empleado");
+const rolViejo = localStorage.getItem("empleadoRol");
 
-let mascotasGlobal = [];
+const rol = rolNuevo || rolViejo;
 
-function protegerAdmin() {
-    const logueado = localStorage.getItem("empleado_logueado");
-    const rol = localStorage.getItem("rol_empleado");
-    const numero = localStorage.getItem("empleado_numero");
-
-    if (
-        logueado !== "true" ||
-        (
-            numero !== "EMP-0042" &&
-            rol !== "admin" &&
-            rol !== "administrador"
-        )
-    ) {
-        alert("Acceso restringido. Inicia sesión como administrador.");
-        window.location.href = "login-empleado.html";
-        return false;
-    }
-
-    return true;
+if(logueadoNuevo !== "true" && logueadoViejo !== "true"){
+    alert("Debes iniciar sesión como empleado.");
+    window.location.href = "login-empleado.html";
 }
 
-function cerrarSesion() {
-    localStorage.clear();
+if(rol !== "empleado" && rol !== "admin" && rol !== "administrador"){
+    alert("No tienes permisos para entrar.");
+    window.location.href = "login-empleado.html";
 }
 
-function mostrarMensaje(texto, tipo) {
-    const msg = document.getElementById("mensaje");
-    msg.textContent = texto;
-    msg.className = "mensaje " + tipo;
+const nombre =
+    localStorage.getItem("empleado_nombre") ||
+    localStorage.getItem("empleadoNombre") ||
+    "Empleado";
 
-    setTimeout(function() {
-        msg.textContent = "";
-        msg.className = "mensaje";
-    }, 3000);
-}
+const numero =
+    localStorage.getItem("empleado_numero") ||
+    localStorage.getItem("empleadoNumero") ||
+    "Sin número";
 
-function limpiarTexto(valor) {
-    if (valor === null || valor === undefined || valor === "") {
-        return "—";
-    }
+const direccion =
+    localStorage.getItem("empleado_direccion") ||
+    localStorage.getItem("empleadoDireccion") ||
+    "Calle Girasoles #14, Col. Jardines, Guadalajara, Jalisco";
 
-    return String(valor)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
+document.getElementById("empleado-nombre-header").textContent = rol || "Empleado";
+document.getElementById("perfil-nombre-completo").textContent = nombre;
+document.getElementById("perfil-numero").textContent = numero;
+document.getElementById("perfil-direccion").textContent = direccion;
 
-function claseEstado(estado) {
-    if (!estado) return "";
+document.querySelector(".btn-logout").addEventListener("click", function(e){
+    e.preventDefault();
 
-    return String(estado)
-        .toLowerCase()
-        .replaceAll(" ", "_");
-}
+    localStorage.removeItem("empleado_logueado");
+    localStorage.removeItem("rol_empleado");
+    localStorage.removeItem("empleado_id");
+    localStorage.removeItem("empleado_numero");
+    localStorage.removeItem("empleado_nombre");
+    localStorage.removeItem("empleado_correo");
+    localStorage.removeItem("empleado_direccion");
 
-async function cargarMascotas() {
-    const tbody = document.getElementById("tablaMascotas");
+    localStorage.removeItem("empleadoLogueado");
+    localStorage.removeItem("empleadoRol");
+    localStorage.removeItem("empleadoId");
+    localStorage.removeItem("empleadoNumero");
+    localStorage.removeItem("empleadoNombre");
+    localStorage.removeItem("empleadoCorreo");
+    localStorage.removeItem("empleadoDireccion");
 
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="10">Cargando mascotas...</td>
-        </tr>
-    `;
+    window.location.href = "login-empleado.html";
+});
 
-    const { data, error } = await supabaseClient
-        .from("mascotas")
-        .select("id_mascota, nombre, tipo, edad, sexo, raza, descripcion, historia, estado")
-        .order("id_mascota", { ascending: true });
-
-    if (error) {
-        console.error("Error cargando mascotas:", error);
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="10">Error al cargar mascotas.</td>
-            </tr>
-        `;
-        return;
-    }
-
-    mascotasGlobal = data || [];
-    renderMascotas(mascotasGlobal);
-}
-
-function renderMascotas(lista) {
-    const tbody = document.getElementById("tablaMascotas");
-    tbody.innerHTML = "";
-
-    if (!lista || lista.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="10">No hay mascotas registradas.</td>
-            </tr>
-        `;
-        return;
-    }
-
-    lista.forEach(function(m) {
-        tbody.innerHTML += `
-            <tr>
-                <td>${limpiarTexto(m.id_mascota)}</td>
-                <td>${limpiarTexto(m.nombre)}</td>
-                <td>${limpiarTexto(m.tipo)}</td>
-                <td>${limpiarTexto(m.edad)}</td>
-                <td>${limpiarTexto(m.sexo)}</td>
-                <td>${limpiarTexto(m.raza)}</td>
-                <td class="estado ${claseEstado(m.estado)}">${limpiarTexto(m.estado)}</td>
-                <td>${limpiarTexto(m.descripcion)}</td>
-                <td>${limpiarTexto(m.historia)}</td>
-                <td>
-                    <button class="btn-edit" onclick="editarMascota(${m.id_mascota})">Editar</button>
-                    <button class="btn-delete" onclick="eliminarMascota(${m.id_mascota})">Eliminar</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-function filtrarMascotas() {
-    const texto = document.getElementById("buscar").value.toLowerCase();
-    const estado = document.getElementById("filtroEstado").value;
-
-    const filtradas = mascotasGlobal.filter(function(m) {
-        const coincideTexto =
-            String(m.nombre || "").toLowerCase().includes(texto) ||
-            String(m.tipo || "").toLowerCase().includes(texto) ||
-            String(m.raza || "").toLowerCase().includes(texto);
-
-        const coincideEstado =
-            estado === "todos" || m.estado === estado;
-
-        return coincideTexto && coincideEstado;
+function showSection(id, el){
+    document.querySelectorAll(".section").forEach(function(section){
+        section.classList.remove("active");
     });
 
-    renderMascotas(filtradas);
-}
-
-async function guardarMascota() {
-    const id = document.getElementById("id_mascota").value;
-
-    const mascota = {
-        nombre: document.getElementById("nombre").value.trim(),
-        tipo: document.getElementById("tipo").value,
-        edad: document.getElementById("edad").value.trim(),
-        sexo: document.getElementById("sexo").value,
-        raza: document.getElementById("raza").value.trim(),
-        descripcion: document.getElementById("descripcion").value.trim(),
-        historia: document.getElementById("historia").value.trim(),
-        estado: document.getElementById("estado").value
-    };
-
-    if (!mascota.nombre || !mascota.tipo || !mascota.edad || !mascota.sexo || !mascota.raza || !mascota.estado) {
-        mostrarMensaje("Completa nombre, tipo, edad, sexo, raza y estado.", "error");
-        return;
-    }
-
-    if (id) {
-        const { error } = await supabaseClient
-            .from("mascotas")
-            .update(mascota)
-            .eq("id_mascota", id);
-
-        if (error) {
-            console.error("Error actualizando mascota:", error);
-            mostrarMensaje("No se pudo actualizar la mascota.", "error");
-            return;
-        }
-
-        mostrarMensaje("Mascota actualizada correctamente.", "ok");
-    } else {
-        const { error } = await supabaseClient
-            .from("mascotas")
-            .insert([mascota]);
-
-        if (error) {
-            console.error("Error insertando mascota:", error);
-            mostrarMensaje("No se pudo agregar la mascota.", "error");
-            return;
-        }
-
-        mostrarMensaje("Mascota agregada correctamente.", "ok");
-    }
-
-    limpiarFormulario();
-    cargarMascotas();
-}
-
-function editarMascota(id) {
-    const mascota = mascotasGlobal.find(function(m) {
-        return Number(m.id_mascota) === Number(id);
+    document.querySelectorAll("nav a").forEach(function(link){
+        link.classList.remove("active");
     });
 
-    if (!mascota) {
-        mostrarMensaje("No se encontró la mascota.", "error");
-        return;
-    }
-
-    document.getElementById("id_mascota").value = mascota.id_mascota;
-    document.getElementById("nombre").value = mascota.nombre || "";
-    document.getElementById("tipo").value = mascota.tipo || "";
-    document.getElementById("edad").value = mascota.edad || "";
-    document.getElementById("sexo").value = mascota.sexo || "";
-    document.getElementById("raza").value = mascota.raza || "";
-    document.getElementById("descripcion").value = mascota.descripcion || "";
-    document.getElementById("historia").value = mascota.historia || "";
-    document.getElementById("estado").value = mascota.estado || "disponible";
-
-    document.getElementById("tituloFormulario").textContent = "Editar mascota";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    document.getElementById("sec-" + id).classList.add("active");
+    el.classList.add("active");
 }
 
-async function eliminarMascota(id) {
-    if (!confirm("¿Seguro que quieres eliminar esta mascota? Esta acción no se puede deshacer.")) {
-        return;
-    }
+function showTab(id, el){
+    ["cuidado", "adoptadas", "espera"].forEach(function(tab){
+        document.getElementById("tab-" + tab).style.display = "none";
+    });
 
-    const { error } = await supabaseClient
-        .from("mascotas")
-        .delete()
-        .eq("id_mascota", id);
+    document.querySelectorAll(".tab-btn").forEach(function(btn){
+        btn.classList.remove("active");
+    });
 
-    if (error) {
-        console.error("Error eliminando mascota:", error);
-        mostrarMensaje("No se pudo eliminar. Puede estar relacionada con protocolos, entrevistas o adopciones.", "error");
-        return;
-    }
-
-    mostrarMensaje("Mascota eliminada correctamente.", "ok");
-    cargarMascotas();
-}
-
-function limpiarFormulario() {
-    document.getElementById("id_mascota").value = "";
-    document.getElementById("nombre").value = "";
-    document.getElementById("tipo").value = "";
-    document.getElementById("edad").value = "";
-    document.getElementById("sexo").value = "";
-    document.getElementById("raza").value = "";
-    document.getElementById("descripcion").value = "";
-    document.getElementById("historia").value = "";
-    document.getElementById("estado").value = "disponible";
-    document.getElementById("tituloFormulario").textContent = "Agregar mascota";
-}
-
-if (protegerAdmin()) {
-    cargarMascotas();
+    document.getElementById("tab-" + id).style.display = "block";
+    el.classList.add("active");
 }
 </script>
 
