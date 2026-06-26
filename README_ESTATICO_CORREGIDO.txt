@@ -31,8 +31,3 @@ DONACIONES:
 - Llena nombre, correo, fecha y hora.
 - Confirma la donación.
 
-IMPORTANTE PARA GITHUB PAGES:
-- Sube los archivos descomprimidos, no el ZIP.
-- index.html debe quedar en la raíz del repositorio.
-- static-supabase.js también debe quedar en la raíz.
-- perrogato.jpg debe quedar en la raíz para que cargue la imagen de inicio.
